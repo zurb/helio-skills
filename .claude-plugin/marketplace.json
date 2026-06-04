@@ -1,0 +1,16 @@
+{
+  "name": "helio-marketplace",
+  "owner": {
+    "name": "ZURB"
+  },
+  "plugins": [
+    {
+      "name": "helio",
+      "source": "./helio",
+      "description": "ZURB's Helio user research platform — 17 skills covering platform orientation (App, CLI, MCP, Features), test lifecycle (Patterns, Asset-to-Test, Section Types, Audience Flow, Branching), platform mechanics (Assets, Licensing, Participant Experience), and measurement & synthesis (UX Metrics, Report Filtering, Design Analysis, Findings, Reading-a-Report+Glare-Signal). Companion marketplace to Glare.",
+      "version": "0.2.1",
+      "category": "research",
+      "keywords": ["ux", "research", "user-testing", "helio", "zurb", "ux-metrics", "click-test", "prototype-test", "design-research", "section-types", "synthesis", "design-analysis", "audience-targeting", "branching"]
+    }
+  ]
+}
