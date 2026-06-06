@@ -155,8 +155,7 @@ For synthesizing filtered data into a Glare signal, route to `helio-reading-repo
 
 - For synthesis using filtered data: `helio-reading-report`
 - For UX metrics that recompute with filters: `helio-ux-metrics`
-- For demographic capture mechanics: `helio-participant-experience` / `helio-audience-flow`
+- For demographic capture mechanics: `helio-audience-flow`
 - For MCP-based cohort comparison: `helio-mcp`
-- For broader feature gating and plan tier: `helio-features`
 
 <!-- /ADDED -->

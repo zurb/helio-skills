@@ -167,7 +167,6 @@ For inline conditional follow-ups (in-flow text fields on the same section), rou
 - For inline conditional follow-ups: `helio-section-types`
 - For section type spec: `helio-section-types`
 - For the build workflow: `helio-asset-to-test`
-- For participant-side disqualification UX: `helio-participant-experience`
 - For UX metric implications: `helio-ux-metrics`
 - For quota counting: `helio-audience-flow`
 

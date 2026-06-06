@@ -66,4 +66,3 @@ Initial release. Merges Reading a Helio Report v0.2 and From Helio Test to Glare
 - For **the broader Glare framework** (Design Review SIGNAL, Decision Map facets, framework site), use `glare-getting-started`, `glare-design-review`, `glare-decision-map`.
 - For **test design** that produces a synthesizable report, use `helio-asset-to-test`.
 - For **the test shape patterns** the synthesis recognizes, use `helio-patterns`.
-- For **engineering-side details** (Glare metrics gem, etc.), use `helio-features`.

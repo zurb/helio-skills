@@ -57,6 +57,5 @@ Initial release. Sourced from Report Filtering v0.1. AEO scorecard flagged Probl
 
 - For **synthesizing filtered data into a Glare signal**, use `helio-reading-report`.
 - For **UX metric scores that recompute against filters**, use `helio-ux-metrics`.
-- For **demographic capture mechanics** (where the data comes from), use `helio-participant-experience` and `helio-audience-flow`.
+- For **demographic capture mechanics** (where the data comes from), use `helio-audience-flow`.
 - For **sentiment as captured on Free Response**, use `helio-section-types`.
-- For **broader feature gating and plan tier**, use `helio-features`.

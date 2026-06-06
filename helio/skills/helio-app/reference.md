@@ -62,7 +62,7 @@ Pricing is measured in answers, where one answer is one response to one question
 - **On Demand** — $4,999/month. Test with a Helio researcher who designs and runs focused studies and synthesizes the results. 5,000–10,000 answers depending on cadence.
 - **Business** — $1,799/month. Self-managed access to the platform with audience segments. Up to 3,000 answers per month. Best fit for teams running multiple tests on their own.
 
-See [helio.zurb.com/pricing](https://helio.zurb.com/pricing/) for the full breakdown, FAQs, and billing details. For how Helio's internal license / answers balance accounting works, see `helio-licensing`.
+See [helio.zurb.com/pricing](https://helio.zurb.com/pricing/) for the full breakdown, FAQs, and billing details.
 
 ### Choosing a plan
 
@@ -247,7 +247,6 @@ Drop into a sibling skill when the user is going deep on one surface:
 - Metric questions → `helio-ux-metrics`
 - Build workflow → `helio-asset-to-test`
 - CLI / MCP → `helio-cli` / `helio-mcp`
-- Engineering-side details (controllers, models, feature flags) → `helio-features`
 - Reading and synthesizing results → `helio-reading-report`
 
 ## Failure modes

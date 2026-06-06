@@ -57,5 +57,3 @@ Initial release. Sourced from Findings v0.1. No AEO scorecard gaps to close.
 - For **synthesizing findings into a one-sentence Glare signal**, use `helio-reading-report`.
 - For **the moderated follow-up workflow** (the "Free Response Followup" section type, which is researcher-initiated and creates linked responses), use `helio-section-types`.
 - For **filter context that gets snapshotted onto findings**, use `helio-report-filtering`.
-- For **AI Chat / AI Summary / Common Phrases** (adjacent AI features that don't store as Findings), use `helio-features`.
-- For **broader feature gating and plan tier**, use `helio-features`.

@@ -1,6 +1,6 @@
 ---
 name: helio-assets
-description: Use this skill when the user is working with assets in Helio — uploading images, video, audio, linking Figma prototypes, managing the media library, or troubleshooting asset delivery. Triggers — "Helio assets," "upload image," "upload video," "upload audio," "image variants," "signed URLs," "Figma integration," "Figma prototype URL," "Figma OAuth," "Figma sync," "media library," "asset library," "asset expired," "asset broken," "alt text," "video bitrates," "audio transcoding," "asset delivery." Do NOT use when the user wants section type spec (use `helio-section-types`), test build workflow (use `helio-asset-to-test`), or licensing/billing (use `helio-licensing`).
+description: Use this skill when the user is working with assets in Helio — uploading images, video, audio, linking Figma prototypes, managing the media library, or troubleshooting asset delivery. Triggers — "Helio assets," "upload image," "upload video," "upload audio," "image variants," "signed URLs," "Figma integration," "Figma prototype URL," "Figma OAuth," "Figma sync," "media library," "asset library," "asset expired," "asset broken," "alt text," "video bitrates," "audio transcoding," "asset delivery." Do NOT use when the user wants section type spec (use `helio-section-types`) or test build workflow (use `helio-asset-to-test`).
 version: 0.1.0
 source_doc_version: Assets v0.1
 last_rebuilt: 2026-05-23
@@ -49,5 +49,3 @@ Initial release. Sourced from Assets v0.1. AEO scorecard flagged Problem and Act
 - For **section types that use assets** (Click, Preference, Prototype, etc.), use `helio-section-types`.
 - For **the build workflow** (where asset upload is a UI-only step), use `helio-asset-to-test`.
 - For **Figma-specific sync depth** (full sync/auth/embed behavior), note that's covered here in summary; deeper engineering detail lives in the Helio codebase docs.
-- For **broader engineering-side details** (controllers, model names, feature flags), use `helio-features`.
-- For **what participants see when an asset loads or fails**, use `helio-participant-experience`.

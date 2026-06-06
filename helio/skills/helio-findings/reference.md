@@ -188,7 +188,5 @@ For the broader synthesis workflow (turning findings into a Glare signal), use `
 - For synthesizing findings into a Glare signal: `helio-reading-report`
 - For moderated follow-up workflow: `helio-section-types`
 - For filter context that gets snapshotted: `helio-report-filtering`
-- For AI Chat / AI Summary / Common Phrases (adjacent features): `helio-features`
-- For broader feature gating and plan tier: `helio-features`
 
 <!-- /ADDED -->

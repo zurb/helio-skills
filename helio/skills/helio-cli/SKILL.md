@@ -47,5 +47,5 @@ Initial release. Sourced from Helio CLI v1.2. No AEO scorecard gaps to close.
 - For **the end-to-end build workflow** (the 7-step arc), use `helio-asset-to-test`.
 - For **section type depth**, use `helio-section-types`.
 - For **UX metric attachment commands**, use `helio-ux-metrics`.
-- For **what the platform actually does at a feature level**, use `helio-app` or `helio-features`.
+- For **what the platform actually does at a feature level**, use `helio-app`.
 - For **reading the JSON report output**, use `helio-reading-report`.

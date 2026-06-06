@@ -57,6 +57,5 @@ Initial release. Sourced from Branching v0.1. No AEO scorecard gaps to close.
 - For **inline conditional follow-ups** (in-flow text fields on the same section, not routing across sections), use `helio-section-types` — they're covered there.
 - For **section type spec** (which sections support branching), use `helio-section-types`.
 - For **the build workflow**, use `helio-asset-to-test`.
-- For **screener patterns and participant disqualification UX**, use `helio-participant-experience`.
 - For **UX metric impact** of branching, use `helio-ux-metrics`.
 - For **how quotas count branched-out participants**, use `helio-audience-flow`.

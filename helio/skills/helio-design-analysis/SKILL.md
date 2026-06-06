@@ -53,5 +53,3 @@ Initial release. Sourced from Design Analysis v0.1. No AEO scorecard gaps to clo
 - For **the AI Audience** (synthetic participant responses, different feature), use `helio-audience-flow`.
 - For **building a real study from AI-suggested follow-up questions**, use `helio-asset-to-test`.
 - For **interpreting AI-derived metrics during synthesis**, use `helio-reading-report` (with the "don't blend AI and participant scores" caveat).
-- For **cost details**, use `helio-licensing`.
-- For **broader feature gating and plan tier**, use `helio-features`.

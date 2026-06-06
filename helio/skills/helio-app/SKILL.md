@@ -41,7 +41,6 @@ Read `reference.md` for the full positioning, plans, capability tour, and Glare-
 3. If the user wants to know what they can do, route to the "Building a Study" + "Recruiting Participants" + "Reading the Report" sections (from Using Helio).
 4. If the user is connecting Helio to a broader research framework, route to the "Helio in the Glare workflow" section.
 5. For depth on any specific surface, hand off to the sibling skill (see Handoffs).
-6. If the user is asking about engineering specifics (controllers, models, feature flags), hand off to `helio-features`.
 
 ## What's new in v0.1.0
 
@@ -54,6 +53,5 @@ Initial release. Merges Helio App v1.3 (positioning + plans + Glare workflow) an
 - For **the 17 UX Metrics** (definitions, sections required, thresholds), use `helio-ux-metrics`.
 - For **building a study end to end** (the 7-step workflow), use `helio-asset-to-test`.
 - For **the CLI surface**, use `helio-cli`. For **the MCP surface**, use `helio-mcp`.
-- For **the engineering-side feature reference**, use `helio-features`.
 - For **reading and synthesizing results**, use `helio-reading-report`.
 - For **the broader Glare framework**, use `glare-getting-started` or `glare-decision-map`.

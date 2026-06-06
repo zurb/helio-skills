@@ -163,7 +163,7 @@ For self-serve Pro pricing tiers, each Helio Panel option has a flat tier price:
 
 Enterprise pricing is custom and not shown in the UI flow.
 
-All audiences debit from the same account-wide answers balance. For how the balance works and where it lives, use `helio-licensing`.
+All audiences debit from the same account-wide answers balance.
 
 ## After Launch
 
@@ -204,7 +204,7 @@ Reach for this skill when the user is:
 - Asking why their narrow targeting won't launch (panel availability check)
 - Planning audience fanout — same test, multiple audience cohorts via Order More
 
-For the broader 7-step build workflow, use `helio-asset-to-test`. For how answers / cost accounting works, use `helio-licensing`. For filtering the report after launch, use `helio-report-filtering`.
+For the broader 7-step build workflow, use `helio-asset-to-test`. For filtering the report after launch, use `helio-report-filtering`.
 
 ## Failure modes
 
@@ -219,9 +219,6 @@ For the broader 7-step build workflow, use `helio-asset-to-test`. For how answer
 
 - For the build workflow: `helio-asset-to-test`
 - For section types: `helio-section-types`
-- For licensing / cost accounting: `helio-licensing`
 - For report filtering after launch: `helio-report-filtering`
-- For what participants see: `helio-participant-experience`
-- For engineering-side feature gates: `helio-features`
 
 <!-- /ADDED -->

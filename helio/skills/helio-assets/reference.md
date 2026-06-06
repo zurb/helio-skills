@@ -156,7 +156,7 @@ Reach for this skill when the user is:
 - Reusing assets across studies and wondering about lifecycle
 - Looking up image variant sizes or video bitrates
 
-This is a reference, not a how-to. For where assets fit in test design, use `helio-section-types` (each section type's asset role) or `helio-asset-to-test` (the build workflow). For broader feature gating and plan tier, use `helio-features`.
+This is a reference, not a how-to. For where assets fit in test design, use `helio-section-types` (each section type's asset role) or `helio-asset-to-test` (the build workflow).
 
 ## Failure modes
 
@@ -171,7 +171,5 @@ This is a reference, not a how-to. For where assets fit in test design, use `hel
 
 - For section types that use assets: `helio-section-types`
 - For the build workflow: `helio-asset-to-test`
-- For broader engineering-side details (feature flags, model names): `helio-features`
-- For what participants see during asset loading/failure: `helio-participant-experience`
 
 <!-- /ADDED -->

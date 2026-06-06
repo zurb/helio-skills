@@ -121,7 +121,7 @@ If you need programmatic access, the regular Helio API tokens work — the analy
 
 **A flat 4 answers per analysis.** Not per token, not scaled by image size or context length — every Design Analysis costs the same.
 
-This is billed against your account's answers balance, the same balance used by participant responses. For how the balance works, use `helio-licensing`.
+This is billed against your account's answers balance, the same balance used by participant responses.
 
 ## Plan & Feature Gates
 
@@ -177,7 +177,5 @@ For real participant-driven UX metric scoring with the same metric names, use `h
 - For the AI Audience (different feature): `helio-audience-flow`
 - For building a real study from AI-suggested follow-ups: `helio-asset-to-test`
 - For synthesis with the "don't blend" caveat: `helio-reading-report`
-- For cost details: `helio-licensing`
-- For broader feature gating and plan tier: `helio-features`
 
 <!-- /ADDED -->

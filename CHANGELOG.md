@@ -1,5 +1,47 @@
 # Helio Marketplace — Changelog
 
+## v0.3.0 — 2026-05-23 — Prune non-core skills (17 → 14)
+
+Breaking-shape change. Removed three skills that didn't pertain to creating tests, reading reports, or test structures — they were adding noise rather than helping users get work done.
+
+### What was cut
+
+- **`helio-features`** — feature catalog by plan tier. Sales / admin context, not test-design content. Users who need plan/feature info can use `helio-app` or the website.
+- **`helio-licensing`** — billing model, answer math, refund rules. Admin / finance context, not test-related.
+- **`helio-participant-experience`** — what participants see, consent timing, IRB / regulated-research context. Tangential to test design.
+
+### What stays (14 skills)
+
+All test-design, test-structure, and report-reading skills:
+
+- Orientation: `helio-app`, `helio-cli`, `helio-mcp`
+- Test design: `helio-patterns`, `helio-asset-to-test`, `helio-section-types`, `helio-audience-flow`, `helio-branching`
+- Test mechanics: `helio-assets`
+- Measurement & synthesis: `helio-ux-metrics`, `helio-report-filtering`, `helio-design-analysis`, `helio-findings`, `helio-reading-report`
+
+### Routing cleanup
+
+All 30+ references to the cut skills were stripped from the surviving 14 skills. Inline mentions (e.g., "For how the answers balance works, see helio-licensing") were either reframed as facts or removed where redundant. Description Do-NOT clauses that listed cut skills were trimmed.
+
+### Plugin metadata
+
+- `marketplace.json` version: 0.2.1 → 0.3.0
+- `plugin.json` version: 0.2.1 → 0.3.0
+
+### Verification
+
+All 14 surviving skills re-pass the validator:
+
+- Description length ≤ 1024 chars
+- YAML frontmatter valid
+- DERIVED / /DERIVED marker balance
+- ADDED / /ADDED marker balance
+- Source manifest doc_ids match DERIVED FROM markers (bidirectional)
+
+### Worth flagging
+
+If users miss the cut content, the right move is usually to point them at the website rather than re-adding skills. The Helio docs site covers plans/pricing/features for customers; the AEO scorecard for the 3 cut skills is still preserved in `Helio Doc Family — AEO Scorecard v2.docx` for reference.
+
 ## v0.2.1 — 2026-05-23 — Internal-info cleanup
 
 Patch release to remove internal technical references from skills that shouldn't be in a public marketplace. No functional changes; the user-facing content is unchanged in substance.
