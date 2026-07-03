@@ -59,3 +59,5 @@ Initial release. Sourced from Branching v0.1. No AEO scorecard gaps to close.
 - For **the build workflow**, use `helio-asset-to-test`.
 - For **UX metric impact** of branching, use `helio-ux-metrics`.
 - For **how quotas count branched-out participants**, use `helio-audience-flow`.
+- For **screening / disqualifying at the top of a study** (the End-with-custom-message pattern is one of the two Helio screening patterns), use `helio-forms-screeners`.
+- For **the account → project → test data model** and where Branches attach, use `helio-concepts`.

@@ -55,3 +55,5 @@ Initial release. Sourced from Audience Flow v0.1. AEO scorecard flagged one Prob
 - For **the full test-build workflow** (audience is step 4 of 7), use `helio-asset-to-test`.
 - For **picking section types** that determine what the audience sees, use `helio-section-types`.
 - For **filtering report data after launch**, use `helio-report-filtering`.
+- For **Customer List signup Forms + screeners** (how someone becomes a list member in the first place), use `helio-forms-screeners`.
+- For **the account → project → test data model** and how audience/quota fits, use `helio-concepts`.

@@ -1,5 +1,47 @@
 # Helio Marketplace — Changelog
 
+## v0.4.0 — 2026-06-29 — Two new skills (14 → 16)
+
+Additive release. Two new skills added, sourced from Drive docs that weren't yet covered — one for Customer List signup Forms (which contain a distinct "screener" concept easy to confuse with in-study screening), and one for the account → project → test data model.
+
+### What's new
+
+- **`helio-forms-screeners`** (source: Forms & Screeners v0.1) — Two-part coverage:
+  - **Formal Screeners**: up to 5 qualification questions attached to a Customer List signup Form (Multiple Choice, Likert, NPS, Free Response). Answers stored on the participant record; disqualification is a downstream targeting decision at study launch, not an auto-reject.
+  - **Inline Screening**: the pattern of a Multiple Choice section at the top of a study with a branch to end-of-test — the same "screener" word for a different feature.
+  - Also covers when to use each, the 5-per-Form hard limit, and disable-vs-delete rules.
+
+- **`helio-concepts`** (source: Concepts v0.1) — Customer-facing mental model of Helio's data model:
+  - The main tree: Account → Project → Test → Section → Variation → Choice/Hotspot → Branch.
+  - Cross-cutting systems: Assets, Findings, UX Metrics, Branches, Comments.
+  - Test lifecycle (Draft → Running → Fulfilled / Paused / Stopped).
+  - Response lifecycle (arrival → per-section capture → complete, plus Hidden / Flagged / Spam states).
+  - How the AI Design Analysis workflow runs a parallel hierarchy.
+  - How Quotas bridge test and account billing.
+  - Internal codebase names in the source doc (class / model names) were reframed into customer-facing language during the skill build.
+
+### Handoff updates in existing skills
+
+- `helio-asset-to-test`: added handoffs to `helio-forms-screeners` (screening at step 5) and `helio-concepts` (data model).
+- `helio-audience-flow`: added handoffs to `helio-forms-screeners` (how Customer List members are captured) and `helio-concepts`.
+- `helio-branching`: added handoffs to `helio-forms-screeners` (the inline-screening pattern) and `helio-concepts`.
+
+### Plugin metadata
+
+- `marketplace.json` version: 0.3.2 → 0.4.0
+- `plugin.json` version: 0.3.2 → 0.4.0
+- Descriptions updated to reflect 16 skills and name the two new areas (Concepts, Forms & Screeners).
+
+### Verification
+
+All 16 skills re-pass the validator:
+
+- Description length ≤ 1024 chars
+- YAML frontmatter valid
+- DERIVED / /DERIVED marker balance
+- ADDED / /ADDED marker balance
+- Source manifest doc_ids match DERIVED FROM markers
+
 ## v0.3.2 — Customer-name scrub
 
 All references to real customer engagements replaced with category descriptors. Public marketplace shouldn't be naming real customer engagements without explicit case-study permission.
