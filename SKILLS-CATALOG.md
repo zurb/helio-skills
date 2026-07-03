@@ -1,10 +1,10 @@
 # Helio Skills Catalog
 
-Current skills in the Helio marketplace. Last updated 2026-05-23 for v0.3.0.
+Current skills in the Helio marketplace. Last updated 2026-06-29 for v0.4.0.
 
-## Built (14 skills)
+## Built (16 skills)
 
-The marketplace was trimmed in v0.3.0 from 17 to 14, removing skills that didn't pertain to creating tests, reading reports, or test structures. See `CHANGELOG.md` for details on what was cut.
+The marketplace was trimmed in v0.3.0 from 17 to 14, then two skills were added in v0.4.0 (helio-forms-screeners, helio-concepts) to cover Customer List signup Forms and the account → project → test data model.
 
 ### Platform / orientation
 
@@ -13,6 +13,7 @@ The marketplace was trimmed in v0.3.0 from 17 to 14, removing skills that didn't
 | `helio-app` | Helio App v1.3 + Using Helio v0.2 (merged) | ✅ v0.1.0 |
 | `helio-cli` | Helio CLI v1.2 | ✅ v0.1.0 |
 | `helio-mcp` | Helio MCP v1.2 | ✅ v0.1.0 |
+| `helio-concepts` | Concepts v0.1 | ✅ v0.1.0 (new in v0.4.0) |
 
 ### Test lifecycle
 
@@ -23,6 +24,7 @@ The marketplace was trimmed in v0.3.0 from 17 to 14, removing skills that didn't
 | `helio-section-types` | Section Types v0.1 | ✅ v0.1.0 |
 | `helio-audience-flow` | Audience Flow v0.1 | ✅ v0.1.0 |
 | `helio-branching` | Branching v0.1 | ✅ v0.1.0 |
+| `helio-forms-screeners` | Forms & Screeners v0.1 | ✅ v0.1.0 (new in v0.4.0) |
 
 ### Test mechanics
 
@@ -48,7 +50,7 @@ These skills were built in v0.1.0 / v0.2.0 but cut in v0.3.0 because they didn't
 - `helio-licensing` — billing model, answer math, refund rules (admin context)
 - `helio-participant-experience` — what participants see, IRB / regulated-research context (tangential to test design)
 
-## Routing summary (current 14 skills)
+## Routing summary (current 16 skills)
 
 How skills hand off to each other and to Glare.
 
@@ -58,13 +60,16 @@ How skills hand off to each other and to Glare.
 
 - `helio-app` → orients new users; routes to test-design and synthesis skills
 - `helio-cli` ↔ `helio-mcp` (the two scripted access surfaces)
+- `helio-concepts` → orients on the data model (account → project → test → section → variation → choice → branch); routes to any specific-depth sibling
 
 **Test design chain:**
 
-- `helio-asset-to-test` (the build workflow) → `helio-section-types`, `helio-ux-metrics`, `helio-audience-flow`, `helio-branching`, `helio-assets`, `helio-patterns`
+- `helio-asset-to-test` (the build workflow) → `helio-section-types`, `helio-ux-metrics`, `helio-audience-flow`, `helio-branching`, `helio-assets`, `helio-patterns`, `helio-forms-screeners`
 - `helio-patterns` ↔ `helio-asset-to-test` (recognize shapes ↔ build to shape)
 - `helio-section-types` ↔ `helio-branching` (section spec ↔ routing config)
 - `helio-section-types` ↔ `helio-ux-metrics` (sections ↔ metrics that auto-build them)
+- `helio-forms-screeners` ↔ `helio-audience-flow` (screener setup ↔ Customer List targeting)
+- `helio-forms-screeners` ↔ `helio-branching` (inline screening pattern uses branching)
 
 **Test mechanics:**
 

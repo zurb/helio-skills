@@ -57,3 +57,5 @@ Initial release. Sourced from From Asset To Test v0.1. AEO scorecard flagged a P
 - For **recognizing test shapes by pattern**, use `helio-patterns`.
 - For **reading the resulting report**, use `helio-reading-report`.
 - For **the CLI commands referenced in step 7**, use `helio-cli`.
+- For **screening at step 5** (formal Customer List screeners or inline screening at the top of the study), use `helio-forms-screeners`.
+- For **the account → project → test data model**, use `helio-concepts`.
