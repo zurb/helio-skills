@@ -1,5 +1,33 @@
 # Helio Marketplace — Changelog
 
+## v0.8.0 — 2026-07-06 — helio-mcp rebuilt against Helio MCP v1.3 + canonical UI-only boundary checklist
+
+Items 3 and 5 of the test-creation improvement plan.
+
+### helio-mcp 0.1.0 → 0.2.0 (Item 3)
+
+Rebuilt against **Helio MCP v1.3**, regenerated from the MCP server codebase. Corrects the v1.2 **"26 tools" claim to the real registered surface: 20 tools + 2 prompts (`analyze_test`, `compare_audiences`) + 1 resource** (`helio://guide/analysis-workflow`). New content:
+
+- Full grouped tool catalog: Discovery (5), Building a draft (5), Launching (3), Reading results (4), AI assessments (3) — with parameter notes per tool.
+- `create_test` details: same 10 question types / 11 UX metrics as the CLI, plus `ux_metric_context` and `ux_metric_assets` (the latter has no CLI equivalent).
+- The assistant-driven build loop (`create_test` → `add/update/remove_question` / `update_test` → `validate_test` → `send_test`) and the metric-section edit rules (`update_question` without `type`; `update_test` for metric add/remove; `remove_question` refuses metric sections).
+- `get_test_report` `include` options and demographic filtering; `get_filtered_responses`; `compare_segments`.
+- Capability limits: same UI-only ceilings as the CLI, plus MCP-specific gaps — no dry-run (use `validate_test`) and no walkthrough (use the preview URL).
+- Drive-side: v1.3 content drafted from the codebase and handed off for paste into the existing Drive doc (`1MG34t7e…` — doc_id unchanged, title → "Helio MCP v1.3").
+
+### Canonical UI-only boundary checklist (Item 5)
+
+- **`helio-creating-test` 0.1.0 → 0.1.1** — reference.md ADDED block gains the one authoritative table of web-app-only steps: asset upload/finding IDs, hotspot drawing, click/tree/prototype sections, branching & conditional follow-ups, audience/screener creation, the 7 prototype-dependent UX metrics, scheduled launch — each with why, workaround, and rough effort. Ends with the working pattern: script the buildable part, finish in the web app, validate/send anywhere.
+- Pointers added so the story is told once: `helio-assets` (handoff), `helio-branching` (handoff), `helio-asset-to-test` (How-to-apply step 7). `helio-cli` and `helio-mcp` carry their own DERIVED "what X can't do" sections, consistent with the checklist.
+
+### Plugin metadata
+
+- `marketplace.json` / `plugin.json` version: 0.7.0 → 0.8.0 (descriptions unchanged; skill count unchanged).
+
+### Verification
+
+All 17 skills pass the validator.
+
 ## v0.7.0 — 2026-07-06 — helio-cli rebuilt against Helio CLI v1.3 (full command surface + payload schemas)
 
 Items 2 and 4 of the test-creation improvement plan. The v1.2 Drive doc documented 4 of ~20 test commands; v1.3 was regenerated from the CLI codebase (README, built-in guide, `QUESTION_TYPES` / `UX_METRIC_TYPES` validation schemas) and the skill rebuilt against it.

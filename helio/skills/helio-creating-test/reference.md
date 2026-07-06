@@ -358,6 +358,22 @@ Route away when the user starts from an **existing asset/mockup and wants the op
 - **Forgetting the MaxDiff reading rule.** If a test includes MaxDiff, warn at design time that the report must be read as raw best/worst counts — aggregated percentages will show 0%.
 - **Designing a shape the chosen surface can't build.** Click tests, tree tests, and prototype tasks can't be created via CLI/MCP — they're UI-only. If the user plans to script the build, flag which template steps need the web app.
 
+## The UI-only boundary — canonical checklist
+
+Some parts of a Helio test can only be built in the web app. This is the one authoritative list; other skills point here. Plan these steps *before* choosing a surface, so a scripted or assistant-driven build doesn't dead-end.
+
+| Step | Why UI-only | Workaround | Rough effort |
+|---|---|---|---|
+| Asset upload & finding asset IDs | API accepts no uploads and has no asset-list call | Upload in the web app; reference by `asset_id` from CLI/MCP | ~1 min per asset |
+| Hotspot drawing (click tests) | Visual editor only | Web app | ~2 min per screen |
+| Click test / Tree test / Prototype task sections | API marks these non-creatable | Build the section in the web app; CLI/MCP can still read their reports (clicks, paths, Direct/Indirect/Failed) | ~5 min per section |
+| Branching & conditional follow-ups | No API endpoint | Configure in the web app after sections exist | ~2 min per branch |
+| Audience segment creation & screeners | No API endpoint | Build the segment in the web app; attach by ID via `--audiences` (CLI) / `audiences` (MCP) | varies |
+| 7 UX metrics: brand_score, engagement, success, completion, usability, satisfaction, effort | They require prototypes or click tests | Tag them in the web app once those sections exist | ~1 min |
+| Scheduled launch | `send` fires immediately on every surface | Send manually at the intended time | — |
+
+The working pattern: **script the buildable part first, finish the UI-only steps in the web app, then validate and send from wherever is convenient** — drafts are shared across all three surfaces.
+
 ## Where to go next
 
 - For the asset-first build walkthrough: `helio-asset-to-test`

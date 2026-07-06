@@ -48,4 +48,5 @@ Initial release. Sourced from Assets v0.1. AEO scorecard flagged Problem and Act
 
 - For **section types that use assets** (Click, Preference, Prototype, etc.), use `helio-section-types`.
 - For **the build workflow** (where asset upload is a UI-only step), use `helio-asset-to-test`.
+- For **the canonical UI-only boundary checklist** (asset upload is one of seven UI-only steps; plan them before choosing a surface), use `helio-creating-test`.
 - For **Figma-specific sync depth** (full sync/auth/embed behavior), note that's covered here in summary; deeper engineering detail lives in the Helio codebase docs.
