@@ -7,8 +7,8 @@
     {
       "name": "helio",
       "source": "./helio",
-      "description": "ZURB's Helio user research platform — 16 skills focused on the data model (Concepts) and test design (Section Types, UX Metrics, Audience Flow, Branching, Patterns, Asset-to-Test, Assets, Forms & Screeners), test orientation (App, CLI, MCP), and reading reports (Report Filtering, Design Analysis, Findings, Reading-a-Report+Glare-Signal). Companion marketplace to Glare.",
-      "version": "0.5.0",
+      "description": "ZURB's Helio user research platform — 17 skills focused on the data model (Concepts) and test design (Creating-a-Test, Section Types, UX Metrics, Audience Flow, Branching, Patterns, Asset-to-Test, Assets, Forms & Screeners), test orientation (App, CLI, MCP), and reading reports (Report Filtering, Design Analysis, Findings, Reading-a-Report+Glare-Signal). Companion marketplace to Glare.",
+      "version": "0.6.0",
       "category": "research",
       "keywords": ["ux", "research", "user-testing", "helio", "zurb", "ux-metrics", "click-test", "prototype-test", "design-research", "section-types", "synthesis", "design-analysis", "audience-targeting", "branching"]
     }

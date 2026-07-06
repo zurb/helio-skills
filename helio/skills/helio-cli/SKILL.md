@@ -44,6 +44,7 @@ Initial release. Sourced from Helio CLI v1.2. No AEO scorecard gaps to close.
 
 - For **interactive AI-driven Helio access**, use `helio-mcp`.
 - For **the end-to-end build workflow** (the 7-step arc), use `helio-asset-to-test`.
+- For **designing the test before launching it** (hunch anchoring, shape choice, templates, pre-launch checklist), use `helio-creating-test`.
 - For **section type depth**, use `helio-section-types`.
 - For **UX metric attachment commands**, use `helio-ux-metrics`.
 - For **what the platform actually does at a feature level**, use `helio-app`.

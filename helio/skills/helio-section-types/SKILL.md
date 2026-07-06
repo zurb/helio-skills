@@ -50,4 +50,5 @@ Initial release. Sourced from Section Types v0.1. AEO scorecard flagged two mino
 - For **conditional routing between sections** (jump-to-section, end-the-test, redirect), use `helio-branching`.
 - For **the AI heuristic evaluator** (a separate workflow), use `helio-design-analysis`.
 - For **recognizing test shapes that combine sections** (the core 5-Q template, multi-screen flows, MaxDiff content variants), use `helio-patterns`.
+- For **designing a whole test from a hunch** (shape choice, templates, followup pattern, pre-launch checklist), use `helio-creating-test`.
 - For **asset handling** (uploading images, Figma integration), use `helio-assets`.

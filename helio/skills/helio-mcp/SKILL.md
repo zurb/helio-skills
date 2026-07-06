@@ -45,6 +45,7 @@ Initial release. Sourced from Helio MCP v1.2 (which includes the "When to use MC
 
 - For **scripted (non-AI) Helio access**, use `helio-cli`.
 - For **the build workflow** an AI assistant might walk a user through, use `helio-asset-to-test`.
+- For **designing the test an assistant is about to create** (hunch anchoring, shape choice, templates), use `helio-creating-test`.
 - For **section type depth** when configuring tests through MCP, use `helio-section-types`.
 - For **UX metric attachment**, use `helio-ux-metrics`.
 - For **reading the report data the MCP returns**, use `helio-reading-report`.

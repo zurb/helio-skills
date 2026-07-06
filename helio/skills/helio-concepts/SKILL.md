@@ -69,5 +69,6 @@ Almost every specific question routes somewhere:
 - For **Assets** (images, video, Figma prototypes): `helio-assets`
 - For **the AI Design Analysis parallel workflow**: `helio-design-analysis`
 - For **the test-build workflow end to end**: `helio-asset-to-test`
+- For **designing a test from a hunch** (shapes, templates, validation): `helio-creating-test`
 - For **Forms & Screeners** on Customer List signup: `helio-forms-screeners`
 - For **positioning and plans**: `helio-app`

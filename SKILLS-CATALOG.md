@@ -1,10 +1,10 @@
 # Helio Skills Catalog
 
-Current skills in the Helio marketplace. Last updated 2026-07-06 for v0.5.0.
+Current skills in the Helio marketplace. Last updated 2026-07-06 for v0.6.0.
 
-## Built (16 skills)
+## Built (17 skills)
 
-The marketplace was trimmed in v0.3.0 from 17 to 14, then two skills were added in v0.4.0 (helio-forms-screeners, helio-concepts) to cover Customer List signup Forms and the account → project → test data model.
+The marketplace was trimmed in v0.3.0 from 17 to 14, two skills were added in v0.4.0 (helio-forms-screeners, helio-concepts), and the design-first hub helio-creating-test was added in v0.6.0. Routing for test creation: start from a **hunch** → `helio-creating-test`; start from an **asset** → `helio-asset-to-test`.
 
 ### Platform / orientation
 
@@ -19,6 +19,7 @@ The marketplace was trimmed in v0.3.0 from 17 to 14, then two skills were added 
 
 | Skill | Source doc(s) | Status |
 |---|---|---|
+| `helio-creating-test` | Creating a Helio Test v0.1 | ✅ v0.1.0 (new in v0.6.0) |
 | `helio-patterns` | Helio Test Patterns v0.2 (scrubbed) | ✅ v0.2.0 |
 | `helio-asset-to-test` | From Asset To Test v0.1 | ✅ v0.1.0 |
 | `helio-section-types` | Section Types v0.1 | ✅ v0.1.0 |

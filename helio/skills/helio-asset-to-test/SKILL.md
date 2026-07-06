@@ -55,6 +55,7 @@ Initial release. Sourced from From Asset To Test v0.1. AEO scorecard flagged a P
 - For **branching setup** (if the test uses conditional routing), use `helio-branching`.
 - For **asset handling specifics** (image upload, Figma integration, hotspot drawing), use `helio-assets`.
 - For **recognizing test shapes by pattern**, use `helio-patterns`.
+- For **designing a test from a hunch** (no asset yet — the hunch → shape → test → signal arc, with templates), use `helio-creating-test`.
 - For **reading the resulting report**, use `helio-reading-report`.
 - For **the CLI commands referenced in step 7**, use `helio-cli`.
 - For **screening at step 5** (formal Customer List screeners or inline screening at the top of the study), use `helio-forms-screeners`.
