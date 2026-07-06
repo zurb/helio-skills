@@ -1,8 +1,8 @@
 # Helio Content → Skill Mapper Prompt
 
 **Audience:** A fresh AI session being asked to convert Helio platform content into skills, or a human reviewing the work.
-**Last updated:** 2026-05-23
-**Marketplace version:** 0.1.0 (initial buildout)
+**Last updated:** 2026-07-06
+**Marketplace version:** 0.8.0 (17 skills; see CHANGELOG for the v0.5.0–v0.8.0 test-creation improvement train)
 
 This document captures the pattern, conventions, and current state of the Helio marketplace so the next AI session can pick up the work without re-deriving everything from scratch. Companion to the Glare Content → Skill Mapper Prompt — read that one first if you haven't, because Helio inherits most of the engineering discipline (frontmatter, markers, verification) and just differs on content shape.
 
@@ -473,6 +473,21 @@ Commit format: short subject line (skill name + change + version arrow), body wi
 
 ---
 
+## Code-backed docs: the refresh convention (added 2026-07-06)
+
+Two source docs describe *shipped code* rather than platform concepts: **Helio CLI** (`apps/helio-cli`) and **Helio MCP** (`mcps/helio-mcp`). For these two, **the repo is canonical for the command/tool surface** — the README, built-in guide, and validation schemas (`QUESTION_TYPES`, `UX_METRIC_TYPES`, the ListTools registrations) are ground truth, and the Drive doc is the narrative layer regenerated from them. Drive remains canonical for everything not code-backed (patterns, section types, workflows, metrics).
+
+The rules:
+
+1. **When helio-cli or helio-mcp ship command/tool changes, the Drive doc gets a version bump (vX.Y) before the next marketplace release that touches the corresponding skill.** Regenerate the doc content from the repo, paste into the existing Drive doc (doc_id stays stable, title carries the new version), then rebuild the skill.
+2. **A skill may not rebuild against a doc older than the code it describes.** If the code changed and the doc hasn't, the doc update comes first — that ordering is the whole point.
+3. **Count from the code, not from memory.** The v1.2 docs claimed surfaces that didn't match the code (4 documented CLI commands vs ~20 shipped; "26 MCP tools" vs 20 tools + 2 prompts + 1 resource). When rebuilding either skill, re-derive the counts from the repo.
+4. **Release checklist line:** before any marketplace release touching `helio-cli` or `helio-mcp`, compare the skill's `last_rebuilt` against the latest commit date in the corresponding repo. If code is newer, either do the doc+skill refresh in the release or note the known drift in the CHANGELOG.
+
+Why this exists: the freshness gradient (code → repo docs → Drive docs → skills, freshest to stalest) is the failure mode that produced the v1.2 gaps. Docs regenerate skills, but nothing regenerated docs — this convention is the trigger.
+
+---
+
 ## Verification checklist (before commit)
 
 - [ ] `SKILL.md` description ≤ 1024 chars
@@ -486,10 +501,13 @@ Commit format: short subject line (skill name + change + version arrow), body wi
 - [ ] CHANGELOG entry written
 - [ ] If the source doc had an AEO-scorecard gap, the fix is in an ADDED section (not buried inside DERIVED)
 - [ ] Any source-doc inconsistencies (typos, contradictions, factual errors) flagged in the reference header or CHANGELOG
+- [ ] If the release touches `helio-cli` or `helio-mcp`: skill `last_rebuilt` is not older than the latest commit in `apps/helio-cli` / `mcps/helio-mcp` (see "Code-backed docs" convention)
 
 ---
 
 ## State of the world (as of 2026-05-23)
+
+> **State update (2026-07-06):** the buildout described below happened. The marketplace is at **v0.8.0 with 17 skills** (see SKILLS-CATALOG.md for the current list; `helio-features`, `helio-licensing`, `helio-participant-experience` were built then pruned in v0.3.0; `helio-master` was never built). CHANGELOG.md is the authoritative history. The section below is preserved as the original kickoff context — read it as history, not current state.
 
 ### What exists
 
@@ -526,7 +544,7 @@ These don't need to wait for source-doc updates from the docs owner. Apply them 
 ### Known source-doc quirks
 
 - **My Metrics doc was retired during reconciliation.** `_DEPRECATED_Metrics for Helio Testing v0.1.docx` exists in the local working folder; the canonical metric reference is **UX Metrics v0.1** (in Drive). Don't pull from the deprecated doc.
-- **Creating a Helio Test v0.1 is also deprecated.** Superseded by the doc family. Don't pull from it.
+- **Creating a Helio Test v0.1 — status revised (2026-07-06).** This doc was marked "deprecated, superseded by the doc family" in the original 2026-05-23 version of this file. That call was reversed: the doc remained in the main Drive folder (not Archive), and it contains substantial content the doc family never absorbed (the four shapes with a decision rule, Templates A/B/C, the required-followup pattern, the bias check, the pre-launch checklist, anti-patterns). It became the source for `helio-creating-test` in marketplace v0.6.0. **Open question for the docs owner:** confirm the doc is canonical going forward; if he still considers it superseded, its unique content should be merged into a doc-family home and the skill repointed.
 - **Pricing tiers in Helio App v1.3 (Pilot/Scale/On Demand/Business)** are marketing-facing plans. **Answers & Licensing v0.1's license tiers (Trial/Pro/Business 1–3/Scale/Design–Agency–Enterprise/Custom)** are the underlying license model. Both are valid — the marketing plans are what customers see, the license tiers are the accounting underneath. Don't conflate them.
 
 ---
