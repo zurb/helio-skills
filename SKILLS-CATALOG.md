@@ -1,6 +1,6 @@
 # Helio Skills Catalog
 
-Current skills in the Helio marketplace. Last updated 2026-07-06 for v0.8.0.
+Current skills in the Helio marketplace. Last updated 2026-07-06 for v0.8.1.
 
 ## Built (17 skills)
 

@@ -1,12 +1,12 @@
 ---
 name: helio-mcp
 description: Use this skill when the user is connecting an AI assistant (Claude Desktop, Cursor, Claude Code, custom agent) to Helio via the Model Context Protocol — or driving Helio from one. Triggers — "Helio MCP," "MCP server," "MCP transport," "stdio vs HTTP," "@zurb/helio-mcp," "mcp.helio.app," "list_projects," "list_tests," "create_test via MCP," "add_question," "update_question," "update_test," "validate_test," "send_test," "get_test_report," "include filter_options," "get_filtered_responses," "compare_segments," "demographic filters MCP," "list_assessments," "create_assessment," "analyze_test prompt," "compare_audiences prompt," "how many MCP tools," "build a test from Claude." Do NOT use when the user is scripting from the terminal or CI (use `helio-cli`), designing the test itself (use `helio-creating-test` from a hunch, or `helio-asset-to-test` from an asset), or needs section type depth (use `helio-section-types`). For platform positioning, use `helio-app`.
-version: 0.2.0
+version: 0.2.1
 source_doc_version: Helio MCP v1.3
 last_rebuilt: 2026-07-06
 
 sources:
-  - doc_id: a source document
+  - doc_id: src-helio-mcp-v1.3
     title: Helio MCP v1.3
     last_synced: 2026-07-06
 ---
