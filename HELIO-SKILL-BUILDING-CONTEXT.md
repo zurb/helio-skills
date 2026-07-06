@@ -487,6 +487,10 @@ The rules:
 
 Why this exists: the freshness gradient (code → repo docs → Drive docs → skills, freshest to stalest) is the failure mode that produced the v1.2 gaps. Docs regenerate skills, but nothing regenerated docs — this convention is the trigger.
 
+### Drive docs travel alone (added 2026-07-06)
+
+Drive docs must not reference repo-local files — sibling `.md` files, `json/` directories, file paths, or "this directory" phrasing. Docs often originate as repo-local analysis files (Test Patterns v0.2 shipped with "Each individual test's structure is in this directory as `<uuid>-<slug>.md`" — nonsense in Drive); strip those references when the content moves to Drive. Cross-references in Drive docs use **doc titles** ("see Using Helio"), and skills convert those to **skill names** in DERIVED blocks. When creating or regenerating a Drive doc, scan for `.md`, `json/`, and path-like strings before it ships.
+
 ---
 
 ## Verification checklist (before commit)
@@ -503,6 +507,7 @@ Why this exists: the freshness gradient (code → repo docs → Drive docs → s
 - [ ] If the source doc had an AEO-scorecard gap, the fix is in an ADDED section (not buried inside DERIVED)
 - [ ] Any source-doc inconsistencies (typos, contradictions, factual errors) flagged in the reference header or CHANGELOG
 - [ ] If the release touches `helio-cli` or `helio-mcp`: skill `last_rebuilt` is not older than the latest commit in `apps/helio-cli` / `mcps/helio-mcp` (see "Code-backed docs" convention)
+- [ ] If a Drive doc was created or regenerated: no repo-local references in it (`.md` siblings, `json/` dirs, file paths — see "Drive docs travel alone")
 
 ---
 
