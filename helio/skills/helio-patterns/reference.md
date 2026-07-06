@@ -1,14 +1,14 @@
 # Helio Test Patterns — Reference
 
 **Skill:** `helio-patterns`
-**Source:** Helio Test Patterns v0.1
-**Source last synced:** 2026-05-23
+**Source:** Helio Test Patterns v0.2 (scrubbed)
+**Source last synced:** 2026-07-06
 
 ---
 
-<!-- DERIVED FROM: a source document — Helio Test Patterns v0.1 -->
+<!-- DERIVED FROM: src-helio-test-patterns-v0.2 — Helio Test Patterns v0.2 (scrubbed) -->
 
-A reference for reading and constructing Helio tests, drawn from a sample of 15 tests across four projects (O2, a continuous-experimentation project, the homepage-baseline project, an internal product project).
+A reference for reading and constructing Helio tests, drawn from a sample of 15 tests across four projects (a continuous-experimentation project, the homepage-baseline project, an internal product project, and a multi-screen iteration series referred to here as the "145" and "144" series).
 
 ## The thesis
 
@@ -26,7 +26,7 @@ Almost every homepage / landing-page / single-screen test follows this functiona
 | 4. Likelihood | Likert "How likely would you be to [purchase / use / request a demo / sign up]?" + required *"Why?"* followup | `desirability` or `intent` |
 | 5. Commit / loyalty | Either an NPS question, or a forced "What would you most likely do next?" multi-select across the page's actual CTAs | `loyalty` or `intent` |
 
-This pattern appears verbatim (with order shuffles) in an athletic-apparel DTC homepage v1, a B2B data-platform homepage, an investment-platform homepage, a veteran careers landing page, and all six variants of the O2 "145: Polymorphism PDP" series. The order shifts but the *roles* do not.
+This pattern appears verbatim (with order shuffles) across single-screen marketing-page tests in the corpus — athletic-apparel DTC homepages, B2B SaaS data-platform homepages, investment-platform homepages, veteran careers landing pages, and all six variants of the the fixed-template series PDP. The order shifts but the *roles* do not.
 
 **When the order shifts:** if Q1 is a click test rather than a comprehension likert, the test is leading with behavior (where will they look) before opinion (what do they think). Common on PDP / CTA-heavy pages where engagement is the headline outcome.
 
@@ -72,9 +72,9 @@ Each question can carry a UX metric. The metric — not the question wording —
 
 Non-obvious metric choices worth noticing:
 
-- **A press-room site uses `satisfaction`** (via impression likerts) on a press-room/media site. This signals the team's actual goal was *"does the press feel served by this site"* rather than *"can journalists find things,"* even though most of the test is findability. The metric clarifies intent that the questions alone don't.
-- **The investment-platform uses `frequency`** — unique in the batch. Q5 asks "How often would you use a platform like this?" — a retention proxy, not a one-shot intent. Worth replicating for stickiness-sensitive products.
-- **a retail PDP variant series uses `intent` and `desirability` as separate metrics on adjacent questions, and watches them diverge.** V5 scored high on engagement (92) and desirability (87) but tanked on intent (38). That divergence *is* the finding.
+- **A press-room/media site test in the corpus uses `satisfaction`** (via impression likerts) rather than `success`. This signals the team's actual goal was *"does the press feel served by this site"* rather than *"can journalists find things,"* even though most of the test is findability. The metric clarifies intent that the questions alone don't.
+- **An investment-platform test uses `frequency`** — unique in the batch. Q5 asks "How often would you use a platform like this?" — a retention proxy, not a one-shot intent. Worth replicating for stickiness-sensitive products.
+- **The the fixed-template series uses `intent` and `desirability` as separate metrics on adjacent questions, and watches them diverge.** V5 scored high on engagement (92) and desirability (87) but tanked on intent (38). That divergence *is* the finding.
 
 ## 6. Audience definitions are a strategic statement
 
@@ -92,7 +92,7 @@ Audience lists are deliberately built to mirror who the design is for. They're n
 
 ## 7. Two iteration methodologies
 
-Comparing the a retail PDP variant series and the fixed-template series shows two distinct iteration methods sitting side by side:
+Comparing the the evolving-flow series and the fixed-template series shows two distinct iteration methods sitting side by side:
 
 | | the fixed-template series (template iteration) | the evolving-flow series (flow evolution) |
 |---|---|---|
@@ -113,7 +113,7 @@ Comparing the a retail PDP variant series and the fixed-template series shows tw
 | Question rhythm | Explore → comprehend → react → decide | Each screen gets 1–3 task-oriented Qs |
 | What it's measuring | First impression | End-to-end usability |
 
-**Identifying by name:** anything with `>` ("a hunting-apparel Homepage > PLP > PDP flow"), "Flow", "Onboarding", "Dashboard", or a numbered series ("a banking-app prototype's Q1...Q6") is multi-screen. Anything with just "Homepage" or "Landing Page" is almost always single-screen.
+**Identifying by name:** anything with `>` (e.g. "Homepage > PLP > PDP"), "Flow", "Onboarding", "Dashboard", or a numbered series (e.g. "Q1...Q6") is multi-screen. Anything with just "Homepage" or "Landing Page" is almost always single-screen.
 
 ## 9. deep vs light template — the depth/cost tradeoff
 
@@ -181,7 +181,7 @@ When designing a new test:
 
 This synthesis is drawn from 15 tests. Patterns to verify if you go deeper:
 
-- **MaxDiff usage** — only seen in a veteran careers landing page and a press-room site. Worth pulling more MaxDiff tests to see how it's typically scoped.
+- **MaxDiff usage** — only seen in two tests in the batch (a content-heavy careers page and the press-room site). Worth pulling more MaxDiff tests to see how it's typically scoped.
 - **Card-sort / preference / matrix / point-allocation** — none appeared in this sample. The CLI supports them; whether they're rare or absent in actual usage is unknown.
 - **Tests saved as templates** — none in this sample. The platform has a template system that's separate from the iteration pattern documented here.
 - **Long tests (>10 Qs)** — only a continuous-experimentation project's "a 15-Q homepage assessment" (15 Qs) appeared as an outlier in the listings. Worth pulling to see if it's a different methodology or just a longer version of the same template.
@@ -189,7 +189,7 @@ This synthesis is drawn from 15 tests. Patterns to verify if you go deeper:
 ## Tooling notes
 
 - Pulling test structure + report: `helio-cli tests get <uuid> --output json` and `helio-cli tests report <uuid> --include questions_summary --output json`. Both accept either the test UUID or the report UUID from `https://my.helio.app/report/<uuid>`.
-- The CLI requires Node 22+.
+- The CLI requires Node 22+. The shebang resolves to whatever `node` is first in PATH; if your default is older, run `nvm use 22` first.
 - Asset URLs in the report are presigned and expire ~30 days from generation. Re-pull to refresh.
 - The full asset URL set lives under `questions_summary[*].image_url` / `full_image_url` for question-attached screens, and `questions_summary[*].variations[*].image` for click-test variation screens.
 

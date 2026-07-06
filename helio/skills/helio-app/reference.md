@@ -7,7 +7,7 @@
 
 ---
 
-<!-- DERIVED FROM: a source document — Helio App v1.3 -->
+<!-- DERIVED FROM: src-helio-app-v1.3 — Helio App v1.3 -->
 
 ## Helio (positioning, plans, Glare workflow)
 

@@ -1,14 +1,14 @@
 ---
 name: helio-app
 description: Use this skill when the user is asking about Helio at the platform level — what Helio is, what it does, what plans cost, how to choose a plan, capability tour, or how Helio fits the Glare workflow. Triggers — "what is Helio," "how does Helio work," "Helio pricing," "Helio plans," "Pilot vs Scale vs On Demand vs Business," "what can Helio do," "how do I get started with Helio," "build → recruit → read," "Helio capabilities," "where does Helio fit," "Helio panel," "Helio + Glare." Do NOT use when the user wants section type depth (use `helio-section-types`), audience details (use `helio-audience-flow`), UX metric specifics (use `helio-ux-metrics`), the AI heuristic evaluator (use `helio-design-analysis`), or the CLI/MCP surfaces (use `helio-cli` / `helio-mcp`). For test design, use `helio-asset-to-test`. For synthesis, use `helio-reading-report`.
-version: 0.1.0
+version: 0.1.1
 source_doc_version: Helio App v1.3 + Using Helio v0.2 (merged)
 last_rebuilt: 2026-05-23
 
 sources:
-  - doc_id: a source document
+  - doc_id: src-helio-app-v1.3
     title: Helio App v1.3
-    last_synced: 2026-05-23
+    last_synced: 2026-07-06
   - doc_id: src-using-helio-v0.2
     title: Using Helio v0.2
     last_synced: 2026-05-23

@@ -1,14 +1,14 @@
 ---
 name: helio-patterns
 description: Use this skill when the user wants to recognize or construct Helio tests by shape — the core 5-Q template, multi-screen flows, audience fanouts, MaxDiff content variants, legacy template generations, the fixed-template vs evolving-flow iteration distinction. Triggers — "Helio test patterns," "the 5-Q template," "core template," "test shapes," "single-screen vs multi-screen," "deep vs light template," "the evolving-flow series vs the fixed-template series," "audience fanout," "iteration methodology," "branching as multi-screen tell," "engagement vs success click test," "test name reads multi-screen," "30-second scan." Do NOT use when the user wants section type spec (use `helio-section-types`), the full build workflow (use `helio-asset-to-test`), audience setup mechanics (use `helio-audience-flow`), or report synthesis (use `helio-reading-report`).
-version: 0.1.0
-source_doc_version: Helio Test Patterns v0.1
-last_rebuilt: 2026-05-23
+version: 0.2.0
+source_doc_version: Helio Test Patterns v0.2 (scrubbed)
+last_rebuilt: 2026-07-06
 
 sources:
-  - doc_id: a source document
-    title: Helio Test Patterns v0.1
-    last_synced: 2026-05-23
+  - doc_id: src-helio-test-patterns-v0.2
+    title: Helio Test Patterns v0.2 (scrubbed)
+    last_synced: 2026-07-06
 ---
 
 You are helping the user **recognize, read, or construct** Helio tests by shape — the recurring patterns that show up across real studies.
@@ -43,6 +43,10 @@ Read `reference.md` for the full pattern catalog with concrete examples (the ath
 3. For each metric in use, surface what to watch for — divergences (`engagement` high but `intent` low is the headline read).
 4. If the user is constructing a new test, walk the decision tree: single-screen vs multi-screen, A/B iteration vs flow redesign, headline outcome, audience.
 5. Surface "what's not in the sample" caveats for less-common shapes (MaxDiff, card sort, point allocation).
+
+## What's new in v0.2.0
+
+Rebuilt against Helio Test Patterns v0.2 (scrubbed) — the Drive-side anonymized revision. Customer engagement names in the source are now category descriptors (matching the local scrub shipped in marketplace v0.3.2), the "O2" project prefix is dropped in favor of "the 145/the evolving-flow series," and the tooling notes gain the Node 22 / nvm PATH caveat. No pattern content changed.
 
 ## What's new in v0.1.0
 

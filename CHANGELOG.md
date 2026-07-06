@@ -1,5 +1,25 @@
 # Helio Marketplace — Changelog
 
+## v0.5.0 — 2026-07-06 — Source-pointer hygiene (patterns v0.2 rebuild, helio-app repoint, reading-report repoint)
+
+Hygiene release. No new skills; every `sources:` pointer now names a doc that exists in the Drive folder with the title claimed. First release of the test-creation improvement plan (Item 6).
+
+### Changes
+
+- **`helio-patterns` 0.1.0 → 0.2.0** — rebuilt against **Helio Test Patterns v0.2 (scrubbed)**, replacing the v0.1 source (a source document). The v0.2 Drive doc is the anonymized revision — customer engagement names became category descriptors, matching the local scrub shipped in v0.3.2. DERIVED block updates: "O2" project prefix dropped in favor of "the 145/the evolving-flow series," cleaner example phrasings in sections 1/5/8, MaxDiff note reworded, tooling notes gain the Node 22 / nvm PATH caveat. No pattern content changed.
+- **`helio-app` 0.1.0 → 0.1.1** — fixed doc_id/title mismatch: frontmatter claimed "Helio App v1.3" but pointed at the v1.2 doc (a source document). The skill's DERIVED content matches the v1.3 doc word-for-word, so the pointer was repointed to the real v1.3 doc. No content changes.
+- **`helio-reading-report` 0.1.0 → 0.1.1** — resolved the "Drive has v0.1; skill uses v0.2 content from local" workaround: both v0.2 docs now exist in Drive (*Reading a Helio Report v0.2* *Reading a Helio Report v0.2*, *From Helio Test to Glare Signal v0.2* *From Helio Test to Glare Signal v0.2*). Doc_ids repointed, parentheticals dropped from titles, content verified matching. No content changes.
+
+### Drive-side follow-ups (for the Drive Scrub Worklist)
+
+Superseded / orphaned docs still in the main Drive folder, candidates for Archive: *Helio Test Patterns v0.1* (a source document), *Helio App v1.2* (a source document), and the pruned-skill docs *Participant Experience v0.1*, *Answers & Licensing v0.1*, *Helio Features v0.2*. The old local-workaround doc_ids (a source document, a source document) are no longer referenced by any skill.
+
+### Plugin metadata
+
+- `marketplace.json` version: 0.4.0 → 0.5.0
+- `plugin.json` version: 0.4.0 → 0.5.0
+- Descriptions unchanged (skill count unchanged).
+
 ## v0.4.0 — 2026-06-29 — Two new skills (14 → 16)
 
 Additive release. Two new skills added, sourced from Drive docs that weren't yet covered — one for Customer List signup Forms (which contain a distinct "screener" concept easy to confuse with in-study screening), and one for the account → project → test data model.
