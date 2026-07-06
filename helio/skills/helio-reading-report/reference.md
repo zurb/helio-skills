@@ -2,12 +2,12 @@
 
 **Skill:** `helio-reading-report`
 **Source:** Reading a Helio Report v0.2 + From Helio Test to Glare Signal v0.2 (merged)
-**Source last synced:** 2026-05-23
-**Notes:** The Drive copies of these two source docs are still at v0.1. This skill uses the v0.2 content from the local Glare Skills working folder. v0.2 reconciled the mechanical synthesis vocabulary against UX Metrics v0.1 — real Helio threshold labels, Direct/Indirect/Failed grading, the correct Behavioral / Attitudinal family assignments, and explicit Performance / Intelligence "not implemented" notes. When Bryan syncs v0.2 back to Drive, update the `last_synced` dates and replace these doc IDs if they change.
+**Source last synced:** 2026-07-06
+**Notes:** Both v0.2 docs are now in Drive as first-class documents (synced 2026-05-27); the doc IDs below point to those Drive copies. Content verified identical to the local Glare Skills working-folder versions this skill was originally built from. v0.2 reconciled the mechanical synthesis vocabulary against UX Metrics v0.1 — real Helio threshold labels, Direct/Indirect/Failed grading, the correct Behavioral / Attitudinal family assignments, and explicit Performance / Intelligence "not implemented" notes.
 
 ---
 
-<!-- DERIVED FROM: 1XfSMQbJRw7s6H9Gjct6dWQunmwf7IVuhiC_1LpSySgM — Reading a Helio Report v0.2 -->
+<!-- DERIVED FROM: 1Ut1W_IquHicra7su2JA4324iUc6aH_9QMOnHUpGSHh8 — Reading a Helio Report v0.2 -->
 
 ## Reading a Helio Report (the synthesis workflow)
 
@@ -143,7 +143,7 @@ Inconclusive is the hardest call to make. When in doubt, call it inconclusive.
 
 ---
 
-<!-- DERIVED FROM: 1TH6KgDxnwtW56FwVAikvDcyaUBRjWlos8lopL9mrEwU — From Helio Test to Glare Signal v0.2 -->
+<!-- DERIVED FROM: 1sdfXae1FwVPy12hKAX2TdzADHRdMCVBDbuJfkRmDCfM — From Helio Test to Glare Signal v0.2 -->
 
 ## From Helio Test to Glare Signal (the conceptual bridge)
 

@@ -1,19 +1,19 @@
 ---
 name: helio-reading-report
 description: Use this skill when the user is reading a Helio report and turning it into a Glare signal — the synthesis workflow plus the conceptual bridge to Glare. Triggers — "read a Helio report," "synthesize Helio results," "one-sentence signal," "cross-metric divergence," "30-second scan," "headline reading," "Direct Indirect Failed," "Overall Score caveat," "decisive vs inconclusive," "call the test," "Glare signal," "behavior metric context direction," "Design Review handoff," "Decision Map placement," "Measure Focus Lead," "next hunch," "hunch vs risk frame," "Behavioral vs Attitudinal divergence," "spot red flags." Do NOT use when the user wants per-metric definitions (use `helio-ux-metrics`), section type details (use `helio-section-types`), filter mechanics (use `helio-report-filtering`), or finding capture (use `helio-findings`). For the broader Glare framework, use `glare-getting-started`.
-version: 0.1.0
+version: 0.1.1
 source_doc_version: Reading a Helio Report v0.2 + From Helio Test to Glare Signal v0.2 (merged)
 last_rebuilt: 2026-05-23
 
 sources:
-  - doc_id: 1XfSMQbJRw7s6H9Gjct6dWQunmwf7IVuhiC_1LpSySgM
-    title: Reading a Helio Report (Drive has v0.1; skill uses v0.2 content from local Glare Skills folder)
-    drive_url: https://docs.google.com/document/d/1XfSMQbJRw7s6H9Gjct6dWQunmwf7IVuhiC_1LpSySgM/edit
-    last_synced: 2026-05-23
-  - doc_id: 1TH6KgDxnwtW56FwVAikvDcyaUBRjWlos8lopL9mrEwU
-    title: From Helio Test to Glare Signal (Drive has v0.1; skill uses v0.2 content from local Glare Skills folder)
-    drive_url: https://docs.google.com/document/d/1TH6KgDxnwtW56FwVAikvDcyaUBRjWlos8lopL9mrEwU/edit
-    last_synced: 2026-05-23
+  - doc_id: 1Ut1W_IquHicra7su2JA4324iUc6aH_9QMOnHUpGSHh8
+    title: Reading a Helio Report v0.2
+    drive_url: https://docs.google.com/document/d/1Ut1W_IquHicra7su2JA4324iUc6aH_9QMOnHUpGSHh8/edit
+    last_synced: 2026-07-06
+  - doc_id: 1sdfXae1FwVPy12hKAX2TdzADHRdMCVBDbuJfkRmDCfM
+    title: From Helio Test to Glare Signal v0.2
+    drive_url: https://docs.google.com/document/d/1sdfXae1FwVPy12hKAX2TdzADHRdMCVBDbuJfkRmDCfM/edit
+    last_synced: 2026-07-06
 ---
 
 You are helping the user **read a Helio report and turn it into a Glare signal** — both the mechanical synthesis (scan → headline → divergence → open text → compare → red flags → one-sentence signal) and the conceptual bridge to where that signal goes (Design Review, Decision Map, next hunch).

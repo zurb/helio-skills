@@ -1,6 +1,6 @@
 # Helio Skills Catalog
 
-Current skills in the Helio marketplace. Last updated 2026-06-29 for v0.4.0.
+Current skills in the Helio marketplace. Last updated 2026-07-06 for v0.5.0.
 
 ## Built (16 skills)
 
@@ -10,7 +10,7 @@ The marketplace was trimmed in v0.3.0 from 17 to 14, then two skills were added 
 
 | Skill | Source doc(s) | Status |
 |---|---|---|
-| `helio-app` | Helio App v1.3 + Using Helio v0.2 (merged) | ✅ v0.1.0 |
+| `helio-app` | Helio App v1.3 + Using Helio v0.2 (merged) | ✅ v0.1.1 |
 | `helio-cli` | Helio CLI v1.2 | ✅ v0.1.0 |
 | `helio-mcp` | Helio MCP v1.2 | ✅ v0.1.0 |
 | `helio-concepts` | Concepts v0.1 | ✅ v0.1.0 (new in v0.4.0) |
@@ -19,7 +19,7 @@ The marketplace was trimmed in v0.3.0 from 17 to 14, then two skills were added 
 
 | Skill | Source doc(s) | Status |
 |---|---|---|
-| `helio-patterns` | Helio Test Patterns v0.1 | ✅ v0.1.0 |
+| `helio-patterns` | Helio Test Patterns v0.2 (scrubbed) | ✅ v0.2.0 |
 | `helio-asset-to-test` | From Asset To Test v0.1 | ✅ v0.1.0 |
 | `helio-section-types` | Section Types v0.1 | ✅ v0.1.0 |
 | `helio-audience-flow` | Audience Flow v0.1 | ✅ v0.1.0 |
@@ -40,7 +40,7 @@ The marketplace was trimmed in v0.3.0 from 17 to 14, then two skills were added 
 | `helio-report-filtering` | Report Filtering v0.1 | ✅ v0.1.0 |
 | `helio-design-analysis` | Design Analysis v0.1 | ✅ v0.1.0 |
 | `helio-findings` | Findings v0.1 | ✅ v0.1.0 |
-| `helio-reading-report` | Reading a Helio Report v0.2 + From Helio Test to Glare Signal v0.2 (merged) | ✅ v0.1.0 |
+| `helio-reading-report` | Reading a Helio Report v0.2 + From Helio Test to Glare Signal v0.2 (merged) | ✅ v0.1.1 |
 
 ## Removed in v0.3.0
 
