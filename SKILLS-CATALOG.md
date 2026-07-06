@@ -1,6 +1,6 @@
 # Helio Skills Catalog
 
-Current skills in the Helio marketplace. Last updated 2026-07-06 for v0.6.0.
+Current skills in the Helio marketplace. Last updated 2026-07-06 for v0.7.0.
 
 ## Built (17 skills)
 
@@ -11,7 +11,7 @@ The marketplace was trimmed in v0.3.0 from 17 to 14, two skills were added in v0
 | Skill | Source doc(s) | Status |
 |---|---|---|
 | `helio-app` | Helio App v1.3 + Using Helio v0.2 (merged) | ✅ v0.1.1 |
-| `helio-cli` | Helio CLI v1.2 | ✅ v0.1.0 |
+| `helio-cli` | Helio CLI v1.3 | ✅ v0.2.0 |
 | `helio-mcp` | Helio MCP v1.2 | ✅ v0.1.0 |
 | `helio-concepts` | Concepts v0.1 | ✅ v0.1.0 (new in v0.4.0) |
 

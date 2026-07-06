@@ -1,5 +1,29 @@
 # Helio Marketplace — Changelog
 
+## v0.7.0 — 2026-07-06 — helio-cli rebuilt against Helio CLI v1.3 (full command surface + payload schemas)
+
+Items 2 and 4 of the test-creation improvement plan. The v1.2 Drive doc documented 4 of ~20 test commands; v1.3 was regenerated from the CLI codebase (README, built-in guide, `QUESTION_TYPES` / `UX_METRIC_TYPES` validation schemas) and the skill rebuilt against it.
+
+### Changes
+
+- **`helio-cli` 0.1.0 → 0.2.0** — DERIVED block rebuilt from Helio CLI v1.3. New content:
+  - The **draft → iterate → launch loop**: `create --dry-run` → `create` → `add-question` / `edit-question` / `remove-question` / `order` / `reorder` / `add-ux-metrics` / `remove-ux-metrics` → `preview` / `walkthrough` (`--interactive`, `--output json`) → `validate` → `send`.
+  - The **full command catalog** (setup/diagnostics, browsing, building, schema lookups, reviewing, launching, reading; aliases).
+  - **`tests create` flag table** (`--project-name` resolution, `--ux-metric-context`, `--dry-run`, questions via `@file`).
+  - **Question payload schemas** (Item 4): JSON example + required/optional fields for all 10 creatable types; the 11 Likert scale types; snake_case/PascalCase acceptance; non-creatable types (`click_test`, `tree_test`, `prototype_task`) flagged UI-only with report-read notes.
+  - **UX metric build table**: what each of the 11 creatable metrics auto-builds; the 7 non-creatable metrics named.
+  - **"What the CLI can't do"**: no asset upload/listing, no click/tree/prototype creation, no branching, no audience creation, no scheduled launch — with the finish-in-the-web-app pattern.
+  - ADDED block: new worked example (iterate on a draft before spending), updated failure modes (don't recreate to edit; walkthrough before send).
+- **Drive-side:** the v1.3 content was drafted from the codebase and handed off for paste into the existing Drive doc (`1eNqJH7N…` — doc_id unchanged, title → "Helio CLI v1.3"). `source_doc_version` and `last_synced` updated accordingly.
+
+### Plugin metadata
+
+- `marketplace.json` / `plugin.json` version: 0.6.0 → 0.7.0 (descriptions unchanged; skill count unchanged).
+
+### Verification
+
+All 17 skills pass the validator.
+
 ## v0.6.0 — 2026-07-06 — New design-first hub skill: helio-creating-test (16 → 17)
 
 Additive release. Item 1 of the test-creation improvement plan: the richest test-creation doc in the Drive family — *Creating a Helio Test v0.1* — was the only one not backed by a skill. It now is.
