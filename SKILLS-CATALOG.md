@@ -12,7 +12,7 @@ The marketplace was trimmed in v0.3.0 from 17 to 14, two skills were added in v0
 |---|---|---|
 | `helio-app` | Helio App v1.3 + Using Helio v0.2 (merged) | ✅ v0.1.1 |
 | `helio-cli` | Helio CLI v1.3 | ✅ v0.2.0 |
-| `helio-mcp` | Helio MCP v1.3 | ✅ v0.2.0 |
+| `helio-mcp` | Helio MCP v1.3 | ✅ v0.2.1 |
 | `helio-concepts` | Concepts v0.1 | ✅ v0.1.0 (new in v0.4.0) |
 
 ### Test lifecycle
@@ -51,7 +51,7 @@ These skills were built in v0.1.0 / v0.2.0 but cut in v0.3.0 because they didn't
 - `helio-licensing` — billing model, answer math, refund rules (admin context)
 - `helio-participant-experience` — what participants see, IRB / regulated-research context (tangential to test design)
 
-## Routing summary (current 16 skills)
+## Routing summary (current 17 skills)
 
 How skills hand off to each other and to Glare.
 
@@ -65,6 +65,8 @@ How skills hand off to each other and to Glare.
 
 **Test design chain:**
 
+- `helio-creating-test` (design-first hub: hunch → shape → test → signal; owns the UI-only boundary checklist) ↔ `helio-asset-to-test` (asset-first hub) — entry by starting point
+- `helio-creating-test` → `helio-patterns`, `helio-section-types`, `helio-ux-metrics`, `helio-audience-flow`, `helio-forms-screeners`, `helio-branching`, `helio-cli`, `helio-mcp`, `helio-reading-report`
 - `helio-asset-to-test` (the build workflow) → `helio-section-types`, `helio-ux-metrics`, `helio-audience-flow`, `helio-branching`, `helio-assets`, `helio-patterns`, `helio-forms-screeners`
 - `helio-patterns` ↔ `helio-asset-to-test` (recognize shapes ↔ build to shape)
 - `helio-section-types` ↔ `helio-branching` (section spec ↔ routing config)
