@@ -1,16 +1,21 @@
 # Helio CLI — Reference
 
 **Skill:** `helio-cli`
-**Source:** Helio CLI v1.2
-**Source last synced:** 2026-05-23
+**Source:** Helio CLI v1.3
+**Source last synced:** 2026-07-06
+**Notes:** v1.3 was regenerated from the CLI codebase (README, built-in guide, validation schemas) so the doc matches what the tool ships. This rebuild closes the v1.2 gap where only 4 of ~20 test commands were documented.
 
 ---
 
-<!-- DERIVED FROM: a source document — Helio CLI v1.2 -->
+<!-- DERIVED FROM: a source document — Helio CLI v1.3 -->
 
 Helio CLI is the most robust way to script Glare data collection — by hand, by cron, or by AI agent. It puts the full Helio research platform behind a terminal, with structured JSON output, dry-run validation, predictable exit codes, and test definitions you can version-control alongside the code they evaluate. Anywhere automation or an AI agent needs to call into Glare, the CLI is the contract.
 
 The web app is still there when you want it. The CLI is there when you need to move.
+
+## What this solves
+
+Most teams that script Helio know four commands: create, report, validate, send. That's enough to launch a test once — and not enough to work on one. The CLI's actual surface is around twenty test commands, including an incremental editing loop (add, edit, remove, reorder questions on a draft), two ways to review a draft before spending (a structural preview and a participant-eye walkthrough), and a formal payload schema for every creatable question type. The create-and-pray workflow should be a draft → iterate → launch workflow.
 
 ## When to use CLI (vs MCP vs web)
 
@@ -24,7 +29,7 @@ The same Helio API is underneath all three. The choice is about who's driving, n
 
 ## Requirements
 
-- Node.js ≥ 22
+- Node.js ≥ 22. The shebang resolves to whatever `node` is first in PATH; if your default is older, run `nvm use 22` first.
 - A Helio API token — generate one at [my.helio.app/account/organization](https://my.helio.app/account/organization)
 
 ## Install
@@ -37,9 +42,7 @@ npm install -g @zurb/helio-cli
 
 The CLI accepts credentials two ways. Pick whichever fits the environment.
 
-### Interactive login
-
-For local development:
+**Interactive login** — for local development:
 
 ```shell
 helio-cli auth login
@@ -47,9 +50,7 @@ helio-cli auth login
 
 Credentials are stored in your local config file and reused on every subsequent command.
 
-### Environment variables
-
-For CI, sandboxes, containers, or anywhere a config file would be awkward:
+**Environment variables** — for CI, sandboxes, containers, or anywhere a config file would be awkward:
 
 ```shell
 export HELIO_API_ID=...
@@ -58,127 +59,300 @@ export HELIO_API_TOKEN=...
 
 Once these are set, every command authenticates without touching disk. This is the recommended path for GitHub Actions, nightly crons, and any internal tool that runs on someone else's machine.
 
-## Quickstart
+Sanity checks: `helio-cli auth status` confirms who you are; `helio-cli doctor` diagnoses connectivity; `helio-cli status` pings the API.
 
-Confirm auth and list what you already have:
+## The draft → iterate → launch loop
 
-```shell
-helio-cli projects list
-```
+This is the workflow the CLI is actually built for. A test created via the CLI is a **draft** — nothing is spent until you send it — and every part of a draft can be edited incrementally from the terminal.
 
-Launch your first test:
+1. **Validate locally, before anything exists:**
 
 ```shell
-helio-cli tests create \
-    --project-id <uuid> \
-    --name "My first CLI test" \
-    --intro "Quick feedback on a new idea." \
-    --target-audience-size 50 \
-    --ux-metrics sentiment
+helio-cli tests create --dry-run --project-id <uuid> \
+    --name "..." --intro "..." --target-audience-size 100 \
+    --questions @questions.json
 ```
 
-For a guided walkthrough and full command schemas:
+`--dry-run` runs the full client-side validation (schema, required fields, choice minimums, scale types), estimates spend (questions × audience size), and never calls the API.
+
+2. **Create the draft** — same command without `--dry-run`.
+
+3. **Iterate on it:**
 
 ```shell
-helio-cli guide
+helio-cli tests add-question <test-id> --type likert \
+    --instructions "The checkout was easy to complete." --scale-type agreement
+helio-cli tests edit-question <test-id> <section-id> --instructions "..."
+helio-cli tests remove-question <test-id> <section-id>
+helio-cli tests order <test-id>            # view current order
+helio-cli tests reorder <test-id> --order "metric:sentiment" "section:<uuid>"
+helio-cli tests add-ux-metrics <test-id> --ux-metrics loyalty intent
+helio-cli tests remove-ux-metrics <test-id> --ux-metrics loyalty
 ```
+
+4. **Review it two ways:**
+
+- `helio-cli tests preview <test-id>` — structural summary, every question on one page.
+- `helio-cli tests walkthrough <test-id>` — the test as a participant will experience it, screen by screen. Add `--interactive` for TTY navigation, or `--output json` for a structured screen list an agent can read.
+
+5. **Validate server-side, then launch:**
+
+```shell
+helio-cli tests validate <test-id>   # launch blockers, estimated spend, answers remaining
+helio-cli tests send <test-id>       # launches — locks structure, charges answers
+```
+
+Always run `validate` before `send`. Send is immediate; there is no scheduled launch.
+
+## Command surface
+
+- **Setup & diagnostics:** `auth login`, `auth status`, `config set`, `config get`, `doctor`, `status`, `guide`
+- **Browsing:** `projects list/get/tests`, `tests list`, `tests get <id>`, `audiences list/get`, `intercepts list/get`, `custom-lists list/participants/add-participants`, `participants create`
+- **Building a draft:** `tests create`, `tests add-question`, `tests edit-question`, `tests remove-question`, `tests order`, `tests reorder`, `tests add-ux-metrics`, `tests remove-ux-metrics`, `tests update` (name, intro, audience size), `tests delete`
+- **Schema lookups:** `tests question-types` (all types with required/optional fields and examples), `tests ux-metric-types` (all metrics with what sections they build)
+- **Reviewing:** `tests preview`, `tests walkthrough [--interactive] [--output json]`
+- **Launching:** `tests validate`, `tests send`
+- **Reading results:** `tests report <id>`, `tests responses <id>`
+- **Aliases:** `t` (tests), `p` (projects), `cl` (custom-lists), `pt` (participants), `a` (audiences), `ic` (intercepts), `r` (responses)
+
+## tests create — inputs
+
+| Flag | Meaning |
+|---|---|
+| `--project-id <uuid>` or `--project-name <name>` | Target project (name resolves by substring match) |
+| `--name <name>` | Test name (required) |
+| `--intro <text>` | Participant-facing intro (required) |
+| `--target-audience-size <n>` | Responses to collect (required, positive integer) |
+| `--audience-type <type>` | Default `open` |
+| `--audiences <ids...>` | Existing audience segment IDs |
+| `--questions <json or @file>` | Question array, inline or from a file |
+| `--ux-metrics <types...>` | Auto-generated metric sections (space-separated) |
+| `--ux-metric-context <text>` | Replaces the "[product]" noun in metric instructions |
+| `--dry-run` | Validate + estimate spend, no API call |
+
+A test needs at least one of `--questions` or `--ux-metrics`.
+
+## Question payload schemas
+
+Ten question types are creatable via the API. Each accepts snake_case or PascalCase (`multiple_choice` / `MultipleChoice`). Required fields are per type; the CLI validates everything before submitting.
+
+**free_response** — open-ended text. Required: `type`, `instructions`. Optional: `asset_id`, `site_link`.
+
+```json
+{ "type": "free_response", "instructions": "What would you improve about our product?" }
+```
+
+**multiple_choice** — pick one or more. Required: `type`, `instructions`, `choices`. Optional: `allow_multiple`, `randomize_choices`.
+
+```json
+{ "type": "multiple_choice", "instructions": "How did you hear about us?",
+  "choices": ["Search engine", "Social media", "Friend", "Other"],
+  "allow_multiple": false, "randomize_choices": false }
+```
+
+**likert** — agreement/satisfaction scale. Required: `type`, `instructions`, `scale_type`. Optional: `custom_choices` (with `scale_type: "custom"`). Scale types: `agreement`, `occurrence`, `importance`, `quality`, `comprehension`, `impression`, `expectations`, `usefulness`, `difficulty`, `likelihood`, `custom`.
+
+```json
+{ "type": "likert", "instructions": "The checkout process was easy to complete.",
+  "scale_type": "agreement" }
+```
+
+```json
+{ "type": "likert", "instructions": "Rate the visual design.", "scale_type": "custom",
+  "custom_choices": ["Love it", "Like it", "Neutral", "Dislike it"] }
+```
+
+**nps** — 0–10 recommendation scale. Required: `type`, `instructions`.
+
+```json
+{ "type": "nps", "instructions": "How likely are you to recommend us to a friend?" }
+```
+
+**ranking** — order items by preference. Required: `type`, `instructions`, `choices`.
+
+```json
+{ "type": "ranking", "instructions": "Rank these features by importance",
+  "choices": ["Speed", "Design", "Price", "Support"] }
+```
+
+**preference** — pick a preferred option. Text-only via API; image variants are UI-only. Required: `type`, `instructions`, `choices`.
+
+```json
+{ "type": "preference", "instructions": "Which option do you prefer?",
+  "choices": ["Option A", "Option B", "Option C"] }
+```
+
+**matrix** — rate multiple items on one scale. Required: `type`, `instructions`, `choices` (rows), `categories` (columns).
+
+```json
+{ "type": "matrix", "instructions": "Rate each feature",
+  "choices": ["Speed", "Design", "Price"],
+  "categories": ["Poor", "Fair", "Good", "Excellent"] }
+```
+
+**card_sort** — sort cards into categories. Required: `type`, `instructions`, `choices`, `categories`. Optional: `random_category_order`, `can_skip_cards`.
+
+```json
+{ "type": "card_sort", "instructions": "Sort these items into categories",
+  "choices": ["Item A", "Item B", "Item C", "Item D"],
+  "categories": ["Category 1", "Category 2", "Category 3"] }
+```
+
+**max_diff** — best/worst scaling. Required: `type`, `instructions`, `choices`.
+
+```json
+{ "type": "max_diff", "instructions": "Choose the most and least important",
+  "choices": ["Feature A", "Feature B", "Feature C", "Feature D"] }
+```
+
+**point_allocation** — distribute a budget across options. Required: `type`, `instructions`, `choices`. Optional: `points` (default 100), `points_label`.
+
+```json
+{ "type": "point_allocation", "instructions": "Distribute 100 points across these features",
+  "choices": ["Speed", "Design", "Price"], "points": 100, "points_label": "points" }
+```
+
+**Not creatable via API — UI-only:** `click_test`, `tree_test`, `prototype_task`. These need assets, hotspots, or Figma prototypes, which the API doesn't accept. Build them in the web app; the CLI can still read their reports (click coordinates, tree paths, Direct/Indirect/Failed grades and per-screen journeys via `--include prototype_journeys`).
+
+`asset_id` and `site_link` can attach an *existing* asset or a URL to a question — but the CLI cannot upload assets or list them to find IDs. Get asset IDs from the web app.
+
+## UX metrics — auto-generated sections
+
+Tagging a metric auto-builds the right section structure. Eleven are creatable via the CLI:
+
+| Metric | Builds |
+|---|---|
+| `sentiment` | 1 MultipleChoice (8 words, randomized) |
+| `feeling` | 1 MultipleChoice (8 emotions, max 3, randomized) |
+| `appeal` | 1 Likert (impression) |
+| `reaction` | 1 Likert (impression) |
+| `comprehension` | 1 Likert (comprehension, 4 choices) |
+| `frequency` | 1 Likert (occurrence) |
+| `loyalty` | 1 NPS |
+| `intent` | 1 MultipleChoice (4 action choices, randomized) |
+| `desirability` | 2 sections: MC (8 words) + Likert (likelihood) |
+| `usefulness` | 2 Likerts (agreement) |
+| `expectations` | 2 sections: FreeResponse + Likert (expectations) |
+
+Each metric ships default instructions with a "[product]" noun that `--ux-metric-context` replaces (e.g. `--ux-metric-context "checkout flow"`).
+
+**Not creatable via CLI** (they require prototypes or click tests, which are UI-only): `brand_score`, `engagement`, `success`, `completion`, `usability`, `satisfaction`, `effort`.
+
+Metrics can be added to or removed from an existing draft (`tests add-ux-metrics` / `remove-ux-metrics`) without recreating the test. Duplicate metrics are rejected at validation.
 
 ## Working with output
 
-### --output json on every command
-
-Add `--output json` to any command and the result becomes a structured payload. Pipe it into `jq`, a data warehouse, a notebook, or a script — every command in the CLI honors the same flag, so your tooling only has to learn one contract.
+**`--output json` on every command.** Add it to any command and the result becomes a structured payload. Pipe it into `jq`, a data warehouse, a notebook, or a script — every command honors the same flag, so your tooling only has to learn one contract.
 
 ```shell
 helio-cli tests report <uuid> --output json | jq '.questions_summary'
 ```
 
-### Structured errors and predictable exit codes
-
-When `--output json` is set, errors come back as JSON too. Exit codes stay consistent across commands, so scripts can branch on them without parsing stderr.
+**Structured errors and predictable exit codes.** When `--output json` is set, errors come back as JSON too. Exit codes stay consistent across commands, so scripts can branch on them without parsing stderr.
 
 ```json
 { "error": "Unauthorized", "code": 401 }
 ```
 
-## --dry-run before you spend
+## What the CLI can't do
 
-Validate a test payload before it actually runs. Nothing gets created, no incentives are charged, and you get back the same validation errors you would have hit on the real call.
+Know the ceilings before you script against them:
 
-```shell
-helio-cli tests create --dry-run --project-id <uuid> --name "Test" --intro "Hi" \
-    --target-audience-size 50 --questions '[...]'
-```
+- **No asset upload, no asset listing.** Existing assets can be referenced by `--asset-id`; creating or finding them happens in the web app.
+- **No click tests, tree tests, or prototype tasks** — creation is UI-only (see above).
+- **No branching or skip logic.** Conditional routing and conditional follow-ups are configured in the web app.
+- **No audience segment creation.** `audiences list` browses existing segments and `--audiences` attaches them; building a segment or screener is UI-side.
+- **No scheduled launch.** `tests send` fires immediately.
 
-Wire this into PR checks to catch broken test definitions before merge.
+If a test design needs any of these, do the CLI-buildable part first, finish in the web app, then `validate` and `send` from wherever is convenient — drafts are shared across all three surfaces.
 
 ## Use cases
 
-### For developers
-
-You already live in a terminal. Now your research does too. Schedule nightly pulls, gate releases on sentiment thresholds, and version-control your test definitions next to the code they evaluate. Treat user feedback like any other production signal — observable, scriptable, and tied to a build.
-
-Pull the latest report and post it to Slack on a cron:
+**For developers.** You already live in a terminal. Now your research does too. Schedule nightly pulls, gate releases on sentiment thresholds, and version-control your test definitions next to the code they evaluate. Treat user feedback like any other production signal — observable, scriptable, and tied to a build.
 
 ```shell
-helio-cli tests report $TEST_ID --output json \
-    | jq '.ux_metrics' \
-    | ./post-to-slack.sh
+helio-cli tests report $TEST_ID --output json | jq '.ux_metrics' | ./post-to-slack.sh
 ```
 
-### For researchers and PMs
-
-Save a test once, run it a hundred times. Re-run last quarter's onboarding study against a fresh audience — no clicking through screens, no re-typing instructions, no losing the wording you spent two weeks tuning. The test definition is a file you can share, edit in a PR, and replay forever.
-
-Re-launch the onboarding study with a new audience:
+**For researchers and PMs.** Save a test once, run it a hundred times. Re-run last quarter's onboarding study against a fresh audience — no clicking through screens, no re-typing instructions, no losing the wording you spent two weeks tuning. The test definition is a file you can share, edit in a PR, and replay forever.
 
 ```shell
-helio-cli tests create \
-    --project-id $PROJECT \
-    --name "Onboarding · Q3 wave" \
-    --intro "$(cat onboarding-intro.txt)" \
-    --target-audience-size 100 \
+helio-cli tests create --project-id $PROJECT --name "Onboarding · Q3 wave" \
+    --intro "$(cat onboarding-intro.txt)" --target-audience-size 100 \
     --ux-metrics sentiment loyalty
 ```
 
+**For AI agents.** The combination of `--output json` everywhere, `--dry-run`, `tests question-types` / `ux-metric-types` (machine-readable schemas), and `tests walkthrough --output json` (a structured participant-eye view) makes the CLI fully drivable by an agent without a human at the screen. For interactive AI workflows, the MCP server is usually the better fit — the CLI is for when the agent's work should be a repeatable script.
+
 ## Where to go next
 
-- `helio-cli guide` — guided walkthrough and full command schemas
-- GitHub repo — source, issues, releases
-- API reference — every endpoint the CLI wraps
-- Glare framework — the conceptual layer the CLI feeds data into
+- `helio-cli guide` — guided walkthrough and full command schemas, also available as JSON
+- `helio-cli tests question-types` / `tests ux-metric-types` — the schemas, from the tool itself
+- `helio-creating-test` — how to design the test you're about to script
+- `helio-mcp` — the same platform for AI assistants that speak MCP
+- `helio-app` — positioning, plans, and how Helio fits the Glare workflow
 
 <!-- /DERIVED -->
 
 ---
 
-<!-- ADDED 2026-05-23 (skill-builder context) -->
+<!-- ADDED 2026-07-06 (skill-builder context) -->
 
 ## When to use
 
 Reach for this skill when the user is:
 
 - Installing or authenticating the CLI
-- Looking up the right command for a task (`tests create`, `tests report`, `tests validate`, `tests send`, etc.)
+- Looking up the right command for a task — creating a draft, adding/editing/removing questions, reordering, previewing, walking through, validating, sending, pulling reports
+- Building a test programmatically and needing the **question payload schema** for a specific type
 - Scripting Helio inside cron, CI, or a build pipeline
 - Piping CLI JSON output to jq, Slack, or a data warehouse
 - Wiring `--dry-run` into PR checks
+- Asking what the CLI can and can't create (the UI-only boundary)
 - Comparing the CLI surface to the MCP and web surfaces
 
-For interactive AI workflows over Helio, route to `helio-mcp`. For the end-to-end build workflow (the 7-step arc that uses the CLI in step 7), route to `helio-asset-to-test`.
+For interactive AI workflows over Helio, route to `helio-mcp`. For designing the test itself, route to `helio-creating-test` (from a hunch) or `helio-asset-to-test` (from an asset).
+
+## Worked example — iterate on a draft before spending
+
+The loop that distinguishes CLI-native test work from create-and-pray:
+
+```shell
+# 1. Local validation, zero cost
+helio-cli tests create --dry-run --project-name "Homepage" \
+    --name "Homepage V2 eval" --intro "Quick feedback on our homepage." \
+    --target-audience-size 100 --questions @questions.json --ux-metrics comprehension
+
+# 2. Create the draft
+helio-cli tests create --project-name "Homepage" ... --output json | jq -r '.id'
+
+# 3. Realize Q3 is leading; fix it in place
+helio-cli tests edit-question <test-id> <section-id> \
+    --instructions "How does this page feel to you?"
+
+# 4. See it as a participant will
+helio-cli tests walkthrough <test-id> --interactive
+
+# 5. Server-side check, then launch
+helio-cli tests validate <test-id>
+helio-cli tests send <test-id>
+```
 
 ## Failure modes
 
 - **Confusing the CLI with the MCP.** They share the underlying API but have different driver models. CLI = scripts. MCP = AI assistants.
-- **Trying to upload assets via the CLI.** Not supported. Asset upload and hotspot drawing are UI-only today.
-- **Forgetting `--dry-run` before a real launch.** Live `tests send` locks the structure and charges answers. Always dry-run first.
+- **Assuming everything is creatable.** Click tests, tree tests, prototype tasks, asset upload, branching, and audience creation are UI-only. Check "What the CLI can't do" before promising a fully scripted build.
+- **Recreating a test to change one question.** Use `add-question` / `edit-question` / `remove-question` / `reorder` on the draft instead — the incremental loop exists for this.
+- **Skipping `preview`/`walkthrough` before `send`.** The walkthrough is the cheapest usability test you'll ever run — on your own test.
+- **Forgetting `--dry-run` before a real launch.** Live `tests send` locks the structure and charges answers. Always dry-run first, and `validate` before `send`.
 - **Pasting tokens into chat history.** Use env vars (`HELIO_API_ID`, `HELIO_API_TOKEN`) instead of inline credentials.
 - **Using Node <22.** The CLI shebang resolves to whatever `node` is first in PATH. Run `nvm use 22` (or equivalent) before invoking if your default is older.
 
 ## Where to go next
 
 - For AI assistants driving Helio: `helio-mcp`
-- For the build workflow: `helio-asset-to-test`
+- For designing the test from a hunch: `helio-creating-test`
+- For the asset-first build workflow: `helio-asset-to-test`
 - For section types: `helio-section-types`
 - For UX metrics attachment: `helio-ux-metrics`
 - For synthesizing report JSON into a Glare signal: `helio-reading-report`
