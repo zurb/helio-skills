@@ -55,6 +55,7 @@ Initial release. Sourced from Helio Test Patterns v0.1. No AEO scorecard gaps to
 
 ## Handoffs
 
+- For **designing a new test from a hunch** (the hunch → shape → test → signal arc, with ready-to-edit templates), use `helio-creating-test`.
 - For **section type spec** (Click vs Prototype, Likert templates, etc.), use `helio-section-types`.
 - For **the full build/validate/launch workflow**, use `helio-asset-to-test`.
 - For **audience setup depth** (panel, custom lists, intercept, AI), use `helio-audience-flow`.

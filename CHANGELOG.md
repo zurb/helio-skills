@@ -1,5 +1,38 @@
 # Helio Marketplace — Changelog
 
+## v0.6.0 — 2026-07-06 — New design-first hub skill: helio-creating-test (16 → 17)
+
+Additive release. Item 1 of the test-creation improvement plan: the richest test-creation doc in the Drive family — *Creating a Helio Test v0.1* — was the only one not backed by a skill. It now is.
+
+### What's new
+
+- **`helio-creating-test`** (source: Creating a Helio Test v0.1, `1taoVaGdiPQ0A88YY9PV65Nf2A_WUUTrDJ1fR16djXBU`) — the design-first hub for test creation:
+  - The **Hunch → Shape → Test → Signal** arc, with the "we believe…" hunch template and a worked example.
+  - The **four house shapes** (marketing page eval, multi-screen flow eval, content prioritization with MaxDiff, concept comparison) plus a shape-picking decision rule.
+  - The **metric table** (Helio metric → Glare type), audience shaping and sizing, question types/modes, the four-point **bias check**, and the **required-followup pattern**.
+  - **Validate before you spend**: CLI dry-run, web preview, pre-launch checklist (≤ 8 questions).
+  - **Templates A/B/C** — ready-to-edit question sets lifted from real Zurb tests.
+  - The **surface decision rule**: person → web app, script → CLI, assistant → MCP.
+  - Anti-patterns (no hunch, averaged MaxDiff, ignored followups, multi-hunch tests, expiring asset URLs).
+  - Customer names in the source (four client engagements) were scrubbed to category descriptors during the build, using the v0.3.2 pattern and matching the descriptors already used in `helio-patterns`.
+
+### Routing
+
+Two hubs, disambiguated by entry point: start from a **hunch** → `helio-creating-test`; start from an **asset/mockup** → `helio-asset-to-test`. Each hands off to the other.
+
+### Handoff updates in existing skills
+
+Added handoffs to `helio-creating-test` from: `helio-patterns`, `helio-asset-to-test`, `helio-section-types`, `helio-concepts`, `helio-cli`, `helio-mcp`.
+
+### Plugin metadata
+
+- `marketplace.json` version: 0.5.0 → 0.6.0; description updated to 17 skills.
+- `plugin.json` version: 0.5.0 → 0.6.0; description updated to 17 skills.
+
+### Verification
+
+All 17 skills pass the validator (description length, frontmatter, marker balance, doc-ID matching).
+
 ## v0.5.0 — 2026-07-06 — Source-pointer hygiene (patterns v0.2 rebuild, helio-app repoint, reading-report repoint)
 
 Hygiene release. No new skills; every `sources:` pointer now names a doc that exists in the Drive folder with the title claimed. First release of the test-creation improvement plan (Item 6).
