@@ -1,5 +1,36 @@
 # Helio Marketplace — Changelog
 
+## v0.9.0 — 2026-07-06 — Test Pattern Playbook merged into helio-patterns (the "when" layer)
+
+A second Claude session analyzed **285 real tests over five months** (Feb–Jul 2026) and produced the Test Pattern Playbook: seven shared templates mapped to the project stage where each earns its place. This release lands it in the doc family and the marketplace.
+
+### New Drive doc
+
+- **Test Pattern Playbook v0.1** (`14upcMSPKz5GEtcwPBQMnUFvoDZHS8qoH-A7wlE4Rqzg`) — created directly in the Drive folder, scrubbed during the build: customer names → category descriptors (same v0.3.2 pattern), internal `owner_id`s removed, researcher attribution recast as two operating styles (iteration-deep vs first-look volume), account-handoff telemetry generalized.
+
+### helio-patterns 0.2.0 → 0.3.0 (now a merged two-source skill)
+
+- Second DERIVED block: the stage axis (first look / iterate / benchmark) with real use counts; the asset-first template picker (one screen → T2/T3/T5/T6, flow → T1/T7, either → T4); all seven template question tables (type, metric, prompt, required follow-up); the empirical metric-coverage table (20 metrics, 6 carry ~⅔, `expectations` most-deployed at 208 uses); house follow-up rules; method & caveats (61% template fit, ~39% custom).
+- ADDED updates: which-block-to-read routing, playbook failure modes (templates aren't cages; click-heavy templates hit the UI-only boundary when automated).
+- Description gains stage/template triggers ("what test should I run at this stage," "findability sweep," T1–T7 names).
+
+### helio-creating-test 0.1.1 → 0.1.2
+
+- ADDED cross-reference table: the four conceptual shapes mapped to T1–T7 (A→T5, C→T2, B→T7; concept comparison has no corpus template), plus the four templates the shapes don't cover.
+
+### Notes
+
+- The playbook resolves several of Test Patterns v0.2's "what's NOT in this sample" caveats with 19× the sample.
+- Internal-track follow-up (not in this release): T1–T7 as validated `questions.json` payloads in helio-cli for automation.
+
+### Plugin metadata
+
+- `marketplace.json` / `plugin.json` version: 0.8.1 → 0.9.0.
+
+### Verification
+
+All 17 skills pass the validator.
+
 ## v0.8.1 — 2026-07-06 — helio-mcp doc_id repoint (Drive v1.3 landed as a new document)
 
 Patch. The Drive-side paste of Helio MCP v1.3 created a **new document** (`1OFoMXLY31SK9p6Ei9UGmb7zi19hKfnDsDkSf3U9VxNo`) rather than editing v1.2 in place; the v1.2 doc (`1MG34t7e…`) was moved to Archive. `helio-mcp` 0.2.0 → 0.2.1: doc_id, drive_url, and DERIVED marker repointed to the new document. Content unchanged. (Helio CLI v1.3 *was* updated in place — `1eNqJH7N…` verified, no change needed.) Drive-side confirmations: both v1.3 docs live; five Archive candidates from v0.5.0 moved/pending per Bryan's worklist.
