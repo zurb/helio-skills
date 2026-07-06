@@ -1,16 +1,21 @@
 # Helio MCP — Reference
 
 **Skill:** `helio-mcp`
-**Source:** Helio MCP v1.2
-**Source last synced:** 2026-05-23
+**Source:** Helio MCP v1.3
+**Source last synced:** 2026-07-06
+**Notes:** v1.3 was regenerated from the MCP server codebase, correcting the v1.2 "twenty-six tools" claim to the actual registered surface: twenty tools, two prompts, one resource.
 
 ---
 
-<!-- DERIVED FROM: a source document — Helio MCP v1.2 -->
+<!-- DERIVED FROM: a source document — Helio MCP v1.3 -->
 
-Helio MCP is the safe, standard way to put AI assistants on top of Glare data. It exposes the entire Helio research platform — every test, response, demographic filter, and AI assessment — to any client that speaks the Model Context Protocol. Claude Desktop, Cursor, Claude Code, custom agents. Twenty-six tools, one contract, auth handled at the protocol layer instead of being pasted into a prompt.
+Helio MCP is the safe, standard way to put AI assistants on top of Glare data. It exposes the entire Helio research platform — every test, response, demographic filter, and AI assessment — to any client that speaks the Model Context Protocol. Claude Desktop, Cursor, Claude Code, custom agents. One contract, auth handled at the protocol layer instead of being pasted into a prompt.
 
 The web app is still there when you want it. The MCP server is there when your assistant should be the one driving.
+
+## What this solves
+
+An assistant that can only *read* Helio data answers questions; an assistant that can *build and launch tests* does research. The server supports both — but most write-ups list a handful of reporting tools and stop. The full registered surface: **twenty tools** spanning discovery, test creation, incremental editing, launch, reporting with demographic filters, segment comparison, and AI assessments — plus **two guided prompts** and **one workflow resource** that teach an assistant how to use them.
 
 ## When to use MCP (vs CLI vs web)
 
@@ -24,7 +29,7 @@ The same Helio API is underneath all three. The choice is about who's driving, n
 
 ## Requirements
 
-- Node.js ≥ 18
+- Node.js ≥ 18 (stdio transport)
 - A Helio API token (or OAuth credentials) — generate one at [my.helio.app/account/organization](https://my.helio.app/account/organization)
 - An MCP-aware client (Claude Desktop, Cursor, Claude Code, Claude.ai web, or a custom agent)
 
@@ -51,7 +56,7 @@ For Claude Desktop, Cursor, and Claude Code, add the server to your MCP config (
 }
 ```
 
-Restart your assistant. The helio server should appear in your MCP tool list with twenty-six tools available.
+Restart your assistant. The helio server should appear in your MCP tool list.
 
 ### Hosted (HTTP)
 
@@ -82,62 +87,74 @@ List my Helio projects.
 
 You should get back a list of projects via the `list_projects` tool. From there, every Helio surface is one prompt away.
 
-For the full tool catalog and example prompts, ask your assistant for the `analyze_test` prompt, or open the `helio://guide/analysis-workflow` resource.
+## The tool catalog
 
-## Capabilities
+Twenty tools, grouped by what they're for.
 
-### Full API coverage
+### Discovery (5)
 
-Every Helio surface is a tool call. Tests, responses, reports, AI assessments, segment comparison — all addressable in plain English from any MCP-aware assistant.
+- `list_projects` — all projects, with test/response counts; filter by name
+- `get_project` — one project with its tests
+- `get_project_tests` — test ids and names inside a project
+- `list_tests` — discover tests account-wide; filter by status, response count, tags, date range; the starting point for analysis
+- `get_test` — full test object: configuration, questions, audience, metadata
 
-```
-You: "List my Helio projects with 'onboarding' in the name."
-→ list_projects(name: "onboarding")
-```
+### Building a draft (5)
 
-### Demographic filters on every report
+- `create_test` — create a draft: `project_id`, `name`, `intro`, `target_audience_size`, plus `questions` and/or `ux_metrics`. Same ten creatable question types and eleven auto-generated UX metrics as the CLI. Also accepts `ux_metric_context` (noun replacement) and `ux_metric_assets` (attach an asset_id or site_link per metric — **not available in the CLI**). Returns spend estimate, answers remaining, test and preview URLs.
+- `add_question` — append a question to a draft
+- `update_question` — replace a regular question in place (provide `type`), or safely edit a UX metric section (omit `type`; only instructions / asset_id / site_link, plus choices on intent metrics)
+- `remove_question` — remove a question (subsequent questions shift down; UX metric sections are removed via `update_test` instead)
+- `update_test` — modify draft metadata (name, intro, audience size), add/remove UX metrics, and reorder sections — the MCP bundles what the CLI splits across `update` / `add-ux-metrics` / `remove-ux-metrics` / `reorder`
 
-Slice any test report by `age`, `country`, `segment_id`, `sentiment`, and more — all as arrays, all on the same tool. Discover the available values for any test with one `include` flag.
+### Launching (3)
 
-```
-get_test_report(
-  test_id: "...",
-  include: ["summary", "filter_options"],
-  age: ["25-34", "35-44"],
-  country: ["US", "CA"]
-)
-```
+- `validate_test` — launch blockers, estimated spend, question count; call before send
+- `send_test` — launch; uses the test's existing audience quota; returns spend, remaining answers, take/report URLs
+- `delete_test` — delete a draft (irreversible)
 
-### Side-by-side segment comparison
+### Reading results (4)
 
-`compare_segments` runs two filtered report calls in parallel and returns a structured diff — the kind of thing you'd otherwise script by hand against the API.
+- `get_test_report` — the workhorse. Structured report with an `include` list: `summary`, `followups`, `responses` (paginated), `audiences`, `demographics`, `ux_metrics`, `prototype_journeys`, `filter_options`. Every section respects demographic filters (age, country, segment, sentiment, and more, all as arrays). Recommended flow: call with `filter_options,summary` first, then drill in.
+- `get_filtered_responses` — one question's individual answers with demographic filters; the drill-down tool
+- `get_responses` — raw, unaggregated responses for a test
+- `compare_segments` — two filtered report calls in parallel, returned side by side (men vs women, US vs international, 18–24 vs 55–64)
 
-```
-compare_segments(
-  test_id: "...",
-  segment_a: { age: ["18-24"] },
-  segment_b: { age: ["55-64"] }
-)
-```
+### AI assessments / Design Analysis (3)
 
-### One contract, two transports
+- `list_assessments` — all Design Analyses with status and progress
+- `get_assessment` — scores, AI-generated sections, user-needs analysis, takeaways
+- `create_assessment` — new Design Analysis from a title, concept, and at least one asset (URL, base64 image, or website URL)
 
-The same tools, the same Zod-validated schemas, the same Helio API underneath, whether you're running locally over stdio or hitting the hosted endpoint. The server you point at is an implementation detail.
+### Prompts (2) and resource (1)
 
-```shell
-# local stdio (Claude Desktop, Cursor, Claude Code)
-npx -y @zurb/helio-mcp
+`analyze_test` (guided analysis of one test, optional focus) and `compare_audiences` (guided comparison of two audience groups) are MCP *prompts*, not tools — they inject a workflow, then drive the tools above. `helio://guide/analysis-workflow` is the built-in guide resource.
 
-# hosted HTTP (any MCP client that speaks streamable HTTP)
-curl https://mcp.helio.app/api/mcp \
-    -H "Authorization: Bearer $HELIO_TOKEN"
-```
+## Building a test from an assistant
+
+The same draft → iterate → launch loop the CLI uses, driven conversationally:
+
+1. `create_test` — draft with questions and/or UX metrics (nothing spent yet)
+2. `add_question` / `update_question` / `remove_question` / `update_test` — iterate
+3. `get_test` — inspect the structure
+4. `validate_test` — server-side blocker check and spend estimate
+5. `send_test` — launch
+
+The question payload schema is identical to the CLI's: `type` + `instructions` required; `choices`, `scale_type` (11 Likert scales), `custom_choices`, `allow_multiple`, `randomize_choices`, `categories`, `points`, `points_label`, `asset_id`, `site_link` per type. See `helio-cli` for the per-type JSON examples — they transfer 1:1.
+
+## What the MCP can't do
+
+Same API, same ceilings as the CLI:
+
+- **No asset upload or listing** — `asset_id` references existing assets; creating or finding them is web-app work
+- **No click tests, tree tests, or prototype tasks** — creation is UI-only (reports for them are fully readable, including prototype journeys)
+- **No branching or skip logic, no audience segment creation, no scheduled launch**
+
+Two MCP-specific notes: there is **no dry-run** — `validate_test` is the pre-spend check — and there is **no participant-eye walkthrough** (that's a CLI feature; the preview URL returned by `create_test` covers it in the browser).
 
 ## Workflows
 
 ### Compare cohorts without writing a query
-
-You don't open a dashboard. You ask. The assistant pulls a filtered report for each segment and shows you where they diverged.
 
 ```
 You: "On test abc-123, compare what 25–34s and 45–54s said about the new
@@ -151,20 +168,16 @@ You: "On test abc-123, compare what 25–34s and 45–54s said about the new
 
 ### Score a new concept end to end
 
-Drop in an asset, get back a structured AI assessment with scores, sections, and audience reactions — no UI, no project setup ceremony.
-
 ```
 You: "Run an assessment on the attached onboarding mockup against our
       'New SaaS users' audience. Tell me where it loses people."
 
 → create_assessment(title: "Onboarding v3 — first read",
       concept: "...", asset_url: "...")
-→ get_assessment(id: "...", include: ["scores", "sections", "audiences"])
+→ get_assessment(id: "...")
 ```
 
 ### Re-run last quarter's study against a fresh audience
-
-Pull the old test definition, clone it with new audience parameters, validate the spend, send it. Four tool calls, one prompt.
 
 ```
 You: "Take test xyz-789 from last quarter, clone it with a new audience
@@ -179,15 +192,16 @@ You: "Take test xyz-789 from last quarter, clone it with a new audience
 ## Where to go next
 
 - `analyze_test` prompt — guided analysis workflow from your assistant
-- `helio://guide/analysis-workflow` resource — full tool catalog and example prompts
-- GitHub repo — source, issues, releases
-- API reference — every endpoint the MCP server wraps
+- `helio://guide/analysis-workflow` resource — the workflow guide, from the server itself
+- `helio-creating-test` — how to design the test your assistant is about to build
+- `helio-cli` — the same platform for scripts and pipelines, including the per-type question payload examples
+- `helio-app` — positioning, plans, and how Helio fits the Glare workflow
 
 <!-- /DERIVED -->
 
 ---
 
-<!-- ADDED 2026-05-23 (skill-builder context) -->
+<!-- ADDED 2026-07-06 (skill-builder context) -->
 
 ## When to use
 
@@ -195,26 +209,32 @@ Reach for this skill when the user is:
 
 - Connecting Claude Desktop, Cursor, Claude Code, or a custom agent to Helio
 - Choosing between the stdio and hosted-HTTP transports
-- Hitting "older client doesn't support custom headers" with the hosted transport
-- Asking what tools the MCP exposes (the 26-tool surface)
+- Asking what the MCP exposes (20 tools, 2 prompts, 1 resource — grouped as discovery / building / launching / reading / assessments)
+- Building or iterating on a draft test from an assistant (`create_test` → `add/update/remove_question` → `update_test` → `validate_test` → `send_test`)
+- Slicing reports by demographics or comparing segments from chat
 - Comparing the MCP surface to the CLI and web surfaces
 - Stuck because their MCP-aware client doesn't see the helio server after config
 
-For scripted (non-interactive) Helio access, route to `helio-cli`. For interactive web-app use, route to `helio-app`.
+For scripted (non-interactive) Helio access, route to `helio-cli`. For designing the test itself, route to `helio-creating-test` (from a hunch) or `helio-asset-to-test` (from an asset).
 
 ## Failure modes
 
+- **Quoting the old "26 tools" number.** The registered surface is 20 tools + 2 prompts + 1 resource. Count from the server, not from memory.
 - **Pasting API keys into chat instead of the MCP env block.** The whole point of MCP is auth at the protocol layer. If a token is in a prompt, the architecture isn't working.
 - **Forgetting to restart the client.** New MCP servers need a client restart to appear.
 - **Picking hosted HTTP for a client that doesn't support custom headers on remote servers.** Older clients fail silently. Drop to stdio.
+- **Expecting a dry-run.** The MCP has no `--dry-run` equivalent; `validate_test` before `send_test` is the pre-spend check.
+- **Using the wrong editor for UX metric sections.** Regular questions: `update_question` with `type`. Metric sections: `update_question` without `type` (safe fields only), or `update_test` to add/remove metrics. `remove_question` refuses metric sections.
 - **Treating MCP as a replacement for CLI in pipelines.** MCP is built for interactive AI workflows. For deterministic scripted runs, use the CLI.
 
 ## Where to go next
 
-- For scripted access: `helio-cli`
-- For test design workflows the MCP might walk a user through: `helio-asset-to-test`
+- For scripted access and payload JSON examples: `helio-cli`
+- For designing the test from a hunch: `helio-creating-test`
+- For the asset-first build workflow: `helio-asset-to-test`
 - For section type depth: `helio-section-types`
 - For UX metrics: `helio-ux-metrics`
 - For interpreting MCP-returned report data: `helio-reading-report`
+- For the AI Design Analysis workflow the assessment tools drive: `helio-design-analysis`
 
 <!-- /ADDED -->

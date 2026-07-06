@@ -39,7 +39,7 @@ Read `reference.md` for the full seven-step walkthrough, the worked Dual-Offer e
 4. Walk through audience selection — prebuilt segment vs custom list vs fanout — using `helio-audience-flow` for depth.
 5. Help draft the questions array. Surface the question shapes per template. Use `helio-section-types` for section depth and `helio-ux-metrics` for metric attachment.
 6. Walk the user through validation: `helio-cli tests validate`, dry-run, preview. Don't `send` until validate passes clean.
-7. Surface the workflow gaps explicitly: asset upload, hotspot drawing, and branching path config are all UI-only today.
+7. Surface the workflow gaps explicitly: asset upload, hotspot drawing, and branching path config are all UI-only today. The canonical UI-only boundary checklist (all seven steps, with workarounds and effort) lives in `helio-creating-test`.
 
 ## What's new in v0.1.0
 
