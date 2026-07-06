@@ -358,6 +358,23 @@ Route away when the user starts from an **existing asset/mockup and wants the op
 - **Forgetting the MaxDiff reading rule.** If a test includes MaxDiff, warn at design time that the report must be read as raw best/worst counts — aggregated percentages will show 0%.
 - **Designing a shape the chosen surface can't build.** Click tests, tree tests, and prototype tasks can't be created via CLI/MCP — they're UI-only. If the user plans to script the build, flag which template steps need the web app.
 
+## The template layer — shapes → T1–T7 (cross-reference)
+
+This doc's four conceptual shapes now have a data-backed operational layer: the **Test Pattern Playbook** (285-test analysis, in `helio-patterns`) with seven templates mapped to project stage. When instantiating a shape, prefer the playbook's template — it carries exact questions, metric tags, and required follow-ups drawn from real use:
+
+| This doc's shape | Playbook template | Notes |
+|---|---|---|
+| Marketing page eval (Template A) | **T5 · Homepage Five** | Same arc; T5 adds stage evidence (first-look only) |
+| Content prioritization (Template C) | **T2 · MaxDiff Read** | Same arc |
+| Multi-screen flow eval (Template B) | **T7 · Flow Expectation** | Same predict-reveal-click triplet per screen |
+| Concept comparison | — | No canonical template in the corpus; build from this doc's arc |
+| *(not in this doc)* | **T4 · Findability Sweep** | The workhorse — "can they find/do X?", spans stages |
+| *(not in this doc)* | **T6 · Expectation Probe** | Name/URL/copy tuning in iteration |
+| *(not in this doc)* | **T1 · Two-Tap Check** | One flow step, variant sweeps only |
+| *(not in this doc)* | **T3 · Shelf & NPS** | Physical product / packaging appeal + benchmark |
+
+The playbook also adds the **stage trigger** this doc doesn't cover: first look (cold read) → iterate (locked shape, V1/V2/V3) → benchmark (your questions, their screens). Ask the asset first, then the stage — see `helio-patterns`.
+
 ## The UI-only boundary — canonical checklist
 
 Some parts of a Helio test can only be built in the web app. This is the one authoritative list; other skills point here. Plan these steps *before* choosing a surface, so a scripted or assistant-driven build doesn't dead-end.

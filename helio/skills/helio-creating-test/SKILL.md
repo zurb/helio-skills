@@ -1,7 +1,7 @@
 ---
 name: helio-creating-test
 description: Use this skill when the user wants to design a Helio test end to end — from a hunch to a launched test that produces a decision-grade signal. Triggers — "create a Helio test," "design a test," "turn this hunch into a test," "which test shape," "test template," "marketing page eval," "multi-screen flow eval," "content prioritization," "concept comparison," "hunch → shape → test → signal," "required followups," "bias check," "pre-launch checklist," "how many questions," "MaxDiff shows 0%," "one hunch per test," "web app vs CLI vs MCP." Also use when a test produced "interesting findings" but no decision, or the user starts from a belief rather than an asset. Do NOT use when the user starts from an existing asset/mockup (use `helio-asset-to-test`), wants shape recognition across past tests (use `helio-patterns`), section spec (use `helio-section-types`), audience mechanics (use `helio-audience-flow`), launch commands (use `helio-cli` / `helio-mcp`), or report synthesis (use `helio-reading-report`).
-version: 0.1.1
+version: 0.1.2
 source_doc_version: Creating a Helio Test v0.1
 last_rebuilt: 2026-07-06
 
@@ -42,6 +42,10 @@ Read `reference.md` for the full arc: the four shapes with real examples, the hu
 6. Walk the pre-launch checklist; recommend a CLI dry-run before spending.
 7. Flag UI-only steps early: click tests, tree tests, prototype tasks, and hotspot drawing can't be built via CLI/MCP.
 
+## What's new in v0.1.2
+
+Added the shapes → T1–T7 cross-reference to `reference.md` (ADDED content): this doc's four conceptual shapes mapped to the Test Pattern Playbook's seven data-backed templates (now in `helio-patterns` v0.3.0), including the four templates this doc's shapes don't cover (Findability Sweep, Expectation Probe, Two-Tap Check, Shelf & NPS) and the stage-trigger layer.
+
 ## What's new in v0.1.1
 
 Added the canonical UI-only boundary checklist to `reference.md` (skill-builder ADDED content): the seven web-app-only steps — asset upload, hotspots, click/tree/prototype sections, branching, audience/screener creation, the 7 prototype-dependent UX metrics, scheduled launch — with workarounds and effort estimates. `helio-assets`, `helio-branching`, and `helio-asset-to-test` now point here instead of carrying divergent partial lists.
@@ -53,7 +57,7 @@ Initial release. Sourced from Creating a Helio Test v0.1. Customer names in the 
 ## Handoffs
 
 - For the **asset-first build walkthrough** (you have a mockup, need a test), use `helio-asset-to-test`.
-- For **recognizing shapes across real past tests** (the core 5-Q template, legacy template, 144/145 iteration), use `helio-patterns`.
+- For **recognizing shapes across real past tests** and the **seven data-backed templates with stage triggers** (T1–T7: which template at first look vs iterate vs benchmark), use `helio-patterns`.
 - For **section type spec**, use `helio-section-types`.
 - For **UX metric definitions and scoring**, use `helio-ux-metrics`.
 - For **audience setup mechanics**, use `helio-audience-flow`.

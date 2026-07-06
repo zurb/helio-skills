@@ -1,8 +1,9 @@
 # Helio Test Patterns — Reference
 
 **Skill:** `helio-patterns`
-**Source:** Helio Test Patterns v0.2 (scrubbed)
+**Source:** Helio Test Patterns v0.2 (scrubbed) + Test Pattern Playbook v0.1 (merged)
 **Source last synced:** 2026-07-06
+**Notes:** Two DERIVED blocks. The Test Patterns block is the *reading* synthesis (15-test sample): recognize shapes, the 30-second scan, iteration methodologies. The Playbook block is the *construction* companion (285-test analysis): when each of seven templates gets pulled (first look / iterate / benchmark), the metric coverage data, and per-template question tables. The playbook empirically resolves several of Test Patterns' "what's NOT in this sample" caveats.
 
 ---
 
@@ -197,6 +198,190 @@ This synthesis is drawn from 15 tests. Patterns to verify if you go deeper:
 
 ---
 
+<!-- DERIVED FROM: src-test-pattern-playbook-v0.1 — Test Pattern Playbook v0.1 -->
+
+# The Test Pattern Playbook
+
+Not just *which* test to build, but *when* to build it. Seven templates, mapped to the moment in a project where each one earns its place — reverse-engineered from **285 real tests over five months** (Feb–Jul 2026): 7 shared templates, 61% of tests fit one, ~39% are custom variations. Templates are starting points, not cages.
+
+## When does each test get pulled?
+
+Tests track the arc of a project: cold read → variant sweep → benchmark. Each template lives mostly at one of these moments. Counts are real uses at each stage.
+
+### Stage 01 — First look
+
+*Trigger: new asset, no data yet.* Do people get it, feel it, know where to go?
+
+- **T5 · Homepage Five** — 9 of 9 uses here
+- **T2 · MaxDiff Read** — 17 of 24
+- **T3 · Shelf & NPS** — 12 of 19
+- **T4 · Findability Sweep** — used as the baseline
+
+### Stage 02 — Iterate
+
+*Trigger: V1 · V2 · V3 · Round N.* Lock the shape, change the design, compare scores.
+
+- **T1 · Two-Tap Check** — 8 of 8 uses here
+- **T6 · Expectation Probe** — 18 of 25
+- **T7 · Flow Expectation** — 20 of 37
+- **T4 · Findability Sweep** — 26 of 52
+
+### Stage 03 — Benchmark
+
+*Trigger: a competitor to beat.* Same questions, their screens.
+
+- **T7 · Flow Expectation** — 4 of 7
+- **T3 · Shelf & NPS** — 2 of 7
+
+**The first tell — before stage, ask the asset:** one screen → T2 · T3 · T5 · T6 | a connected flow → T1 · T7 | either → T4
+
+## The UX metrics doing the work
+
+Every template is a stack of standardized metric instruments — a "desirability" score means the same thing on a granola box as on a banking app. Across the corpus: 20 distinct metrics, 6 carry ~⅔ of all measurement, 1,241 instruments deployed, 4.4 metrics per test average.
+
+| Family | Metric | Answers | Coverage |
+|---|---|---|---|
+| Understand | `comprehension` | Do they grasp what it is? | 44% |
+| Behave | `engagement` | Where do they go first? | 36% |
+| Behave | `success` | Can they complete the task? | 30% |
+| Behave | `effort` | How hard did it feel? | 14% |
+| Expect | `expectations` ★ | Does it behave as predicted? (most-deployed — 208 uses) | 35% |
+| Feel | `sentiment` | How does it feel overall? | 45% |
+| Feel | `desirability` | Do they actually want it? | 20% |
+| Feel | `satisfaction` | Were they satisfied with it? | 14% |
+| Convert | `intent` | Will they take the next step? | 31% |
+| Convert | `loyalty` | Would they recommend or return? | 6% |
+
+Long tail (each <10%): usability, appeal, usefulness, frequency, likelihood, quality, occurrence.
+
+**Note:** `expectations` outdeploys its 35% reach (208 uses) because the expectation-heavy templates (T1, T7) fire it on *every screen* — the quantified fingerprint of the "does it behave as predicted?" house style.
+
+## The seven templates
+
+### T5 · Homepage Five — `first look` · `one screen`
+
+**Use when:** a brand-new homepage or landing page you've never tested. Look, comprehend, react, decide, act — in one pass. (9 of 9 uses at first look.)
+**Measures:** engagement · comprehension · desirability · intent. **Shape:** `click → likert → multi → likert → multi`.
+
+| # | Type | Metric | Question | Follow-up (required) |
+|---|---|---|---|---|
+| 1 | click test | engagement | "You're exploring [category] solutions and come across this. Click where you'd go first." | Why did you click there? |
+| 2 | likert | comprehension | "How well do you understand what this company is offering?" | What is this company offering? |
+| 3 | multi-select | desirability | "How does this page make you feel about this company?" (Helpful · Innovative · Clear · Joyful · Complicated +3) | Why did you choose those options? |
+| 4 | likert | desirability | "How likely would you be to [primary action]?" | Why did you choose that option? |
+| 5 | multi-select | intent | "What would you most likely do next from this page?" (real CTAs) | Why did you choose that option? |
+
+### T2 · MaxDiff Read — `first look` · `one screen`
+
+**Use when:** a content-heavy page where you don't know which sections pull. Ranks the parts by interest. (17 of 24 at first look.)
+**Measures:** comprehension · desirability · engagement. **Shape:** `likert → max_diff → multi → likert → click`.
+
+| # | Type | Metric | Question | Follow-up (required) |
+|---|---|---|---|---|
+| 1 | likert | comprehension | "How well do you understand who this webpage is for?" | Who is this webpage for? |
+| 2 | max-diff | — | "What parts of this page are Most and Least Interesting to your [context]?" (sections ranked) | Why did you choose those options? |
+| 3 | multi-select | desirability | "How does the information on this page feel to you?" (Helpful · Trustworthy · Clear · Motivating · Unnecessary +3) | Why did you choose those options? |
+| 4 | likert | desirability | "How likely would you be to use this site to [primary action]?" | Why did you choose that option? |
+| 5 | click test | engagement | "Click where you would go next on this page." | Why did you click there? |
+
+### T3 · Shelf & NPS — `first look` · `benchmark` · `one screen`
+
+**Use when:** judging a product, package, or brand's market appeal — or stacking it against a competitor. Adds recommend-likelihood.
+**Measures:** comprehension · desirability · loyalty · occurrence · quality. **Shape:** `likert → multi → likert → nps → likert → likert`.
+
+| # | Type | Metric | Question | Follow-up (required) |
+|---|---|---|---|---|
+| 1 | likert | comprehension | "You see this product on the shelf. How well do you understand what it is?" | Describe this product in your own words. |
+| 2 | multi-select | desirability | "How do you feel about this product?" (Exciting · Premium · Healthy · Trustworthy · Unappealing +3) | Why did you choose those options? |
+| 3 | likert | desirability | "How likely would you be to buy this product?" | Why did you choose that option? |
+| 4 | nps | loyalty | "How likely would you be to recommend this product to a friend? (0–10)" | Why? |
+| 5 | likert | occurrence | "How often do you purchase [category]?" | — |
+| 6 | likert | quality | "How does this product's appearance compare to others you've bought?" | Why did you choose that option? |
+
+### T4 · Findability Sweep — `spans stages` · `either asset`
+
+**Use when:** the workhorse — any page where the question is "can they find or do X?" Broad first click, then targeted task clicks. Baseline through every iteration (first look 20 · iterate 26 — the most-used template, 52 uses).
+**Measures:** engagement · success · sentiment · effort. **Shape:** `click → click → click → multi → nps`.
+
+| # | Type | Metric | Question | Follow-up (required) |
+|---|---|---|---|---|
+| 1 | click test | engagement | "This is the [page] for a [category] company. Click where you would go first." | Why did you click there? |
+| 2 | click test | success | "Click where you would go to [specific task 1]." | — |
+| 3 | click test | success | "Click where you would go to [specific task 2]." | — |
+| 4 | multi-select | sentiment | "How does this page feel to you?" (Helpful · Innovative · Exciting · Joyful · Incomplete +3) | Why did you choose those options? |
+| 5 | nps | effort | "How difficult or easy does it feel to [core task]? (1–7)" | Why did you choose that option? |
+
+### T6 · Expectation Probe — `iterate` · `one screen`
+
+**Use when:** refining a specific name, URL, label, or copy line. Predict-then-reveal: ask what they expect, show it, measure the gap. A V2/V3 tuning tool (18 of 25 in iteration).
+**Measures:** expectations · sentiment. **Shape:** `free → likert → multi`.
+
+| # | Type | Metric | Question | Follow-up (required) |
+|---|---|---|---|---|
+| 1 | free response | expectations | "There's a part of the site called [X]. What do you expect to find there?" | — |
+| 2 | likert | expectations | "The page is [reveal]. How well does this match your expectation?" | Why did you choose that option? |
+| 3 | multi-select | sentiment | "How do you feel about this [name/URL]?" (Helpful · Clear · Simple · Useful · Unimportant +3) | Why did you choose those options? |
+
+### T1 · Two-Tap Check — `iterate` · `connected flow`
+
+**Use when:** A/B-ing one interaction step inside an existing flow. Navigate two taps, then rate whether the result met expectations. Never a first look — pure variant sweep (8 of 8 in iteration).
+**Measures:** engagement · expectations · sentiment. **Shape:** `click → click → likert → multi`.
+
+| # | Type | Metric | Question | Follow-up (required) |
+|---|---|---|---|---|
+| 1 | click test | — | "Imagine you're [context] and come across this page…" | — |
+| 2 | click test | engagement | "This is the screen you land on after [tap 1]. Tap where you would go to [change/adjust it]." | — |
+| 3 | likert | expectations | "How well did this screen match your expectations?" | Why did you choose that option? |
+| 4 | multi-select | sentiment | "What impressions does this flow give you?" (Helpful · Innovative · Simple · Joyful · Complicated +3) | Why did you choose those options? |
+
+### T7 · Flow Expectation — `iterate` · `benchmark` · `connected flow`
+
+**Use when:** validating an end-to-end app flow, step by step — predict, reveal, and task-click at each screen. Also the go-to for benchmarking a competitor's flow (iterate 20 · competitive 4).
+**Measures:** expectations · success · sentiment. **Shape:** `free → likert → click → free → likert → click → multi` (the predict-reveal-click triplet repeats per screen).
+
+| # | Type | Metric | Question | Follow-up (required) |
+|---|---|---|---|---|
+| 1 | free response | expectations | "You just [entered context] on the [screen]. What do you expect to see?" | — |
+| 2 | likert | expectations | "This is the [screen]. How well does it match your expectations?" | Why did you choose that option? |
+| 3 | click test | success | "Click where you'd go to [primary task]." | — |
+| 4 | free response | expectations | "What do you expect to see when you click [next element]?" | — |
+| 5 | likert | expectations | "How well does this page match your expectations?" | Why did you choose that option? |
+| 6 | click test | success | "Tap where you'd go to [secondary task]." | — |
+| 7 | multi-select | sentiment | "How do you feel about this [screen]?" (Helpful · Innovative · Simple · Clear · Busy +3) | Why did you choose those options? |
+
+## Two operating styles, split by reflex
+
+The *when* also depends on who's holding it. The corpus splits into two recognizable operating styles:
+
+| | **Iteration-deep** | **First-look volume** |
+|---|---|---|
+| Reflex metric | `expectations` (23% of metric use) | `success` + `intent` (12% / 9%) |
+| Style | Deeper, multi-screen, iteration-heavy. Owns T1; splits T7. | Leaner, single-screen, first-look volume. Owns T4; drives T2. |
+| Median questions | 6 | 4 |
+| Multi-screen share | 32% | 24% |
+| Distinct shapes | 33 | 88 |
+
+**When ownership shifts** between researchers, shared stage triggers are what keep test timing consistent — the templates travel even when the people change.
+
+## House rules — the templated follow-ups
+
+The score is the headline; the required open-text is the insight. Near-universal pairings — reuse verbatim:
+
+| Question type | Standard follow-up |
+|---|---|
+| Comprehension likert | "What is this offering?" / "Who is this for?" — a knowledge probe. The gap between rating and answer is the finding. |
+| Likelihood / expectations | "Why did you choose that option?" |
+| Desirability multi-select | "Why did you choose those options?" — 8 options: a positive set plus a negative tail. |
+| Click test | "Why did you click there?" — `engagement` = "where first", `success` = "find X". |
+
+## Method & caveats
+
+The complete test output of two researchers, Feb–Jul 2026, via the Helio public API. Templates are shared question-type sequences; stage inferred from naming (Baseline / V-number / Round / Competitive) and asset count. Read counts as "X of Y at this stage" — T4 and T7 genuinely span stages. ~39% of tests are custom variations. Percentages are share-of-uses, not response scores.
+
+<!-- /DERIVED -->
+
+---
+
 <!-- ADDED 2026-05-23 (skill-builder context) -->
 
 ## When to use
@@ -204,11 +389,15 @@ This synthesis is drawn from 15 tests. Patterns to verify if you go deeper:
 Reach for this skill when the user is:
 
 - Reading a Helio test they didn't design and need to orient quickly
-- Constructing a new test and wants the shape decision tree
+- Constructing a new test and wants the shape decision tree — or the **stage-based template picker** (first look / iterate / benchmark → T1–T7)
+- Asking "what test should I run at this point in the project?" — the playbook's stage triggers answer the *when*, not just the *which*
 - Trying to identify which iteration methodology to use (fixed-template vs evolving-flow)
 - Curious why a `success` click test and an `engagement` click test look the same but mean different things
 - Recognizing audience-fanout testing as a method
 - Comparing test versions and wondering whether structural drift makes comparison partial
+- Wanting the empirical metric-coverage data (which metrics actually carry the measurement load across 285 real tests)
+
+**Which block to read:** reading/synthesis questions → the Test Patterns block. Construction/timing questions → the Playbook block. The two-tell opener for construction: ask the **asset** first (one screen → T2/T3/T5/T6; connected flow → T1/T7; either → T4), then the **stage**.
 
 For the full build/validate/launch workflow, route to `helio-asset-to-test`. For per-section detail, `helio-section-types`. For metric definitions, `helio-ux-metrics`. For synthesis, `helio-reading-report`.
 
@@ -218,6 +407,8 @@ For the full build/validate/launch workflow, route to `helio-asset-to-test`. For
 - **Comparing variants across the fixed-template vs evolving-flow boundary.** If question positions or counts shifted, the comparison is partial. Surface the structural drift before reporting metric changes.
 - **Defaulting to "the 5-Q template" without checking whether the page calls for it.** Multi-screen flows, retention tests, and content prioritization all need different shapes.
 - **Treating the audience as an afterthought.** Audience choice is a strategic statement — fanout testing is a method, not noise.
+- **Treating the seven templates as cages.** ~39% of the corpus is custom variations; templates are starting points. Match the moment and asset first, then adapt.
+- **Automating a click-heavy template end to end.** T1, T4, T5 (and parts of T2/T7) contain click tests, which are UI-only to create. Programmatic builds instantiate the creatable subset and finish hotspots in the web app — see the UI-only boundary checklist in `helio-creating-test`.
 
 ## Where to go next
 

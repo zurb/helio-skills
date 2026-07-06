@@ -1,13 +1,16 @@
 ---
 name: helio-patterns
-description: Use this skill when the user wants to recognize or construct Helio tests by shape — the core 5-Q template, multi-screen flows, audience fanouts, MaxDiff content variants, legacy template generations, the fixed-template vs evolving-flow iteration distinction. Triggers — "Helio test patterns," "the 5-Q template," "core template," "test shapes," "single-screen vs multi-screen," "deep vs light template," "the evolving-flow series vs the fixed-template series," "audience fanout," "iteration methodology," "branching as multi-screen tell," "engagement vs success click test," "test name reads multi-screen," "30-second scan." Do NOT use when the user wants section type spec (use `helio-section-types`), the full build workflow (use `helio-asset-to-test`), audience setup mechanics (use `helio-audience-flow`), or report synthesis (use `helio-reading-report`).
-version: 0.2.0
-source_doc_version: Helio Test Patterns v0.2 (scrubbed)
+description: Use this skill when the user wants to recognize or construct Helio tests by shape and stage — the core 5-Q template, the seven data-backed templates (T1 Two-Tap Check, T2 MaxDiff Read, T3 Shelf & NPS, T4 Findability Sweep, T5 Homepage Five, T6 Expectation Probe, T7 Flow Expectation), multi-screen flows, audience fanouts, legacy template generations, the fixed-template vs evolving-flow iteration distinction. Triggers — "Helio test patterns," "test pattern playbook," "which template," "what test should I run at this stage," "first look vs iterate vs benchmark," "findability sweep," "expectation probe," "single-screen vs multi-screen," "engagement vs success click test," "metric coverage," "30-second scan," "audience fanout," "deep vs light template." Do NOT use when the user wants section type spec (use `helio-section-types`), the hunch → shape design arc (use `helio-creating-test`), the asset-first build workflow (use `helio-asset-to-test`), audience setup mechanics (use `helio-audience-flow`), or report synthesis (use `helio-reading-report`).
+version: 0.3.0
+source_doc_version: Helio Test Patterns v0.2 (scrubbed) + Test Pattern Playbook v0.1 (merged)
 last_rebuilt: 2026-07-06
 
 sources:
   - doc_id: src-helio-test-patterns-v0.2
     title: Helio Test Patterns v0.2 (scrubbed)
+    last_synced: 2026-07-06
+  - doc_id: src-test-pattern-playbook-v0.1
+    title: Test Pattern Playbook v0.1
     last_synced: 2026-07-06
 ---
 
@@ -32,9 +35,17 @@ The patterns, drawn from a sample of 15 tests across four projects:
 
 Plus a 30-second scan routine for reading new reports and a quick decision tree for constructing new tests.
 
+**New in v0.3.0 — the Playbook layer (285-test analysis):** seven data-backed templates mapped to the project moment where each earns its place. Ask the **asset** first (one screen → T2/T3/T5/T6; connected flow → T1/T7; either → T4), then the **stage**:
+
+- **First look** (new asset, no data): T5 Homepage Five, T2 MaxDiff Read, T3 Shelf & NPS, T4 as baseline
+- **Iterate** (V1/V2/V3, locked shape): T1 Two-Tap Check, T6 Expectation Probe, T7 Flow Expectation, T4 Findability Sweep
+- **Benchmark** (competitor's screens, your questions): T7, T3
+
+Each template ships a full question table (type, metric, prompt, required follow-up). 61% of real tests fit a template; ~39% are custom — starting points, not cages.
+
 ## Files to read
 
-Read `reference.md` for the full pattern catalog with concrete examples (the athletic-apparel homepage, the hunting-apparel store, the press-room site, the investment-platform, the veteran careers landing page, 144/the fixed-template series), the 30-second reading routine, and the construction decision tree.
+Read `reference.md` for both layers: the reading synthesis (pattern catalog with concrete examples, the 30-second routine, the construction decision tree) and the Playbook (stage triggers, metric coverage table, all seven template question tables, the two operating styles, house follow-up rules).
 
 ## How to apply
 
@@ -43,6 +54,10 @@ Read `reference.md` for the full pattern catalog with concrete examples (the ath
 3. For each metric in use, surface what to watch for — divergences (`engagement` high but `intent` low is the headline read).
 4. If the user is constructing a new test, walk the decision tree: single-screen vs multi-screen, A/B iteration vs flow redesign, headline outcome, audience.
 5. Surface "what's not in the sample" caveats for less-common shapes (MaxDiff, card sort, point allocation).
+
+## What's new in v0.3.0
+
+Merged in the **Test Pattern Playbook v0.1** as a second source (new Drive doc, derived from a 285-test / 5-month analysis — 19× the original sample). Adds the stage axis (first look / iterate / benchmark) with real use counts, seven concrete templates with full question tables, the empirical metric-coverage table (20 metrics, 6 carrying ~⅔ of measurement), the two operating styles, and the asset-first template picker. The playbook resolves several of Test Patterns' "what's NOT in this sample" caveats. Customer names and researcher identifiers were scrubbed during the doc build.
 
 ## What's new in v0.2.0
 

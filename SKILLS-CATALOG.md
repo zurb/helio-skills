@@ -1,6 +1,6 @@
 # Helio Skills Catalog
 
-Current skills in the Helio marketplace. Last updated 2026-07-06 for v0.8.1.
+Current skills in the Helio marketplace. Last updated 2026-07-06 for v0.9.0.
 
 ## Built (17 skills)
 
@@ -19,8 +19,8 @@ The marketplace was trimmed in v0.3.0 from 17 to 14, two skills were added in v0
 
 | Skill | Source doc(s) | Status |
 |---|---|---|
-| `helio-creating-test` | Creating a Helio Test v0.1 | ✅ v0.1.1 (new in v0.6.0; owns the UI-only boundary checklist) |
-| `helio-patterns` | Helio Test Patterns v0.2 (scrubbed) | ✅ v0.2.0 |
+| `helio-creating-test` | Creating a Helio Test v0.1 | ✅ v0.1.2 (new in v0.6.0; owns the UI-only boundary checklist) |
+| `helio-patterns` | Helio Test Patterns v0.2 (scrubbed) + Test Pattern Playbook v0.1 (merged) | ✅ v0.3.0 |
 | `helio-asset-to-test` | From Asset To Test v0.1 | ✅ v0.1.0 |
 | `helio-section-types` | Section Types v0.1 | ✅ v0.1.0 |
 | `helio-audience-flow` | Audience Flow v0.1 | ✅ v0.1.0 |
