@@ -1,5 +1,9 @@
 # Helio Marketplace — Changelog
 
+## v0.8.1 — 2026-07-06 — helio-mcp doc_id repoint (Drive v1.3 landed as a new document)
+
+Patch. The Drive-side paste of Helio MCP v1.3 created a **new document** (`1OFoMXLY31SK9p6Ei9UGmb7zi19hKfnDsDkSf3U9VxNo`) rather than editing v1.2 in place; the v1.2 doc (`1MG34t7e…`) was moved to Archive. `helio-mcp` 0.2.0 → 0.2.1: doc_id, drive_url, and DERIVED marker repointed to the new document. Content unchanged. (Helio CLI v1.3 *was* updated in place — `1eNqJH7N…` verified, no change needed.) Drive-side confirmations: both v1.3 docs live; five Archive candidates from v0.5.0 moved/pending per Bryan's worklist.
+
 ## v0.8.0 — 2026-07-06 — helio-mcp rebuilt against Helio MCP v1.3 + canonical UI-only boundary checklist
 
 Items 3 and 5 of the test-creation improvement plan.

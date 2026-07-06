@@ -3,11 +3,11 @@
 **Skill:** `helio-mcp`
 **Source:** Helio MCP v1.3
 **Source last synced:** 2026-07-06
-**Notes:** v1.3 was regenerated from the MCP server codebase, correcting the v1.2 "twenty-six tools" claim to the actual registered surface: twenty tools, two prompts, one resource.
+**Notes:** v1.3 was regenerated from the MCP server codebase, correcting the v1.2 "twenty-six tools" claim to the actual registered surface: twenty tools, two prompts, one resource. The v1.3 Drive doc is a new document (`1OFoMXLY…`); the v1.2 doc (`1MG34t7e…`) was moved to Archive on 2026-07-06.
 
 ---
 
-<!-- DERIVED FROM: 1MG34t7erUX6Lwy4OXfBAR8QludFabaLae359yLQg59Y — Helio MCP v1.3 -->
+<!-- DERIVED FROM: 1OFoMXLY31SK9p6Ei9UGmb7zi19hKfnDsDkSf3U9VxNo — Helio MCP v1.3 -->
 
 Helio MCP is the safe, standard way to put AI assistants on top of Glare data. It exposes the entire Helio research platform — every test, response, demographic filter, and AI assessment — to any client that speaks the Model Context Protocol. Claude Desktop, Cursor, Claude Code, custom agents. One contract, auth handled at the protocol layer instead of being pasted into a prompt.
 
