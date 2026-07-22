@@ -148,7 +148,7 @@ CLI:
 
 ```shell
 helio-cli tests add-ux-metrics <test-uuid> \
-    --metrics comprehension desirability intent
+    --ux-metrics comprehension desirability intent
 ```
 
 For the full per-metric reference, use `helio-ux-metrics`.
@@ -185,12 +185,11 @@ helio-cli tests validate <test-uuid>                         # check readiness t
 
 ### The asset gap
 
-The CLI **cannot upload screen images or define hotspots**. These steps must happen in the Helio web UI:
+Image upload is CLI-native since helio-cli v0.1.1 (`assets upload <file>`, jpg/jpeg/png/gif, max 10MB; find IDs with `assets list`; attach stimulus images via `--asset-id`). The CLI still **cannot define hotspots or build click-test sections**, so for click-test screens these steps happen in the Helio web UI:
 
-1. Upload the screenshot(s) to the test.
-2. Attach each screen to its corresponding click test or stimulus question.
-3. Draw the hotspot regions on each click test.
-4. Configure branching paths (if a multi-screen flow).
+1. Attach each screen to its click test (stimulus questions can take `--asset-id` from the CLI instead).
+2. Draw the hotspot regions on each click test.
+3. Configure branching paths (if a multi-screen flow).
 
 After those UI steps, return to the CLI to validate and send.
 
@@ -307,10 +306,11 @@ helio-cli tests create \
     --audiences <designer-uuid> <ux-researcher-uuid> \
     --questions @signal-blitz-questions.json
 
-# UI: upload signal-blitz-homepage.png, attach to Q2's click test, draw hotspots
+# CLI: helio-cli assets upload signal-blitz-homepage.png   (or upload in UI)
+# UI: attach the image to Q2's click test, draw hotspots
 # UI: optionally set branching off (single-screen test)
 
-helio-cli tests add-ux-metrics <test-uuid> --metrics comprehension engagement desirability intent
+helio-cli tests add-ux-metrics <test-uuid> --ux-metrics comprehension engagement desirability intent
 helio-cli tests preview <test-uuid>
 helio-cli tests validate <test-uuid>
 helio-cli tests send <test-uuid>

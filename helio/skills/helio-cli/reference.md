@@ -3,7 +3,7 @@
 **Skill:** `helio-cli`
 **Source:** Helio CLI v1.4
 **Source last synced:** 2026-07-21
-**Notes:** v1.3 was regenerated from the CLI codebase (README, built-in guide, validation schemas) so the doc matches what the tool ships. This rebuild closes the v1.2 gap where only 4 of ~20 test commands were documented. Amended 2026-07-20 for helio-cli v0.1.1 (PR #6), which added the `assets` command group — asset upload/listing is no longer UI-only.
+**Notes:** v1.3 was regenerated from the CLI codebase (README, built-in guide, validation schemas) so the doc matches what the tool ships. This rebuild closes the v1.2 gap where only 4 of ~20 test commands were documented. v1.4 (2026-07-21) folds in the helio-cli v0.1.1 `assets` command group — asset upload/listing is no longer UI-only.
 
 ---
 
