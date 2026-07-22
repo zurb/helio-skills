@@ -1,5 +1,31 @@
 # Helio Marketplace — Changelog
 
+## v0.10.0 — 2026-07-21 — CLI assets command group: asset upload leaves the UI-only list
+
+helio-cli v0.1.1 (zurb/helio-cli PR #6) shipped an `assets` command group — `assets list` (`--type`/`--name`/`--limit`/`--offset`), `assets get <id>`, `assets upload <file>` (images only: jpg/jpeg/png/gif, max 10MB, multipart; returns a numeric id with `status: "processing"`, poll `assets get` until `complete`). Uploaded ids attach via `tests add-question --asset-id` / `tests edit-question --asset-id` or `asset_id` in question payloads (free_response). This release syncs the two affected skills, which were updated in the deployed copies on 2026-07-20 and back-ported here.
+
+### helio-cli 0.2.0 → 0.3.0 (second source: CLI codebase)
+
+- Core idea gains the assets surface; "Known ceilings (UI-only)" drops asset upload, narrows to video/audio upload.
+- reference.md: `Assets` row in the command surface; new "Assets — upload, list, get" section (validation, polling, numeric ids, attachment paths, list filters); "What the CLI can't do" and failure-modes updated; `asset_id` pointer rewritten (was "get asset IDs from the web app").
+- Description gains "assets upload," "assets list," "--asset-id" triggers.
+- Verified by subagent retrieval test (6 probes, all correct from the files alone).
+
+### helio-assets 0.1.0 → 0.2.0
+
+- Uploading is now two paths (web app all types; CLI images only), with the polling caveat reconciled against the original "ready as soon as upload finishes" claim.
+- Handoffs updated: `helio-cli` added; "asset upload is a UI-only step" phrasing removed.
+- Description gains "upload from terminal," "assets upload CLI," "asset id" triggers.
+
+### Notes
+
+- **Drive docs not yet updated.** Both skills now cite a second source (`helio-cli v0.1.1 codebase`) beyond their Drive docs; "Assets v0.1" and "Helio CLI v1.3" on Drive still carry the pre-CLI upload story. A Drive-side refresh (Assets → v0.2, Helio CLI → v1.4) would restore single-source derivation.
+- Known remaining staleness elsewhere: `helio-asset-to-test`, `helio-creating-test` (canonical UI-only checklist), and `helio-mcp` still list asset upload as UI-only — queued as a separate task.
+
+### Plugin metadata
+
+- `marketplace.json` / `plugin.json` version: 0.9.0 → 0.10.0.
+
 ## v0.9.0 — 2026-07-06 — Test Pattern Playbook merged into helio-patterns (the "when" layer)
 
 A second Claude session analyzed **285 real tests over five months** (Feb–Jul 2026) and produced the Test Pattern Playbook: seven shared templates mapped to the project stage where each earns its place. This release lands it in the doc family and the marketplace.

@@ -3,7 +3,7 @@
 **Skill:** `helio-assets`
 **Source:** Assets v0.1
 **Source last synced:** 2026-05-23
-**Notes:** Source doc had two minor AEO-rubric gaps (Problem opener; Action pointer). Both are addressed in the ADDED sections at the end of this file.
+**Notes:** Source doc had two minor AEO-rubric gaps (Problem opener; Action pointer). Both are addressed in the ADDED sections at the end of this file. Amended 2026-07-20: image upload is now also available via helio-cli v0.1.1 (`assets upload`) — see the Uploading section.
 
 ---
 
@@ -33,9 +33,14 @@ You can also organize assets in your account's media library with folders, so co
 
 ## Uploading
 
-Helio's drag-drop / file picker uploader sends files directly to cloud storage rather than through Helio's servers.
+Two paths in:
 
-For images, processing is near-instant — Helio reads the dimensions and generates the variants it needs (different sizes for thumbnails, large views, etc.). The image is ready to use as soon as the upload finishes.
+- **Web app** — drag-drop / file picker for all asset types (images, video, audio). Files go directly to cloud storage rather than through Helio's servers.
+- **CLI** — `helio-cli assets upload <file>` for images only (jpg/jpeg/png/gif, max 10MB, multipart). Returns a numeric asset ID with `status: "processing"`; poll `helio-cli assets get <id>` until `complete`. Find existing assets with `assets list` (`--type`, `--name`, `--limit`, `--offset`). Attach to questions via `tests add-question --asset-id` / `tests edit-question --asset-id` or `asset_id` in question JSON. See `helio-cli` for the full command surface.
+
+Video and audio upload remain web-app only.
+
+For images, processing is near-instant — Helio reads the dimensions and generates the variants it needs (different sizes for thumbnails, large views, etc.). In the web app the image is ready to use as soon as the upload finishes; a CLI upload returns with `status: "processing"` and flips to `complete` within a few seconds (poll `assets get`).
 
 For video and audio, processing takes longer because Helio transcodes the file into adaptive streaming outputs (multiple bitrate variants for both DASH and HLS, plus thumbnail frames for the player). You can watch progress on the asset; once status flips to Complete, the asset is ready.
 
@@ -150,6 +155,7 @@ Asset handling failures are quiet — the test still runs but the data is corrup
 Reach for this skill when the user is:
 
 - Uploading images, video, or audio and confused about processing time / formats
+- Scripting image uploads from the terminal (`helio-cli assets upload`) or hunting for an asset ID to attach with `--asset-id`
 - Linking a Figma prototype and configuring OAuth
 - Hitting "broken image" displays in production (URL expiration, processing failure)
 - Asking about accessibility (alt text, captions) and discovering Helio doesn't have first-class fields
@@ -171,5 +177,6 @@ This is a reference, not a how-to. For where assets fit in test design, use `hel
 
 - For section types that use assets: `helio-section-types`
 - For the build workflow: `helio-asset-to-test`
+- For CLI asset commands (`assets upload/list/get`, `--asset-id`): `helio-cli`
 
 <!-- /ADDED -->
