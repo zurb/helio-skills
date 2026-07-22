@@ -1,5 +1,29 @@
 # Helio Marketplace — Changelog
 
+## v0.11.0 — 2026-07-21 — Drive docs refreshed; asset-upload staleness cleared across the family
+
+Closes both "Notes" items from v0.10.0. Two new Drive docs landed (composed via the Drive connector): **Assets v0.2** and **Helio CLI v1.4**, both carrying the helio-cli v0.1.1 assets command group. Four more Drive docs were uploaded in the same session for future skills: Figma Syncing v0.1, Glossary v0.1, Test Templates v0.1, From Finding to Test v0.1. Drive-side follow-up: Assets v0.1 and Helio CLI v1.3 should move to Archive (connector can't move files).
+
+### helio-cli 0.3.0 → 0.3.1 · helio-assets 0.2.0 → 0.2.1 (repoints)
+
+- doc_id / drive_url / source_doc_version repointed to Helio CLI v1.4 and Assets v0.2. Both skills are single-source again; the "codebase second source" from v0.10.0 is retired.
+
+### helio-creating-test 0.1.2 → 0.1.3
+
+- Canonical UI-only boundary checklist: the "Asset upload & finding asset IDs" row is now "Video/audio asset upload" — image upload/list/attach is CLI-native; MCP has no asset tools.
+
+### helio-asset-to-test 0.1.0 → 0.1.1
+
+- Step 7 loses the web-app upload detour for image-based tests; "what the workflow doesn't cover" and failure modes rewritten (hotspots, branching, video/audio remain UI-only).
+
+### helio-mcp 0.2.1 → 0.2.2
+
+- Ceilings restated per surface: MCP itself still has no asset tools (verified against the server code — no asset-named tools registered); route image uploads to helio-cli or the web app.
+
+### Plugin metadata
+
+- `marketplace.json` / `plugin.json` version: 0.10.0 → 0.11.0.
+
 ## v0.10.0 — 2026-07-21 — CLI assets command group: asset upload leaves the UI-only list
 
 helio-cli v0.1.1 (zurb/helio-cli PR #6) shipped an `assets` command group — `assets list` (`--type`/`--name`/`--limit`/`--offset`), `assets get <id>`, `assets upload <file>` (images only: jpg/jpeg/png/gif, max 10MB, multipart; returns a numeric id with `status: "processing"`, poll `assets get` until `complete`). Uploaded ids attach via `tests add-question --asset-id` / `tests edit-question --asset-id` or `asset_id` in question payloads (free_response). This release syncs the two affected skills, which were updated in the deployed copies on 2026-07-20 and back-ported here.

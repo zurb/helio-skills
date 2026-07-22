@@ -338,7 +338,7 @@ After launch:
 
 ## What this workflow doesn't yet cover
 
-- **Asset upload via API** — currently UI-only. If/when the API exposes this, Step 7 collapses into a single CLI invocation.
+- **Asset upload via API** — landed for images in helio-cli v0.1.1 (`assets upload`, jpg/jpeg/png/gif, max 10MB; attach with `--asset-id`). For image-based tests, Step 7's upload detour is gone. Video/audio upload remains UI-only.
 - **Hotspot region definition** — also UI-only. Worth investigating whether the Helio API has a hotspot endpoint that could be scripted from a JSON spec.
 - **Branching path config** — also UI-only. For complex prototype flows this is the biggest remaining manual step.
 - **Reading the resulting report** — covered in `helio-reading-report`.
@@ -372,7 +372,7 @@ For single-aspect depth, drop into sibling skills (sections, metrics, audience, 
 - **Forgetting the dual-knowledge probe** on dual-product pages. The Comprehension followup needs to expose whether respondents name both things.
 - **Generic Q5 choices.** "Learn more / Sign up / Other" tells you nothing. Use the page's actual CTAs.
 - **Sending before validating.** `validate` catches real config issues. `send` locks the structure permanently.
-- **Forgetting the UI-only steps.** Asset upload, hotspot drawing, and branching path config don't happen via the CLI. Plan for them in the workflow.
+- **Forgetting the UI-only steps.** Hotspot drawing and branching path config don't happen via the CLI (image upload now does — `assets upload`). Plan for them in the workflow.
 
 ## More worked examples (beyond Dual-Offer)
 

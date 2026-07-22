@@ -1,13 +1,13 @@
 # Helio CLI — Reference
 
 **Skill:** `helio-cli`
-**Source:** Helio CLI v1.3
-**Source last synced:** 2026-07-06
+**Source:** Helio CLI v1.4
+**Source last synced:** 2026-07-21
 **Notes:** v1.3 was regenerated from the CLI codebase (README, built-in guide, validation schemas) so the doc matches what the tool ships. This rebuild closes the v1.2 gap where only 4 of ~20 test commands were documented. Amended 2026-07-20 for helio-cli v0.1.1 (PR #6), which added the `assets` command group — asset upload/listing is no longer UI-only.
 
 ---
 
-<!-- DERIVED FROM: a source document — Helio CLI v1.3 -->
+<!-- DERIVED FROM: src-helio-cli-v1.4 — Helio CLI v1.4 -->
 
 Helio CLI is the most robust way to script Glare data collection — by hand, by cron, or by AI agent. It puts the full Helio research platform behind a terminal, with structured JSON output, dry-run validation, predictable exit codes, and test definitions you can version-control alongside the code they evaluate. Anywhere automation or an AI agent needs to call into Glare, the CLI is the contract.
 
