@@ -381,7 +381,7 @@ Some parts of a Helio test can only be built in the web app. This is the one aut
 
 | Step | Why UI-only | Workaround | Rough effort |
 |---|---|---|---|
-| Asset upload & finding asset IDs | API accepts no uploads and has no asset-list call | Upload in the web app; reference by `asset_id` from CLI/MCP | ~1 min per asset |
+| Video/audio asset upload | `assets upload` (CLI, since v0.1.1) accepts images only — jpg/jpeg/png/gif, max 10MB | Upload video/audio in the web app; images upload via `helio-cli assets upload`, find IDs with `assets list`, reference by `asset_id` / `--asset-id` from CLI (MCP has no asset tools) | ~1 min per asset |
 | Hotspot drawing (click tests) | Visual editor only | Web app | ~2 min per screen |
 | Click test / Tree test / Prototype task sections | API marks these non-creatable | Build the section in the web app; CLI/MCP can still read their reports (clicks, paths, Direct/Indirect/Failed) | ~5 min per section |
 | Branching & conditional follow-ups | No API endpoint | Configure in the web app after sections exist | ~2 min per branch |

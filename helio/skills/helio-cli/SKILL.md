@@ -1,15 +1,15 @@
 ---
 name: helio-cli
 description: Use this skill when the user is working with Helio from the terminal — installing the CLI, authenticating, building and iterating on draft tests, or scripting research. Triggers — "helio-cli," "Helio CLI," "@zurb/helio-cli," "tests create," "add-question," "edit-question," "remove-question," "tests reorder," "tests preview," "tests walkthrough," "question payload," "questions JSON schema," "tests question-types," "ux-metric-types," "add-ux-metrics," "--dry-run," "--output json," "tests validate," "tests send," "assets upload," "assets list," "--asset-id," "scripting helio," "cron helio," "CI helio," "PR check sentiment," "helio jq pipe," "what can't the CLI create." Do NOT use when the user is driving Helio interactively from chat/AI (use `helio-mcp`), designing the test itself (use `helio-creating-test` from a hunch, or `helio-asset-to-test` from an asset), or needs section type depth (use `helio-section-types`). For platform positioning, use `helio-app`.
-version: 0.3.0
-source_doc_version: Helio CLI v1.3 + helio-cli v0.1.1 codebase (assets)
-last_rebuilt: 2026-07-20
+version: 0.3.1
+source_doc_version: Helio CLI v1.4
+last_rebuilt: 2026-07-21
 
 sources:
-  - doc_id: 1eNqJH7N-FC8sZn1_z5vFxopUS-UizuC7XDHv8xAwO60
-    title: Helio CLI v1.3
-    drive_url: https://docs.google.com/document/d/1eNqJH7N-FC8sZn1_z5vFxopUS-UizuC7XDHv8xAwO60/edit
-    last_synced: 2026-07-06
+  - doc_id: 1M2PXT5oASNk_CaITO4ekcVGWKYpTrzTkLOuqz2DrYLo
+    title: Helio CLI v1.4
+    drive_url: https://docs.google.com/document/d/1M2PXT5oASNk_CaITO4ekcVGWKYpTrzTkLOuqz2DrYLo/edit
+    last_synced: 2026-07-21
 ---
 
 You are helping the user drive **Helio from the terminal** — by hand, by cron, or inside a CI/CD pipeline.
@@ -44,6 +44,10 @@ Read `reference.md` for the full surface — install, auth, the draft → iterat
 6. Recommend `tests walkthrough` before every send — it's the cheapest usability test they'll run.
 7. For image stimuli, use `assets upload` / `assets list` to get a numeric asset ID, then attach with `--asset-id` — no web-app detour needed.
 8. Flag the UI-only boundary early (video/audio upload, click/tree/prototype, branching, audience creation) so scripted builds don't dead-end.
+
+## What's new in v0.3.1
+
+Repointed to Drive doc Helio CLI v1.4, which now carries the assets command group — the skill is single-source again (the v0.3.0 codebase second source is folded into the doc).
 
 ## What's new in v0.3.0
 

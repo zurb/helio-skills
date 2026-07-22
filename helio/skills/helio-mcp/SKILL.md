@@ -1,7 +1,7 @@
 ---
 name: helio-mcp
 description: Use this skill when the user is connecting an AI assistant (Claude Desktop, Cursor, Claude Code, custom agent) to Helio via the Model Context Protocol — or driving Helio from one. Triggers — "Helio MCP," "MCP server," "MCP transport," "stdio vs HTTP," "@zurb/helio-mcp," "mcp.helio.app," "list_projects," "list_tests," "create_test via MCP," "add_question," "update_question," "update_test," "validate_test," "send_test," "get_test_report," "include filter_options," "get_filtered_responses," "compare_segments," "demographic filters MCP," "list_assessments," "create_assessment," "analyze_test prompt," "compare_audiences prompt," "how many MCP tools," "build a test from Claude." Do NOT use when the user is scripting from the terminal or CI (use `helio-cli`), designing the test itself (use `helio-creating-test` from a hunch, or `helio-asset-to-test` from an asset), or needs section type depth (use `helio-section-types`). For platform positioning, use `helio-app`.
-version: 0.2.1
+version: 0.2.2
 source_doc_version: Helio MCP v1.3
 last_rebuilt: 2026-07-06
 
@@ -28,7 +28,7 @@ Plus the `analyze_test` and `compare_audiences` prompts and the `helio://guide/a
 
 Two transports, same contract: **stdio** (`npx @zurb/helio-mcp` — Claude Desktop, Cursor, Claude Code) and **hosted HTTP** (`https://mcp.helio.app/api/mcp` with a Bearer token — Claude.ai web, custom agents).
 
-Same ceilings as the CLI (no asset upload, no click/tree/prototype creation, no branching, no audience creation), plus two MCP-specific gaps: no dry-run (`validate_test` is the pre-spend check) and no participant-eye walkthrough (use the preview URL `create_test` returns).
+Ceilings: no asset upload or listing on the MCP surface (the CLI has `assets upload/list/get` since v0.1.1 — route image uploads there), no click/tree/prototype creation, no branching, no audience creation, plus two MCP-specific gaps: no dry-run (`validate_test` is the pre-spend check) and no participant-eye walkthrough (use the preview URL `create_test` returns).
 
 ## Files to read
 
@@ -42,7 +42,11 @@ Read `reference.md` for the full setup — transports, requirements, the complet
 4. For test-building requests, walk the loop: `create_test` → iterate (`add/update/remove_question`, `update_test`) → `validate_test` → `send_test`. Payload schemas are identical to the CLI's — pull JSON examples from `helio-cli`.
 5. For reporting requests, start `get_test_report` with `include: "filter_options,summary"`, then drill in; use `compare_segments` for side-by-side cohort reads.
 6. Route metric-section edits correctly: `update_question` without `type` for safe fields, `update_test` for add/remove — never `remove_question`.
-7. Flag the UI-only boundary early (assets, click/tree/prototype, branching, audience creation) so an assistant-driven build doesn't dead-end.
+7. Flag the boundary early (asset upload — web app or helio-cli, not MCP; click/tree/prototype; branching; audience creation) so an assistant-driven build doesn't dead-end.
+
+## What's new in v0.2.2
+
+Asset boundary clarified per surface: the MCP server still has no asset tools, but image upload is no longer UI-only overall — helio-cli v0.1.1 added `assets upload/list/get`. Route image uploads to the CLI or web app.
 
 ## What's new in v0.2.0
 

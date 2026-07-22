@@ -1,9 +1,9 @@
 ---
 name: helio-asset-to-test
 description: Use this skill when the user is going from a design (screenshot, mockup, prototype) to a launched Helio test — building the test, validating it, and sending it. Triggers — "how do I build a test," "from asset to test," "set up a Helio test," "what test should I run," "test build workflow," "validate before launch," "dry-run a test," "how do I structure my questions," "Signal Blitz worked example," "pre-launch checklist," "naming the risk," "picking a template," "audience for my test," "questions JSON," "send test." Do NOT use when the user wants section type depth (use `helio-section-types`), metric attachment specifics (use `helio-ux-metrics`), audience setup specifics (use `helio-audience-flow`), or branching configuration (use `helio-branching`). For reading the resulting report, use `helio-reading-report`. For recognizing test shapes by pattern, use `helio-patterns`.
-version: 0.1.0
+version: 0.1.1
 source_doc_version: From Asset To Test v0.1
-last_rebuilt: 2026-05-23
+last_rebuilt: 2026-07-21
 
 sources:
   - doc_id: 1mzj79nyrqDPLqhW1nC4ib7ug5HMbOKfRGJxIgAz8CcA
@@ -24,13 +24,13 @@ Going from a design (screenshot, mockup, prototype) to a launched Helio test fol
 4. **Define the audience** (5 min) — single segment or fanout, prebuilt or custom list
 5. **Customize the questions** (15 min) — the question array, with followups and CTAs
 6. **Attach UX metrics** (1 min) — mostly mechanical, mapped from goal
-7. **Build, validate, launch** (10 min) — `helio-cli tests create`, UI for asset upload + hotspots, validate + send
+7. **Build, validate, launch** (10 min) — `helio-cli tests create` + `assets upload` (images), UI for hotspots, validate + send
 
 The step most often skipped is **Step 2 — name the testable risk**. It's also the one that distinguishes a useful test from a templated one. If you can't name the risk, you'll get a report with no decisive finding.
 
 ## Files to read
 
-Read `reference.md` for the full seven-step walkthrough, the worked Signal Blitz example, the pre-launch checklist, and what the workflow doesn't yet cover (asset upload, hotspots, branching — all UI-only today).
+Read `reference.md` for the full seven-step walkthrough, the worked Signal Blitz example, the pre-launch checklist, and what the workflow doesn't yet cover (hotspots and branching are UI-only; image asset upload is CLI-native since helio-cli v0.1.1).
 
 ## How to apply
 
@@ -40,13 +40,17 @@ Read `reference.md` for the full seven-step walkthrough, the worked Signal Blitz
 4. Walk through audience selection — prebuilt segment vs custom list vs fanout — using `helio-audience-flow` for depth.
 5. Help draft the questions array. Surface the question shapes per template. Use `helio-section-types` for section depth and `helio-ux-metrics` for metric attachment.
 6. Walk the user through validation: `helio-cli tests validate`, dry-run, preview. Don't `send` until validate passes clean.
-7. Surface the workflow gaps explicitly: asset upload, hotspot drawing, and branching path config are all UI-only today. The canonical UI-only boundary checklist (all seven steps, with workarounds and effort) lives in `helio-creating-test`.
+7. Surface the workflow gaps explicitly: hotspot drawing and branching path config are UI-only; image assets upload via `helio-cli assets upload` (video/audio remain web-app). The canonical UI-only boundary checklist (with workarounds and effort) lives in `helio-creating-test`.
 
 ## What's new in v0.1.0
 
 Initial release. Sourced from From Asset To Test v0.1. AEO scorecard flagged a Problem-opener gap — addressed in the ADDED section of `reference.md`.
 
 `agent-operations.md` is **not** built for v0.1.0. The workflow has a natural runtime contract (the 7-step arc, the pre-launch checklist), but no clear escalation triggers or output schema that need promotion yet. Surface to user during v0.2+ if a real runtime contract emerges.
+
+## What's new in v0.1.1
+
+Image asset upload left the UI-only list (helio-cli v0.1.1 `assets upload`, `--asset-id`); Step 7 no longer needs a web-app detour for image-based tests. Hotspots, branching, and video/audio upload remain UI-only.
 
 ## Handoffs
 

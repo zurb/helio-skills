@@ -1,7 +1,7 @@
 ---
 name: helio-creating-test
 description: Use this skill when the user wants to design a Helio test end to end — from a hunch to a launched test that produces a decision-grade signal. Triggers — "create a Helio test," "design a test," "turn this hunch into a test," "which test shape," "test template," "marketing page eval," "multi-screen flow eval," "content prioritization," "concept comparison," "hunch → shape → test → signal," "required followups," "bias check," "pre-launch checklist," "how many questions," "MaxDiff shows 0%," "one hunch per test," "web app vs CLI vs MCP." Also use when a test produced "interesting findings" but no decision, or the user starts from a belief rather than an asset. Do NOT use when the user starts from an existing asset/mockup (use `helio-asset-to-test`), wants shape recognition across past tests (use `helio-patterns`), section spec (use `helio-section-types`), audience mechanics (use `helio-audience-flow`), launch commands (use `helio-cli` / `helio-mcp`), or report synthesis (use `helio-reading-report`).
-version: 0.1.2
+version: 0.1.3
 source_doc_version: Creating a Helio Test v0.1
 last_rebuilt: 2026-07-06
 
@@ -42,6 +42,10 @@ Read `reference.md` for the full arc: the four shapes with real examples, the hu
 5. Run the bias check (leading / loaded / jargon / forced) on every prompt.
 6. Walk the pre-launch checklist; recommend a CLI dry-run before spending.
 7. Flag UI-only steps early: click tests, tree tests, prototype tasks, and hotspot drawing can't be built via CLI/MCP.
+
+## What's new in v0.1.3
+
+UI-only boundary checklist updated for helio-cli v0.1.1: image asset upload left the list (`assets upload/list/get`, `--asset-id`); the row now covers video/audio upload only. MCP still has no asset tools.
 
 ## What's new in v0.1.2
 

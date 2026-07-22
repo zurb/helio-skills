@@ -146,7 +146,7 @@ The question payload schema is identical to the CLI's: `type` + `instructions` r
 
 Same API, same ceilings as the CLI:
 
-- **No asset upload or listing** — `asset_id` references existing assets; creating or finding them is web-app work
+- **No asset upload or listing** — `asset_id` references existing assets; create or find them in the web app or via helio-cli (`assets upload` / `assets list`, images only)
 - **No click tests, tree tests, or prototype tasks** — creation is UI-only (reports for them are fully readable, including prototype journeys)
 - **No branching or skip logic, no audience segment creation, no scheduled launch**
 
