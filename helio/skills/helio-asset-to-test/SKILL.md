@@ -1,7 +1,7 @@
 ---
 name: helio-asset-to-test
 description: Use this skill when the user is going from a design (screenshot, mockup, prototype) to a launched Helio test — building the test, validating it, and sending it. Triggers — "how do I build a test," "from asset to test," "set up a Helio test," "what test should I run," "test build workflow," "validate before launch," "dry-run a test," "how do I structure my questions," "Signal Blitz worked example," "pre-launch checklist," "naming the risk," "picking a template," "audience for my test," "questions JSON," "send test." Do NOT use when the user wants section type depth (use `helio-section-types`), metric attachment specifics (use `helio-ux-metrics`), audience setup specifics (use `helio-audience-flow`), or branching configuration (use `helio-branching`). For reading the resulting report, use `helio-reading-report`. For recognizing test shapes by pattern, use `helio-patterns`.
-version: 0.1.1
+version: 0.1.2
 source_doc_version: From Asset To Test v0.1
 last_rebuilt: 2026-07-21
 

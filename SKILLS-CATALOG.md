@@ -21,7 +21,7 @@ The marketplace was trimmed in v0.3.0 from 17 to 14, two skills were added in v0
 |---|---|---|
 | `helio-creating-test` | Creating a Helio Test v0.1 | ✅ v0.1.3 (new in v0.6.0; owns the UI-only boundary checklist) |
 | `helio-patterns` | Helio Test Patterns v0.2 (scrubbed) + Test Pattern Playbook v0.1 (merged) | ✅ v0.3.0 |
-| `helio-asset-to-test` | From Asset To Test v0.1 | ✅ v0.1.1 |
+| `helio-asset-to-test` | From Asset To Test v0.1 | ✅ v0.1.2 |
 | `helio-section-types` | Section Types v0.1 | ✅ v0.1.0 |
 | `helio-audience-flow` | Audience Flow v0.1 | ✅ v0.1.0 |
 | `helio-branching` | Branching v0.1 | ✅ v0.1.0 |

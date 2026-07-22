@@ -1,5 +1,13 @@
 # Helio Marketplace — Changelog
 
+## v0.11.1 — 2026-07-21 — Patch: asset-to-test DERIVED body caught up; Notes framing cleaned
+
+A post-release retrieval test over the five updated skills found the v0.11.0 edits to `helio-asset-to-test` had only touched the ADDED sections — the DERIVED "asset gap" passage still said "The CLI cannot upload screen images." Fixed, along with the Signal Blitz example (image upload now shown via `assets upload`) and a doc bug (`--metrics` → `--ux-metrics`, twice). helio-cli / helio-assets reference Notes reframed from "Amended" to native v1.4 / v0.2 content. helio-asset-to-test 0.1.1 → 0.1.2. Known source-doc question deferred to the next From Asset To Test revision: the Signal Blitz `questions.json` includes a `click_test` entry even though click_test is not API-creatable.
+
+### Plugin metadata
+
+- `marketplace.json` / `plugin.json` version: 0.11.0 → 0.11.1.
+
 ## v0.11.0 — 2026-07-21 — Drive docs refreshed; asset-upload staleness cleared across the family
 
 Closes both "Notes" items from v0.10.0. Two new Drive docs landed (composed via the Drive connector): **Assets v0.2** (`1ZEJZA6-wYPqkK3i9Z3NZSOATJzwJCMXVHqlQWq50koE`) and **Helio CLI v1.4** (`1M2PXT5oASNk_CaITO4ekcVGWKYpTrzTkLOuqz2DrYLo`), both carrying the helio-cli v0.1.1 assets command group. Four more Drive docs were uploaded in the same session for future skills: Figma Syncing v0.1, Glossary v0.1, Test Templates v0.1, From Finding to Test v0.1. Drive-side follow-up: Assets v0.1 and Helio CLI v1.3 should move to Archive (connector can't move files).

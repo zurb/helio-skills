@@ -3,7 +3,7 @@
 **Skill:** `helio-assets`
 **Source:** Assets v0.2
 **Source last synced:** 2026-07-21
-**Notes:** Source doc had two minor AEO-rubric gaps (Problem opener; Action pointer). Both are addressed in the ADDED sections at the end of this file. Amended 2026-07-20: image upload is now also available via helio-cli v0.1.1 (`assets upload`) — see the Uploading section.
+**Notes:** Source doc had two minor AEO-rubric gaps (Problem opener; Action pointer). Both are addressed in the ADDED sections at the end of this file. v0.2 (2026-07-21) folds in the helio-cli v0.1.1 image-upload path (`assets upload`) — see the Uploading section.
 
 ---
 
