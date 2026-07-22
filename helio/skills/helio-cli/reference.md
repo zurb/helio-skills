@@ -3,7 +3,7 @@
 **Skill:** `helio-cli`
 **Source:** Helio CLI v1.3
 **Source last synced:** 2026-07-06
-**Notes:** v1.3 was regenerated from the CLI codebase (README, built-in guide, validation schemas) so the doc matches what the tool ships. This rebuild closes the v1.2 gap where only 4 of ~20 test commands were documented.
+**Notes:** v1.3 was regenerated from the CLI codebase (README, built-in guide, validation schemas) so the doc matches what the tool ships. This rebuild closes the v1.2 gap where only 4 of ~20 test commands were documented. Amended 2026-07-20 for helio-cli v0.1.1 (PR #6), which added the `assets` command group — asset upload/listing is no longer UI-only.
 
 ---
 
@@ -109,6 +109,7 @@ Always run `validate` before `send`. Send is immediate; there is no scheduled la
 - **Setup & diagnostics:** `auth login`, `auth status`, `config set`, `config get`, `doctor`, `status`, `guide`
 - **Browsing:** `projects list/get/tests`, `tests list`, `tests get <id>`, `audiences list/get`, `intercepts list/get`, `custom-lists list/participants/add-participants`, `participants create`
 - **Building a draft:** `tests create`, `tests add-question`, `tests edit-question`, `tests remove-question`, `tests order`, `tests reorder`, `tests add-ux-metrics`, `tests remove-ux-metrics`, `tests update` (name, intro, audience size), `tests delete`
+- **Assets:** `assets list` (filters: `--type`, `--name`, `--limit`, `--offset`), `assets get <id>`, `assets upload <file>` (images: jpg/jpeg/png/gif, max 10MB)
 - **Schema lookups:** `tests question-types` (all types with required/optional fields and examples), `tests ux-metric-types` (all metrics with what sections they build)
 - **Reviewing:** `tests preview`, `tests walkthrough [--interactive] [--output json]`
 - **Launching:** `tests validate`, `tests send`
@@ -212,9 +213,26 @@ Ten question types are creatable via the API. Each accepts snake_case or PascalC
   "choices": ["Speed", "Design", "Price"], "points": 100, "points_label": "points" }
 ```
 
-**Not creatable via API — UI-only:** `click_test`, `tree_test`, `prototype_task`. These need assets, hotspots, or Figma prototypes, which the API doesn't accept. Build them in the web app; the CLI can still read their reports (click coordinates, tree paths, Direct/Indirect/Failed grades and per-screen journeys via `--include prototype_journeys`).
+**Not creatable via API — UI-only:** `click_test`, `tree_test`, `prototype_task`. These need hotspot configuration or Figma prototypes, which the API doesn't accept. Build them in the web app; the CLI can still read their reports (click coordinates, tree paths, Direct/Indirect/Failed grades and per-screen journeys via `--include prototype_journeys`).
 
-`asset_id` and `site_link` can attach an *existing* asset or a URL to a question — but the CLI cannot upload assets or list them to find IDs. Get asset IDs from the web app.
+`asset_id` and `site_link` attach an asset or a URL to a question (`asset_id` is optional on `free_response`, and available on `tests add-question` / `edit-question` as `--asset-id`). Get asset IDs from `assets upload` or `assets list` — see the Assets section below.
+
+## Assets — upload, list, get
+
+As of helio-cli v0.1.1, image assets are fully CLI-native:
+
+```shell
+helio-cli assets upload ./homepage-mock.png      # jpg/jpeg/png/gif, max 10MB (multipart)
+helio-cli assets list --type image --name homepage --limit 25 --offset 0
+helio-cli assets get <asset-id>                  # status, dimensions, signed URLs
+```
+
+- **Upload** validates client-side first (file type and size) so bad files fail fast without a network call. Uploads return with `status: "processing"`; poll `assets get <id>` until `status` is `complete` for dimensions and URLs. Processing usually takes a few seconds.
+- **Asset IDs are numeric** — unlike test and project UUIDs.
+- **Attach to questions:** `tests add-question <test-id> --asset-id <id>` (free_response stimulus), `tests edit-question <test-id> <section-id> --asset-id <id>`, or `asset_id` in a question JSON payload.
+- **`list` filters:** `--type` (image, video, audio), `--name` (case-insensitive partial match on filename), `--limit` (default 25, max 100), `--offset`. All assets in the account library are listable, including video/audio uploaded via the web app.
+- **Still UI-only:** video and audio *upload* — `assets upload` accepts images only.
+- `--output json` works on all three, like every other command.
 
 ## UX metrics — auto-generated sections
 
@@ -258,7 +276,7 @@ helio-cli tests report <uuid> --output json | jq '.questions_summary'
 
 Know the ceilings before you script against them:
 
-- **No asset upload, no asset listing.** Existing assets can be referenced by `--asset-id`; creating or finding them happens in the web app.
+- **No video or audio upload.** `assets upload` handles images (jpg/jpeg/png/gif, max 10MB); video and audio files still go up through the web app. `assets list` can find them once they're there.
 - **No click tests, tree tests, or prototype tasks** — creation is UI-only (see above).
 - **No branching or skip logic.** Conditional routing and conditional follow-ups are configured in the web app.
 - **No audience segment creation.** `audiences list` browses existing segments and `--audiences` attaches them; building a segment or screener is UI-side.
@@ -305,6 +323,7 @@ Reach for this skill when the user is:
 - Installing or authenticating the CLI
 - Looking up the right command for a task — creating a draft, adding/editing/removing questions, reordering, previewing, walking through, validating, sending, pulling reports
 - Building a test programmatically and needing the **question payload schema** for a specific type
+- Uploading an image asset from the terminal, finding an asset ID, or attaching a stimulus with `--asset-id`
 - Scripting Helio inside cron, CI, or a build pipeline
 - Piping CLI JSON output to jq, Slack, or a data warehouse
 - Wiring `--dry-run` into PR checks
@@ -341,7 +360,7 @@ helio-cli tests send <test-id>
 ## Failure modes
 
 - **Confusing the CLI with the MCP.** They share the underlying API but have different driver models. CLI = scripts. MCP = AI assistants.
-- **Assuming everything is creatable.** Click tests, tree tests, prototype tasks, asset upload, branching, and audience creation are UI-only. Check "What the CLI can't do" before promising a fully scripted build.
+- **Assuming everything is creatable.** Click tests, tree tests, prototype tasks, video/audio upload, branching, and audience creation are UI-only. (Image upload is CLI-native as of v0.1.1 — `assets upload`.) Check "What the CLI can't do" before promising a fully scripted build.
 - **Recreating a test to change one question.** Use `add-question` / `edit-question` / `remove-question` / `reorder` on the draft instead — the incremental loop exists for this.
 - **Skipping `preview`/`walkthrough` before `send`.** The walkthrough is the cheapest usability test you'll ever run — on your own test.
 - **Forgetting `--dry-run` before a real launch.** Live `tests send` locks the structure and charges answers. Always dry-run first, and `validate` before `send`.

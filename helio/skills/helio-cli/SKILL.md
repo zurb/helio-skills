@@ -1,9 +1,9 @@
 ---
 name: helio-cli
-description: Use this skill when the user is working with Helio from the terminal — installing the CLI, authenticating, building and iterating on draft tests, or scripting research. Triggers — "helio-cli," "Helio CLI," "@zurb/helio-cli," "tests create," "add-question," "edit-question," "remove-question," "tests reorder," "tests preview," "tests walkthrough," "question payload," "questions JSON schema," "tests question-types," "ux-metric-types," "add-ux-metrics," "--dry-run," "--output json," "tests validate," "tests send," "scripting helio," "cron helio," "CI helio," "PR check sentiment," "helio jq pipe," "what can't the CLI create." Do NOT use when the user is driving Helio interactively from chat/AI (use `helio-mcp`), designing the test itself (use `helio-creating-test` from a hunch, or `helio-asset-to-test` from an asset), or needs section type depth (use `helio-section-types`). For platform positioning, use `helio-app`.
-version: 0.2.0
-source_doc_version: Helio CLI v1.3
-last_rebuilt: 2026-07-06
+description: Use this skill when the user is working with Helio from the terminal — installing the CLI, authenticating, building and iterating on draft tests, or scripting research. Triggers — "helio-cli," "Helio CLI," "@zurb/helio-cli," "tests create," "add-question," "edit-question," "remove-question," "tests reorder," "tests preview," "tests walkthrough," "question payload," "questions JSON schema," "tests question-types," "ux-metric-types," "add-ux-metrics," "--dry-run," "--output json," "tests validate," "tests send," "assets upload," "assets list," "--asset-id," "scripting helio," "cron helio," "CI helio," "PR check sentiment," "helio jq pipe," "what can't the CLI create." Do NOT use when the user is driving Helio interactively from chat/AI (use `helio-mcp`), designing the test itself (use `helio-creating-test` from a hunch, or `helio-asset-to-test` from an asset), or needs section type depth (use `helio-section-types`). For platform positioning, use `helio-app`.
+version: 0.3.0
+source_doc_version: Helio CLI v1.3 + helio-cli v0.1.1 codebase (assets)
+last_rebuilt: 2026-07-20
 
 sources:
   - doc_id: a source document
@@ -25,7 +25,9 @@ Helio CLI (`@zurb/helio-cli`) puts the full Helio research platform behind a ter
 
 Ten question types are creatable with formal payload schemas (free_response, multiple_choice, likert with 11 scale types, nps, ranking, preference, matrix, card_sort, max_diff, point_allocation), plus 11 auto-generated UX metrics. Machine-readable schemas ship in the tool itself: `tests question-types` and `tests ux-metric-types`.
 
-Known ceilings (UI-only): asset upload, click/tree/prototype tests, branching, audience creation, scheduled launch.
+Image assets are CLI-native too (v0.1.1): `assets upload <file>` (jpg/jpeg/png/gif, max 10MB), `assets list` to find IDs, `assets get <id>` for status and signed URLs — then attach with `tests add-question --asset-id` / `tests edit-question --asset-id` or `asset_id` in a question payload.
+
+Known ceilings (UI-only): video/audio upload, click/tree/prototype tests, branching, audience creation, scheduled launch.
 
 ## Files to read
 
@@ -39,7 +41,12 @@ Read `reference.md` for the full surface — install, auth, the draft → iterat
 4. When they're building questions programmatically, pull the exact payload schema from `reference.md` (or `tests question-types`) rather than guessing fields.
 5. Surface `--dry-run` and `tests validate` before anything that touches money; `--output json` for anything scripted.
 6. Recommend `tests walkthrough` before every send — it's the cheapest usability test they'll run.
-7. Flag the UI-only boundary early (assets, click/tree/prototype, branching, audience creation) so scripted builds don't dead-end.
+7. For image stimuli, use `assets upload` / `assets list` to get a numeric asset ID, then attach with `--asset-id` — no web-app detour needed.
+8. Flag the UI-only boundary early (video/audio upload, click/tree/prototype, branching, audience creation) so scripted builds don't dead-end.
+
+## What's new in v0.3.0
+
+helio-cli v0.1.1 (PR #6) added the `assets` command group — `list` (with `--type`, `--name`, `--limit`, `--offset`), `get <id>`, and `upload <file>` (images only: jpg/jpeg/png/gif, max 10MB, multipart). Asset upload is no longer a UI-only ceiling; uploaded asset IDs attach to questions via `--asset-id` or `asset_id` in payloads.
 
 ## What's new in v0.2.0
 

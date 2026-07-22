@@ -1,9 +1,9 @@
 ---
 name: helio-assets
-description: Use this skill when the user is working with assets in Helio — uploading images, video, audio, linking Figma prototypes, managing the media library, or troubleshooting asset delivery. Triggers — "Helio assets," "upload image," "upload video," "upload audio," "image variants," "signed URLs," "Figma integration," "Figma prototype URL," "Figma OAuth," "Figma sync," "media library," "asset library," "asset expired," "asset broken," "alt text," "video bitrates," "audio transcoding," "asset delivery." Do NOT use when the user wants section type spec (use `helio-section-types`) or test build workflow (use `helio-asset-to-test`).
-version: 0.1.0
-source_doc_version: Assets v0.1
-last_rebuilt: 2026-05-23
+description: Use this skill when the user is working with assets in Helio — uploading images, video, audio, linking Figma prototypes, managing the media library, or troubleshooting asset delivery. Triggers — "Helio assets," "upload image," "upload video," "upload audio," "image variants," "signed URLs," "Figma integration," "Figma prototype URL," "Figma OAuth," "Figma sync," "media library," "asset library," "asset expired," "asset broken," "alt text," "video bitrates," "audio transcoding," "asset delivery," "upload from terminal," "assets upload CLI," "asset id." Do NOT use when the user wants section type spec (use `helio-section-types`), test build workflow (use `helio-asset-to-test`), or the full CLI command surface (use `helio-cli`).
+version: 0.2.0
+source_doc_version: Assets v0.1 + helio-cli v0.1.1 codebase (assets)
+last_rebuilt: 2026-07-20
 
 sources:
   - doc_id: a source document
@@ -17,7 +17,7 @@ You are helping the user work with **assets in Helio** — images, video, audio,
 
 Helio supports four asset types, each with its own upload path and delivery model:
 
-1. **Images** (JPG, JPEG, PNG, GIF) — direct upload, near-instant processing, auto-generated variants
+1. **Images** (JPG, JPEG, PNG, GIF) — direct upload (web app or `helio-cli assets upload`, max 10MB via CLI), near-instant processing, auto-generated variants
 2. **Video** (MP4 and common formats) — transcoded into adaptive bitrate streams
 3. **Audio** (MP3 and common formats) — same transcoding path
 4. **Figma prototypes** — linked via share URL, no upload; uses Figma OAuth + cached node images
@@ -33,11 +33,15 @@ Read `reference.md` for the supported formats, upload mechanics (direct-to-stora
 ## How to apply
 
 1. Identify the asset type the user is working with (image, video, audio, Figma).
-2. Surface upload mechanics: images are near-instant; video/audio take longer because transcoding runs.
+2. Surface upload mechanics: images are near-instant; video/audio take longer because transcoding runs. Images can be uploaded from the terminal (`helio-cli assets upload`, jpg/jpeg/png/gif, max 10MB); video/audio upload is web-app only.
 3. For Figma: confirm OAuth is linked and the prototype is accessible to the token.
 4. For asset delivery issues, check signed URL behavior — standard URLs are 1-week, API URLs are 1-year. Underlying assets refresh when the page loads.
 5. Flag the silent failures: image dimensions defaulting to 0, video processing failures without auto-retry, Figma token expiration breaking sync.
 6. For accessibility-sensitive research, surface the no-alt-text-field limitation — captioning and alt text need to go in surrounding section instructions or choice text.
+
+## What's new in v0.2.0
+
+Image upload is no longer UI-only: helio-cli v0.1.1 added `assets upload` (jpg/jpeg/png/gif, max 10MB), plus `assets list` / `assets get` for finding IDs, and `--asset-id` / `asset_id` for attaching them to questions. Video and audio upload remain web-app only. See `helio-cli` for the command surface.
 
 ## What's new in v0.1.0
 
@@ -46,6 +50,7 @@ Initial release. Sourced from Assets v0.1. AEO scorecard flagged Problem and Act
 ## Handoffs
 
 - For **section types that use assets** (Click, Preference, Prototype, etc.), use `helio-section-types`.
-- For **the build workflow** (where asset upload is a UI-only step), use `helio-asset-to-test`.
-- For **the canonical UI-only boundary checklist** (asset upload is one of seven UI-only steps; plan them before choosing a surface), use `helio-creating-test`.
+- For **the build workflow**, use `helio-asset-to-test`.
+- For **uploading, listing, or attaching image assets from the terminal** (`assets upload/list/get`, `--asset-id`), use `helio-cli`.
+- For **the canonical UI-only boundary checklist** (plan UI-only steps — video/audio upload, click/tree/prototype builds, branching — before choosing a surface), use `helio-creating-test`.
 - For **Figma-specific sync depth** (full sync/auth/embed behavior), note that's covered here in summary; deeper engineering detail lives in the Helio codebase docs.
