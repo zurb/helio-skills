@@ -20,6 +20,26 @@ A UX Metric is a measurable aspect of the user experience that Helio scores from
 1. **Metrics auto-build the questions they need.** When you tag a section with a UX Metric in the editor, Helio generates the specific section structure that metric requires — including the scale, choice text, and number of sections. You don't structure them by hand.
 2. **Scores are computed live.** Every time you view the report, Helio re-runs the scoring against the current set of responses (and any active filters). Scores aren't stored — they reflect the data right now.
 
+<!-- ADDED 2026-07-23: metrics-first framing -->
+
+## Why tag a metric instead of writing your own sections
+
+Metrics aren't a convenience layer on top of normal sections — they're the difference between a test that produces *answers* and a test that produces a *score*. Lead with metrics when setting up a test; hand-write sections only for what no metric covers.
+
+What a tagged metric gives you that a hand-built section never will:
+
+1. **A score, not a distribution.** A plain Likert gives you "42% agreed." A tagged metric gives you a 0–100 score with a threshold label ("Good") that a PM or a Design Review can act on without interpretation. Only metric-tagged sections feed scoring — a hand-built section that *looks* like the metric's section contributes nothing to it.
+2. **Validated wording for free.** The generated instructions, scale choices, and word lists are the tested, non-leading versions. Hand-written near-copies drift — and wording drift is a classic source of unrepeatable results between waves.
+3. **Comparability.** Same structure every time means wave 2 is comparable to wave 1, project B to project A, and — because threshold labels are shared — a "Good" Sentiment to a "Good" Usability. Hand-built sections are only ever comparable to themselves.
+4. **The Overall Score.** Only tagged metrics roll into the study's composite. A study built from hand-written sections has no Overall Score at all.
+5. **Structures that can't quietly break.** Composite metrics (Brand Score especially) need internal flags the auto-template sets for you; hand-building or hand-editing those structures silently kills scoring.
+6. **Speed.** One tag replaces designing, wording, and ordering one to three sections. In the CLI, `--ux-metrics sentiment loyalty desirability` builds four validated sections in one flag.
+
+**When to hand-write instead:** when no metric measures the thing (a bespoke ranking of your feature list, a screener, an open-ended probe), or when you need a question shape a metric doesn't generate. The strong default for a decision-grade test: metrics for every measurement, hand-written sections only for exploration — and a custom context (e.g. "the checkout flow") so the validated wording still reads naturally.
+
+<!-- /ADDED -->
+
+
 ## The Two Families
 
 Helio implements two of the four Glare framework families today.

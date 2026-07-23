@@ -1,5 +1,30 @@
 # Helio Marketplace — Changelog
 
+## v0.12.0 — 2026-07-23 — helio-cli synced to CLI v0.3.2; metrics-first framing across the family
+
+Two workstreams from a live CLI testing session. First, `helio-cli` was verified command-by-command against the shipped binary (v0.3.0 → v0.3.2 released the same day), closing real doc drift: the documented `--ux-metrics` flag on `add-ux-metrics`/`remove-ux-metrics` errored on v0.3.0–0.3.1 (canonical flags are `--metrics` / `--metrics-json`; v0.3.2 added `--ux-metrics` aliases). Second, a gap analysis found no skill argued *why* UX metrics beat hand-built sections — the framing now exists, anchored in `helio-ux-metrics` and echoed where tests get built. Retrieval-tested: a fresh agent reading only the updated skills produced the correct commands and steered a hand-writing researcher to metric tags.
+
+### helio-cli 0.3.1 → 0.4.1
+
+- `add-ux-metrics`/`remove-ux-metrics` flags corrected to `--metrics` / `--metrics-json` (object form keys on `"type"`, not `"metric_type"`; per-metric `"context"`; `--position`); v0.3.2 aliases noted with the v0.3.0–0.3.1 caveat.
+- New v0.3.x surface documented: `tests participants` (per-respondent journeys + demographic filters), `helio-cli update [--check]`, `--ux-metrics-json` on create, follow-up flags (`--followup`, `--followup-required`, `--followup-for-choices`, `--remove-followup`), in-place editing of UX metric sections (`edit-question` with `--type` omitted), `tests list` server-side filters, `account_id`/`account_name` on `projects list` and in `preview`/`walkthrough` headers.
+- New failure modes: assets are account-scoped (cross-account attach → `HTTP 400 asset not found`); npm EEXIST stale-binary trap (prefer `helio-cli update`); flag-alias version gate.
+- Follow-up for the next Drive-doc revision: Helio CLI v1.4 doc needs the same updates (a v1.5 draft exists in Drive).
+
+### helio-ux-metrics 0.1.0 → 0.2.0
+
+- New reference section "Why tag a metric instead of writing your own sections": score vs distribution (hand-built look-alikes feed nothing into scoring), validated wording, cross-wave comparability, Overall Score membership, unbreakable composite structures, speed — plus when hand-writing is right (no metric covers it) and the context-noun move.
+- SKILL.md core idea now leads with metrics as the default test-setup move, not an add-on; "How to apply" step 1 steers hand-writers to tags.
+
+### helio-creating-test 0.1.3 → 0.1.4
+
+- New rule of thumb in "Pick UX metrics": let the metric auto-build its section when it can — the templates' hand-written prompts earn their custom wording; near-copies of a metric's question should be a tag plus a context noun. Resolves the tension where this skill taught hand-written prompts with metric tags without mentioning auto-build.
+
+### Plugin metadata
+
+- `marketplace.json` / `plugin.json` version: 0.11.1 → 0.12.0.
+- SKILLS-CATALOG.md versions updated for the three skills; helio-cli source noted as v1.4 + live sync vs CLI v0.3.2.
+
 ## v0.11.1 — 2026-07-21 — Patch: asset-to-test DERIVED body caught up; Notes framing cleaned
 
 A post-release retrieval test over the five updated skills found the v0.11.0 edits to `helio-asset-to-test` had only touched the ADDED sections — the DERIVED "asset gap" passage still said "The CLI cannot upload screen images." Fixed, along with the Dual-Offer example (image upload now shown via `assets upload`) and a doc bug (`--metrics` → `--ux-metrics`, twice). helio-cli / helio-assets reference Notes reframed from "Amended" to native v1.4 / v0.2 content. helio-asset-to-test 0.1.1 → 0.1.2. Known source-doc question deferred to the next From Asset To Test revision: the Dual-Offer `questions.json` includes a `click_test` entry even though click_test is not API-creatable.

@@ -1,7 +1,7 @@
 ---
 name: helio-ux-metrics
 description: Use this skill when the user is working with Helio's UX Metrics — picking which metric to attach, understanding what a score means, comparing metrics across studies, or interpreting threshold labels. Triggers — "UX metric," "what does Sentiment mean," "Behavioral vs Attitudinal," "Brand Score," "Desirability v1 vs v2," "what's a Good score," "threshold labels," "Very Good Good Average Poor Very Poor," "Overall Score," "the 17 metrics," "metric sections," "auto-build sections," "metric versioning," "Effort metric," "Feeling metric," "Appeal metric," "Usability metric," "AI-derived metrics," "metric isn't showing." Do NOT use when the question is about picking a section type (use `helio-section-types`), the AI heuristic evaluator (use `helio-design-analysis`), filtering report data (use `helio-report-filtering`), or synthesis (use `helio-reading-report`). For the Glare framework's broader metric taxonomy, use `glare-ux-metrics`.
-version: 0.1.0
+version: 0.2.0
 source_doc_version: UX Metrics v0.1
 last_rebuilt: 2026-05-23
 
@@ -21,6 +21,8 @@ Two key ideas drive everything else:
 
 1. **Metrics auto-build the questions they need.** Tag a section with a UX Metric and Helio generates the specific section structure that metric requires.
 2. **Scores are computed live.** Every report view re-runs scoring against current responses and any active filters. Scores aren't stored.
+
+**Framing that matters:** metrics are the default way to set up a test, not an add-on. A tagged metric produces a 0–100 score, a threshold label, cross-wave comparability, and a slot in the Overall Score; a hand-written section that merely resembles it produces an answer distribution and feeds none of that. Lead test setup with metrics; hand-write sections only for what no metric measures (see "Why tag a metric instead of writing your own sections" in `reference.md`).
 
 Helio implements two of Glare's four metric families:
 
@@ -47,13 +49,17 @@ Read `reference.md` for the full per-metric reference — what each metric captu
 
 ## How to apply
 
-1. Identify what the user wants to measure (a behavior, a feeling, a comprehension level, a recommendation).
+1. Identify what the user wants to measure (a behavior, a feeling, a comprehension level, a recommendation) — and if they're hand-writing a question a metric already covers, steer them to tagging the metric instead.
 2. Pick the metric family (Behavioral or Attitudinal) by whether the user is asking about what people *did* or how they *felt*.
 3. Pick the specific metric within that family by what it captures.
 4. Surface the required section structure (1 section, 2 sections, or 3 sections — some metrics like Brand Score need composite setups).
 5. Name the threshold label the user should expect / target.
 6. Flag versioning gotchas (especially Desirability v1 vs v2 — they coexist; confirm which is active before comparing across studies).
 7. Note the AI-derived metric caveat: Design Analysis scores use the same metric names but live in a separate data structure as labels only (no numeric 0–100).
+
+## What's new in v0.2.0
+
+Added the metrics-first framing: a "Why tag a metric instead of writing your own sections" section in `reference.md` (score vs distribution, validated wording, cross-wave comparability, Overall Score membership, unbreakable structures, speed — plus when hand-writing is right), and the framing paragraph in this file's Core idea. Echoed in `helio-cli` (UX metrics section) and `helio-creating-test` (rules of thumb). Metrics are the default test-setup move, not an add-on.
 
 ## What's new in v0.1.0
 
