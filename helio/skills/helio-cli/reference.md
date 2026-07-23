@@ -1,9 +1,9 @@
 # Helio CLI — Reference
 
 **Skill:** `helio-cli`
-**Source:** Helio CLI v1.4
-**Source last synced:** 2026-07-21
-**Notes:** v1.3 was regenerated from the CLI codebase (README, built-in guide, validation schemas) so the doc matches what the tool ships. This rebuild closes the v1.2 gap where only 4 of ~20 test commands were documented. v1.4 (2026-07-21) folds in the helio-cli v0.1.1 `assets` command group — asset upload/listing is no longer UI-only.
+**Source:** Helio CLI v1.4 + live verification against installed CLI v0.3.2
+**Source last synced:** 2026-07-23
+**Notes:** v1.3 was regenerated from the CLI codebase (README, built-in guide, validation schemas) so the doc matches what the tool ships. This rebuild closes the v1.2 gap where only 4 of ~20 test commands were documented. v1.4 (2026-07-21) folds in the helio-cli v0.1.1 `assets` command group — asset upload/listing is no longer UI-only. The 2026-07-23 sync verified every documented command against helio-cli **v0.3.0** live: renamed `add-ux-metrics` flags (`--metrics` / `--metrics-json`), added follow-up question flags, `tests participants`, `helio-cli update`, `--ux-metrics-json`, account name/ID on `projects list`, and the account-scoping rule for assets.
 
 ---
 
@@ -86,9 +86,18 @@ helio-cli tests edit-question <test-id> <section-id> --instructions "..."
 helio-cli tests remove-question <test-id> <section-id>
 helio-cli tests order <test-id>            # view current order
 helio-cli tests reorder <test-id> --order "metric:sentiment" "section:<uuid>"
-helio-cli tests add-ux-metrics <test-id> --ux-metrics loyalty intent
-helio-cli tests remove-ux-metrics <test-id> --ux-metrics loyalty
+helio-cli tests add-ux-metrics <test-id> --metrics loyalty intent
+helio-cli tests remove-ux-metrics <test-id> --metrics loyalty
 ```
+
+The canonical metric flags on `add-ux-metrics` / `remove-ux-metrics` are `--metrics` / `--metrics-json`; as of v0.3.2 `--ux-metrics` / `--ux-metrics-json` also work as aliases (matching `tests create`), but on v0.3.0–0.3.1 the alias errors with `unknown option`. Note `--ux-metric-context` is still create-only — per-metric context on an existing draft goes through the JSON object form:
+
+```shell
+helio-cli tests add-ux-metrics <test-id> \
+    --metrics-json '[{"type":"comprehension","context":"checkout flow"}]'
+```
+
+The object form requires a `"type"` key (`"metric_type"` is rejected) and accepts per-metric `"context"` plus per-section instructions/assets/followups. `add-ux-metrics` also takes `--position <n>` to insert the metric block at a 1-based position instead of appending. `--metrics-json` accepts `@path/to/file.json` like `--questions` does.
 
 4. **Review it two ways:**
 
@@ -106,15 +115,21 @@ Always run `validate` before `send`. Send is immediate; there is no scheduled la
 
 ## Command surface
 
-- **Setup & diagnostics:** `auth login`, `auth status`, `config set`, `config get`, `doctor`, `status`, `guide`
-- **Browsing:** `projects list/get/tests`, `tests list`, `tests get <id>`, `audiences list/get`, `intercepts list/get`, `custom-lists list/participants/add-participants`, `participants create`
+- **Setup & diagnostics:** `auth login`, `auth status`, `config set`, `config get`, `doctor`, `status`, `guide`, `update [--check]` (self-update to the latest published version)
+- **Browsing:** `projects list/get/tests`, `tests list` (filters: `--status`, `--min/max-responses`, `--tags`, `--created-after/before`, `--limit`, `--offset`), `tests get <id>`, `audiences list/get`, `intercepts list/get`, `custom-lists list/participants/add-participants`, `participants create`
 - **Building a draft:** `tests create`, `tests add-question`, `tests edit-question`, `tests remove-question`, `tests order`, `tests reorder`, `tests add-ux-metrics`, `tests remove-ux-metrics`, `tests update` (name, intro, audience size), `tests delete`
 - **Assets:** `assets list` (filters: `--type`, `--name`, `--limit`, `--offset`), `assets get <id>`, `assets upload <file>` (images: jpg/jpeg/png/gif, max 10MB)
 - **Schema lookups:** `tests question-types` (all types with required/optional fields and examples), `tests ux-metric-types` (all metrics with what sections they build)
 - **Reviewing:** `tests preview`, `tests walkthrough [--interactive] [--output json]`
 - **Launching:** `tests validate`, `tests send`
-- **Reading results:** `tests report <id>`, `tests responses <id>`
+- **Reading results:** `tests report <id>`, `tests responses <id>`, `tests participants <id>` (per-respondent journeys, with the same demographic/segment filters as `report`, plus `--participant <rsp_id>` and `--group-by cohort|audience_type`)
 - **Aliases:** `t` (tests), `p` (projects), `cl` (custom-lists), `pt` (participants), `a` (audiences), `ic` (intercepts), `r` (responses)
+
+**Account visibility (v0.3.0, expanded v0.3.2):** `projects list` returns `account_id` and `account_name` on every project — the first CLI surface that resolves account context by name. `projects list --name <search>` filters by project name. As of v0.3.2, `tests preview` and `tests walkthrough` headers also show `Project: <name> · <account name>` (backfilled from the report endpoint when the show response lacks it). Caveats: raw `tests get` JSON and `auth status` still show only numeric IDs, and on multi-account/staff tokens `projects list` returns projects from *every* visible account (potentially very large). The JSON is wrapped in a `projects` key:
+
+```shell
+helio-cli projects list --output json | jq '.projects[] | {name, account_id, account_name}'
+```
 
 ## tests create — inputs
 
@@ -128,6 +143,7 @@ Always run `validate` before `send`. Send is immediate; there is no scheduled la
 | `--audiences <ids...>` | Existing audience segment IDs |
 | `--questions <json or @file>` | Question array, inline or from a file |
 | `--ux-metrics <types...>` | Auto-generated metric sections (space-separated) |
+| `--ux-metrics-json <json or @file>` | Metric array in object form: `[{"type":"...","context":"..."}]` with per-section instructions/assets/followups |
 | `--ux-metric-context <text>` | Replaces the "[product]" noun in metric instructions |
 | `--dry-run` | Validate + estimate spend, no API call |
 
@@ -217,6 +233,14 @@ Ten question types are creatable via the API. Each accepts snake_case or PascalC
 
 `asset_id` and `site_link` attach an asset or a URL to a question (`asset_id` is optional on `free_response`, and available on `tests add-question` / `edit-question` as `--asset-id`). Get asset IDs from `assets upload` or `assets list` — see the Assets section below.
 
+### Follow-ups, positional inserts, and editing metric sections (v0.3.0)
+
+`tests add-question` and `tests edit-question` grew meaningfully in helio-cli v0.3.0:
+
+- **Follow-up questions:** `--followup <text>` adds a follow-up, `--followup-required` marks it required, and `--followup-for-choices <positions...>` (0-based) triggers it only for specific choices. `edit-question` also has `--remove-followup`.
+- **Positional insert:** `tests add-question --position <n>` inserts at a 1-based position instead of appending (same flag on `add-ux-metrics`).
+- **Editing UX metric sections in place:** `tests edit-question <test-id> <section-id>` with `--type` **omitted** edits a UX-metric-generated section — instructions, `--asset-id`, choices, `--randomize-choices` / `--no-randomize-choices`, and follow-ups — without detaching the metric. Pass `--type` only when replacing a regular question.
+
 ## Assets — upload, list, get
 
 As of helio-cli v0.1.1, image assets are fully CLI-native:
@@ -229,6 +253,7 @@ helio-cli assets get <asset-id>                  # status, dimensions, signed UR
 
 - **Upload** validates client-side first (file type and size) so bad files fail fast without a network call. Uploads return with `status: "processing"`; poll `assets get <id>` until `status` is `complete` for dimensions and URLs. Processing usually takes a few seconds.
 - **Asset IDs are numeric** — unlike test and project UUIDs.
+- **Assets are account-scoped.** `assets upload` lands in the API token's home account library, and an asset can only attach to tests in projects belonging to that same account. Attaching across accounts fails at create time with `HTTP 400: asset not found: <id>` — even though `assets get <id>` resolves fine. If a token can see multiple accounts' projects, check the project's `account_id` (from `projects list`) matches the account the asset was uploaded to before wiring `asset_id` into a payload.
 - **Attach to questions:** `tests add-question <test-id> --asset-id <id>` (free_response stimulus), `tests edit-question <test-id> <section-id> --asset-id <id>`, or `asset_id` in a question JSON payload.
 - **`list` filters:** `--type` (image, video, audio), `--name` (case-insensitive partial match on filename), `--limit` (default 25, max 100), `--offset`. All assets in the account library are listable, including video/audio uploaded via the web app.
 - **Still UI-only:** video and audio *upload* — `assets upload` accepts images only.
@@ -236,7 +261,7 @@ helio-cli assets get <asset-id>                  # status, dimensions, signed UR
 
 ## UX metrics — auto-generated sections
 
-Tagging a metric auto-builds the right section structure. Eleven are creatable via the CLI:
+Tagging a metric auto-builds the right section structure — and it's the better default than hand-writing questions: tagged metrics produce a 0–100 score with a threshold label, comparable across waves and studies, and roll into the Overall Score; hand-built sections produce answer distributions and feed none of that. Build the measurement spine of a test from `--ux-metrics`, then add hand-written questions only for what no metric covers (see `helio-ux-metrics` for the full argument). Eleven are creatable via the CLI:
 
 | Metric | Builds |
 |---|---|
@@ -256,7 +281,7 @@ Each metric ships default instructions with a "[product]" noun that `--ux-metric
 
 **Not creatable via CLI** (they require prototypes or click tests, which are UI-only): `brand_score`, `engagement`, `success`, `completion`, `usability`, `satisfaction`, `effort`.
 
-Metrics can be added to or removed from an existing draft (`tests add-ux-metrics` / `remove-ux-metrics`) without recreating the test. Duplicate metrics are rejected at validation.
+Metrics can be added to or removed from an existing draft (`tests add-ux-metrics --metrics <types...>` / `remove-ux-metrics --metrics <types...>`; `--ux-metrics` works as an alias since v0.3.2) without recreating the test. Duplicate metrics are rejected at validation. Once generated, metric sections can be tweaked in place with `tests edit-question` (omit `--type`) — see the follow-ups section above.
 
 ## Working with output
 
@@ -366,6 +391,9 @@ helio-cli tests send <test-id>
 - **Forgetting `--dry-run` before a real launch.** Live `tests send` locks the structure and charges answers. Always dry-run first, and `validate` before `send`.
 - **Pasting tokens into chat history.** Use env vars (`HELIO_API_ID`, `HELIO_API_TOKEN`) instead of inline credentials.
 - **Using Node <22.** The CLI shebang resolves to whatever `node` is first in PATH. Run `nvm use 22` (or equivalent) before invoking if your default is older.
+- **Using `--ux-metrics` on `add-ux-metrics`/`remove-ux-metrics` on v0.3.0–0.3.1.** Canonical flags are `--metrics` / `--metrics-json`; the `--ux-metrics` aliases only arrived in v0.3.2. The `--metrics-json` object form keys on `"type"`, not `"metric_type"` (a `"metric_type"` key is rejected with "Each entry must be a string or an object with a \"type\"").
+- **Attaching an asset to a project in a different account.** Assets are account-scoped to the token's home account; cross-account attachment fails with `asset not found` at create time. Check `account_id` on `projects list` first.
+- **Running a stale binary.** `npm install -g` can hit an `EEXIST` on the old symlink and silently leave the previous version in place — verify with `helio-cli --version`, and prefer the built-in `helio-cli update` (or `npm i -g @zurb/helio-cli@latest --force`).
 
 ## Where to go next
 

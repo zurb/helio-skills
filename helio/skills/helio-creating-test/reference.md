@@ -142,6 +142,7 @@ Rules of thumb:
 - **One metric per question.** If a question carries two metrics, it carries neither well.
 - **Behavioral + attitudinal together.** A click test alone tells you what happened; pair it with a "why did you click there?" followup so you know what they meant.
 - **Expectations is its own move.** Use it when the design is supposed to land a specific reveal (the banking-app flow pattern), not by default.
+- **Let the metric build the section when it can.** Tagging a metric auto-generates its validated section structure (wording, scale, choice text) — a scored, wave-comparable section for zero writing effort. The hand-written prompts in this doc's templates earn their custom wording (asset-specific context, a reveal to land); when yours doesn't, tag the metric and set the context noun instead of writing a near-copy — a look-alike section you write yourself produces a distribution, not a score, and stays out of the Overall Score. Full argument: `helio-ux-metrics`.
 
 ## Pick the audience
 
