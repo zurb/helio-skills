@@ -1,7 +1,7 @@
 ---
 name: helio-ux-metrics
 description: Use this skill when the user is working with Helio's UX Metrics — picking which metric to attach, understanding what a score means, comparing metrics across studies, or interpreting threshold labels. Triggers — "UX metric," "what does Sentiment mean," "Behavioral vs Attitudinal," "Brand Score," "Desirability v1 vs v2," "what's a Good score," "threshold labels," "Very Good Good Average Poor Very Poor," "Overall Score," "the 17 metrics," "metric sections," "auto-build sections," "metric versioning," "Effort metric," "Feeling metric," "Appeal metric," "Usability metric," "AI-derived metrics," "metric isn't showing." Do NOT use when the question is about picking a section type (use `helio-section-types`), the AI heuristic evaluator (use `helio-design-analysis`), filtering report data (use `helio-report-filtering`), or synthesis (use `helio-reading-report`). For the Glare framework's broader metric taxonomy, use `glare-ux-metrics`.
-version: 0.2.0
+version: 0.2.1
 source_doc_version: UX Metrics v0.1
 last_rebuilt: 2026-05-23
 
@@ -57,6 +57,10 @@ Read `reference.md` for the full per-metric reference — what each metric captu
 5. Name the threshold label the user should expect / target.
 6. Flag versioning gotchas (especially Desirability v1 vs v2 — they coexist; confirm which is active before comparing across studies).
 7. Note the AI-derived metric caveat: Design Analysis scores use the same metric names but live in a separate data structure as labels only (no numeric 0–100).
+
+## What's new in v0.2.1
+
+Added the journey counterweight to the "Why tag a metric" section in `reference.md`: tagging guarantees each section is valid, not that the sequence is coherent. Names the known collisions (sentiment ↔ desirability share the impressions MC; appeal ↔ reaction build the identical Likert) and the context-noun rule (one noun feeds every generated instruction — it must read naturally in all of them). Points to the journey checks in `helio-creating-test`.
 
 ## What's new in v0.2.0
 
