@@ -1,9 +1,9 @@
 ---
 name: helio-creating-test
 description: Use this skill when the user wants to design a Helio test end to end — from a hunch to a launched test that produces a decision-grade signal. Triggers — "create a Helio test," "design a test," "turn this hunch into a test," "which test shape," "test template," "marketing page eval," "multi-screen flow eval," "content prioritization," "concept comparison," "hunch → shape → test → signal," "required followups," "bias check," "pre-launch checklist," "how many questions," "MaxDiff shows 0%," "one hunch per test," "web app vs CLI vs MCP." Also use when a test produced "interesting findings" but no decision, or the user starts from a belief rather than an asset. Do NOT use when the user starts from an existing asset/mockup (use `helio-asset-to-test`), wants shape recognition across past tests (use `helio-patterns`), section spec (use `helio-section-types`), audience mechanics (use `helio-audience-flow`), launch commands (use `helio-cli` / `helio-mcp`), or report synthesis (use `helio-reading-report`).
-version: 0.1.4
+version: 0.2.0
 source_doc_version: Creating a Helio Test v0.1
-last_rebuilt: 2026-07-06
+last_rebuilt: 2026-07-23
 
 sources:
   - doc_id: src-creating-a-helio-test-v0.1
@@ -35,12 +35,22 @@ Read `reference.md` for the full arc: the four shapes with real examples, the hu
 ## How to apply
 
 1. Start with the hunch. If the user doesn't have one, draft it for them from what they've said and confirm it. No hunch, no test.
-2. Pick the shape with the decision rule (single page → marketing eval; flow → multi-screen; content sections competing → prioritization; two directions → comparison).
-3. Instantiate the matching template, filling every bracketed slot ([context], [primary action]) with the user's specifics.
-4. Attach one UX metric per question; pair behavioral and attitudinal.
-5. Run the bias check (leading / loaded / jargon / forced) on every prompt.
-6. Walk the pre-launch checklist; recommend a CLI dry-run before spending.
-7. Flag UI-only steps early: click tests, tree tests, prototype tasks, and hotspot drawing can't be built via CLI/MCP.
+2. **Check the project's history before designing fresh.** Projects reuse structures over time — pull the project's recent tests (`helio-cli projects list` → project tests → `tests preview`) and mirror the house structure; if a past test is close, `tests clone` it and edit the copy (clone also carries branching and the audience, neither of which can be built via CLI). Use `helio-patterns` for shape recognition across those past tests.
+3. Pick the shape with the decision rule (single page → marketing eval; flow → multi-screen; content sections competing → prioritization; two directions → comparison).
+4. **Draft in text first, then hand to the CLI.** Write the full test as a reviewable draft — hunch, shape, questions with types and metric tags — get the human yes, then convert to the CLI's JSON payload — `tests create --questions @draft.json --dry-run` validates the file without spending. Iterating on prose is cheaper than iterating on a created draft, and the review catches bias before anything exists in Helio.
+5. Instantiate the matching template, filling every bracketed slot ([context], [primary action]) with the user's specifics.
+6. Attach one UX metric per question; pair behavioral and attitudinal.
+7. Run the bias check (leading / loaded / jargon / forced) on every prompt.
+8. Walk the pre-launch checklist; recommend a CLI dry-run before spending.
+9. Flag UI-only steps early: click tests, tree tests, prototype tasks, and hotspot drawing can't be built via CLI/MCP (branching and audiences only via `tests clone` of an existing test).
+
+## What's new in v0.2.0
+
+Two workflow steps added to "How to apply" from the maintainer's 2026-07-23 dogfooding feedback: (1) check the project's recent tests before designing fresh — mirror the house structure or `tests clone` the closest match (the only scripted route to branching + audience reuse); (2) draft the test in reviewable text first, get the human yes, then convert to the CLI JSON payload.
+
+## What's new in v0.2.0
+
+Added "The journey must read as one conversation" to the preview step in `reference.md`, plus a matching pre-launch checklist item. Three concrete checks, born from a real walkthrough that failed all three: no duplicate questions from metric stacking (sentiment + desirability, appeal + reaction), the context noun read aloud in every generated sentence, and understanding-before-evaluation ordering (`tests reorder` fixes sequence without rebuilding). Companion caveat lives in `helio-ux-metrics` v0.2.1.
 
 ## What's new in v0.1.4
 

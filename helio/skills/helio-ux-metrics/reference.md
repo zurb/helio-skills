@@ -37,6 +37,8 @@ What a tagged metric gives you that a hand-built section never will:
 
 **When to hand-write instead:** when no metric measures the thing (a bespoke ranking of your feature list, a screener, an open-ended probe), or when you need a question shape a metric doesn't generate. The strong default for a decision-grade test: metrics for every measurement, hand-written sections only for exploration — and a custom context (e.g. "the checkout flow") so the validated wording still reads naturally.
 
+**The counterweight — metrics don't guarantee the journey.** Tagging guarantees each section is valid; it says nothing about whether the *sequence* reads as one coherent conversation. Known collisions: sentiment and desirability both open with the same 8-word impressions Multiple Choice, and appeal and reaction generate the identical Likert — tag both and the participant sees the same question twice in a row. The context noun also feeds *every* generated instruction, so it must read naturally in all of them ("the checkout flow" works for impressions, breaks in "How likely would you be to purchase this ___?"). Always walk the assembled test participant-eye before sending and order it understanding-before-evaluation — see the journey checks in `helio-creating-test`.
+
 <!-- /ADDED -->
 
 

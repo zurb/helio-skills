@@ -1,5 +1,25 @@
 # Helio Marketplace — Changelog
 
+## v0.12.1 — 2026-07-23 — Journey coherence: the participant journey must read as one conversation
+
+The counterweight to v0.12.0's metrics-first framing, born from a real walkthrough: a draft built by the book (metrics tagged, context noun set) asked the identical question twice in a row (sentiment and desirability both open with the 8-word impressions MC), generated "How likely would you be to purchase this concept page?" (context noun breaks in the purchase sentence), and put purchase intent before comprehension. Tagging guarantees each section is valid — nothing guaranteed the sequence was coherent, and no skill said what to look for on the participant-eye pass. Now specified. Behavior-tested: a fresh agent reviewing that exact flawed sequence caught all three issues with the right fixes.
+
+### helio-creating-test 0.1.4 → 0.2.0
+
+- New "The journey must read as one conversation" block in the preview step: no duplicate questions from metric stacking (named collisions: sentiment ↔ desirability, appeal ↔ reaction), the context noun read aloud in every generated sentence, understanding-before-evaluation ordering (open impressions → comprehension → evaluation → advocacy; `tests reorder` fixes sequence without rebuilding). Matching pre-launch checklist item added.
+
+### helio-ux-metrics 0.2.0 → 0.2.1
+
+- "The counterweight — metrics don't guarantee the journey" added to the Why-tag-a-metric section: known section collisions, the one-noun-feeds-every-instruction rule, pointer to the journey checks.
+
+### helio-cli 0.4.1 → 0.5.0
+
+- The walkthrough recommendation now says what to look for (duplicates from metric stacking, a context noun that breaks in some generated sentence, evaluation before comprehension) in both "How to apply" and the failure-modes list.
+
+### Plugin metadata
+
+- `marketplace.json` / `plugin.json` version: 0.12.0 → 0.12.1; SKILLS-CATALOG.md versions updated.
+
 ## v0.12.0 — 2026-07-23 — helio-cli synced to CLI v0.3.2; metrics-first framing across the family
 
 Two workstreams from a live CLI testing session. First, `helio-cli` was verified command-by-command against the shipped binary (v0.3.0 → v0.3.2 released the same day), closing real doc drift: the documented `--ux-metrics` flag on `add-ux-metrics`/`remove-ux-metrics` errored on v0.3.0–0.3.1 (canonical flags are `--metrics` / `--metrics-json`; v0.3.2 added `--ux-metrics` aliases). Second, a gap analysis found no skill argued *why* UX metrics beat hand-built sections — the framing now exists, anchored in `helio-ux-metrics` and echoed where tests get built. Retrieval-tested: a fresh agent reading only the updated skills produced the correct commands and steered a hand-writing researcher to metric tags.

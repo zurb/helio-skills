@@ -1,8 +1,8 @@
 ---
 name: helio-cli
 description: Use this skill when the user is working with Helio from the terminal — installing the CLI, authenticating, building and iterating on draft tests, or scripting research. Triggers — "helio-cli," "Helio CLI," "@zurb/helio-cli," "tests create," "add-question," "edit-question," "remove-question," "tests reorder," "tests preview," "tests walkthrough," "tests participants," "question payload," "questions JSON schema," "tests question-types," "ux-metric-types," "add-ux-metrics," "--metrics-json," "--dry-run," "--output json," "tests validate," "tests send," "assets upload," "assets list," "--asset-id," "asset not found," "account name," "scripting helio," "cron helio," "CI helio," "what can't the CLI create." Do NOT use when the user is driving Helio interactively from chat/AI (use `helio-mcp`), designing the test itself (use `helio-creating-test` from a hunch, or `helio-asset-to-test` from an asset), or needs section type depth (use `helio-section-types`). For platform positioning, use `helio-app`.
-version: 0.4.1
-source_doc_version: Helio CLI v1.4 (+ live sync vs CLI v0.3.2)
+version: 0.5.0
+source_doc_version: Helio CLI v1.4 (+ live sync vs CLI v0.3.2, + pending feat/helio-alias-clone-audiences)
 last_rebuilt: 2026-07-23
 
 sources:
@@ -14,6 +14,8 @@ sources:
 ---
 
 You are helping the user drive **Helio from the terminal** — by hand, by cron, or inside a CI/CD pipeline.
+
+**The binary is `helio-cli`, not `helio`.** Agents reach for `helio` first and it fails on v≤0.3.2; a `helio` alias ships in the next release (branch feat/helio-alias-clone-audiences). Until the user confirms that version is installed, always invoke `helio-cli`.
 
 ## Core idea
 
@@ -29,7 +31,7 @@ Ten question types are creatable with formal payload schemas (free_response, mul
 
 Image assets are CLI-native too (v0.1.1): `assets upload <file>` (jpg/jpeg/png/gif, max 10MB), `assets list` to find IDs, `assets get <id>` for status and signed URLs — then attach with `tests add-question --asset-id` / `tests edit-question --asset-id` or `asset_id` in a question payload. Assets are **account-scoped** to the token's home account — cross-account attachment fails with `asset not found`.
 
-Known ceilings (UI-only): video/audio upload, click/tree/prototype tests, branching, audience creation, scheduled launch.
+Known ceilings (UI-only): video/audio upload, tree/prototype tests, audience creation from scratch, scheduled launch, and branching on hotspots/variations/most-least labels. (Click tests AND multiple_choice branching became creatable in the pending release — see v0.5.0 below.) For the still-UI-only branching surfaces: `tests clone` an existing branched test and edit the copy — clone copies questions, UX metric groupings, branching, and the last audience/quota.
 
 ## Files to read
 
@@ -42,9 +44,24 @@ Read `reference.md` for the full surface — install, auth, the draft → iterat
 3. Match the task to the right command — and prefer the incremental loop over recreating tests to change one question.
 4. When they're building questions programmatically, pull the exact payload schema from `reference.md` (or `tests question-types`) rather than guessing fields.
 5. Surface `--dry-run` and `tests validate` before anything that touches money; `--output json` for anything scripted.
-6. Recommend `tests walkthrough` before every send — it's the cheapest usability test they'll run.
+6. Recommend `tests walkthrough` before every send — it's the cheapest usability test they'll run. What to look for: duplicate questions from metric stacking (sentiment + desirability, appeal + reaction build identical sections), a context noun that breaks in some generated sentence, and evaluation questions landing before comprehension ones (`tests reorder` fixes sequence).
 7. For image stimuli, use `assets upload` / `assets list` to get a numeric asset ID, then attach with `--asset-id` — no web-app detour needed.
 8. Flag the UI-only boundary early (video/audio upload, click/tree/prototype, branching, audience creation) so scripted builds don't dead-end.
+
+## What's new in v0.5.0 (pending CLI release)
+
+Built 2026-07-23 from the maintainer's dogfooding feedback (helio-cli branch feat/helio-alias-clone-audiences + helio branch claude/helio-skills-feedback-2ea061; features work once both ship):
+
+- **`helio` bin alias** alongside `helio-cli`.
+- **`tests clone <id>`** — wraps `POST /tests/:id/clone` (API live since an internal API issue). New draft in the same project; copies questions, UX metrics, branching, last audience. The scripted route to branched tests.
+- **`audiences list`** grew `--name <partial>` (case-insensitive), `--recent` (most recently used in a test first), and richer columns: `participants_count`, `tests_count`, `last_used_at`. **`audiences clone <id>`** copies an audience within its customer list ("Copy of …" naming).
+- **Branching is creatable on single-select multiple_choice** — `branching` in question payloads or `--branching <json|@file>` on `add-question`/`edit-question`: `[{choice: 0, action: "skip_to_question", question: 3}, {choice: 1, action: "end_test", message: "Not a fit", redirect_url: "..."}]`. choice = 0-based index; question = 1-based number (add/edit also take `section_id`). Mutually exclusive with followups. This is the scripted screener/disqualification pattern — see `helio-branching`.
+- **`click_test` is creatable** (11th question type): requires `asset_id` (upload via `assets upload`), optional `hotspots` array `[{name?, x, y, width, height, priority?}]` with relative 0–1 coordinates — omit hotspots for an engagement heatmap, include them for a success click test. New `--hotspots <json|@file>` flag on `add-question`/`edit-question`. Priorities: Primary (default) | Secondary | Tertiary.
+- Recommended pattern for "build it like our usual tests": `projects list` → project's tests → `tests preview` the recent ones (or just `tests clone` the closest match) before building fresh.
+
+## What's new in v0.5.0
+
+Journey-coherence guidance added to the walkthrough recommendation ("How to apply" step 6 and the failure-modes list in `reference.md`): what to actually look for on the participant-eye pass — duplicate questions from metric stacking (sentiment + desirability share the impressions MC; appeal + reaction build the identical Likert), a context noun that breaks in some generated sentence, and evaluation landing before comprehension (`tests reorder` fixes sequence). Full journey checks live in `helio-creating-test` v0.2.0.
 
 ## What's new in v0.4.1
 

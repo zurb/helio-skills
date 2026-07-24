@@ -387,7 +387,7 @@ helio-cli tests send <test-id>
 - **Confusing the CLI with the MCP.** They share the underlying API but have different driver models. CLI = scripts. MCP = AI assistants.
 - **Assuming everything is creatable.** Click tests, tree tests, prototype tasks, video/audio upload, branching, and audience creation are UI-only. (Image upload is CLI-native as of v0.1.1 — `assets upload`.) Check "What the CLI can't do" before promising a fully scripted build.
 - **Recreating a test to change one question.** Use `add-question` / `edit-question` / `remove-question` / `reorder` on the draft instead — the incremental loop exists for this.
-- **Skipping `preview`/`walkthrough` before `send`.** The walkthrough is the cheapest usability test you'll ever run — on your own test.
+- **Skipping `preview`/`walkthrough` before `send`.** The walkthrough is the cheapest usability test you'll ever run — on your own test. Check the journey reads as one conversation: metric stacking can generate duplicate questions (sentiment + desirability share the impressions MC; appeal + reaction build the identical Likert), the context noun must read naturally in every generated sentence, and comprehension questions belong before evaluation ones (`tests reorder`).
 - **Forgetting `--dry-run` before a real launch.** Live `tests send` locks the structure and charges answers. Always dry-run first, and `validate` before `send`.
 - **Pasting tokens into chat history.** Use env vars (`HELIO_API_ID`, `HELIO_API_TOKEN`) instead of inline credentials.
 - **Using Node <22.** The CLI shebang resolves to whatever `node` is first in PATH. Run `nvm use 22` (or equivalent) before invoking if your default is older.

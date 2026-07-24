@@ -221,10 +221,17 @@ Catches schema errors and validation issues before any incentives are charged.
 
 Open the test as a participant would see it. Read every question aloud. Tap every interactive area. If something feels off, fix it now.
 
+**The journey must read as one conversation.** Sections that are each fine in isolation can still add up to an experience that makes no sense — especially when auto-built metric sections are stacked, because tagging guarantees each *section* is valid, not that the *sequence* is coherent. Walk the test screen-by-screen (`tests walkthrough` in the CLI) and check:
+
+- **No duplicate or near-duplicate questions.** Some metrics build the same section: sentiment and desirability both open with the 8-word impressions Multiple Choice, and appeal and reaction generate the identical Likert. Tag both and the participant is asked the same question twice in a row. Pick one, or space and reword via `edit-question`.
+- **The context noun reads naturally in *every* generated sentence.** One noun feeds all metric instructions — "the checkout flow" works in "What impressions does ___ give you?" but produces nonsense in "How likely would you be to purchase this ___?" Read each generated question aloud with the noun in place; if any sentence breaks, change the noun or edit that section's wording.
+- **Understanding before evaluation.** Order the journey the way a real encounter unfolds: open impressions → comprehension → evaluation (usefulness, purchase/intent) → advocacy (NPS). Asking "would you buy this?" before "do you understand what this is?" produces answers about confusion, not the product. `tests reorder` fixes sequence without rebuilding.
+
 ### 3. Pre-launch checklist
 
 - Every question has a clear UX metric attached
 - Every followup makes sense given the question above it
+- The full participant journey reads as one conversation — no duplicate questions from metric stacking, the context noun works in every sentence, understanding comes before evaluation
 - The audience filter is specific enough to be useful, not so narrow it can't fulfill
 - Total questions ≤ 8 — longer tests drop more participants and dilute every signal
 - The hunch from the start is still answerable by the test you've built
