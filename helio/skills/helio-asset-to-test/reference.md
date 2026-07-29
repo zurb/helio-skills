@@ -17,13 +17,15 @@ A prescriptive walkthrough for going from a design (a screenshot, mockup, or liv
 |---|---|---|---|
 | 1 | Classify the asset | 1 min | Reading |
 | 2 | Name the testable risk | 5 min | Thinking + writing |
-| 3 | Pick a template | 30 sec | Decision tree below |
+| 3 | Pick a template — it names your metric set | 30 sec | `helio-patterns` (T1–T7) |
 | 4 | Define the audience | 5 min | `helio-cli audiences list` + UI |
-| 5 | Customize the questions | 15 min | Drafting |
-| 6 | Attach UX metrics | 1 min | Mapping (see `helio-ux-metrics`) |
+| 5 | Tag the metrics — they build their own sections | 2 min | `--ux-metrics` on create / `--metrics` on `add-ux-metrics` |
+| 6 | Customize wording + add what no metric covers | 12 min | `edit-question` / `--questions` |
 | 7 | Build, validate, launch | 10 min | `helio-cli tests create` → UI → `send` |
 
-Total: ~40 minutes for a single-screen test once you've done it a few times.
+Total: ~35 minutes for a single-screen test once you've done it a few times.
+
+**The order matters.** Steps 5 and 6 used to run the other way — write the questions, then map metrics onto them. That produces hand-written sections that merely *resemble* metrics: they return answer distributions, not 0–100 scores with threshold labels, they aren't comparable across waves, and they don't roll into the Overall Score. Tag first and Helio builds the section with validated, non-leading wording; then you're only customizing what the template didn't hand you. See "Why tag a metric instead of writing your own sections" in `helio-ux-metrics`.
 
 ## Step 1 — Classify the asset
 
@@ -48,7 +50,7 @@ Common risks and the questions that probe them:
 
 | Risk | Test treatment |
 |---|---|
-| Comprehension — "they might not get what this is" | Use the R3 pre/post variant. Open-text knowledge probe in the comprehension followup. |
+| Comprehension — "they might not get what this is" | Use a pre/post comprehension variant (T5 with a knowledge probe before and after). Open-text knowledge probe in the comprehension followup. |
 | Findability — "the main CTA might be invisible" | Add a targeted `success` Click Test on top of the standard engagement click test. |
 | Trust / credibility — "the tone might land as gimmicky" | Tune the Q3 desirability descriptors with both positive *and* negative words that map directly onto the risk (e.g., "Overhyped", "Gimmicky" alongside "Credible", "Useful"). |
 | Conversion — "people might enjoy this but not act" | Add Q5's forced next-action multi-select with the page's actual CTAs as choices. The "intent vs desirability divergence" pattern is the diagnostic to watch. |
@@ -57,29 +59,37 @@ Common risks and the questions that probe them:
 
 If you can't name a risk, you probably shouldn't run a test — you'll get a templated report with no decisive finding.
 
-## Step 3 — Pick a template
+## Step 3 — Pick a template (it names your metric set)
 
-Decide by shape + goal, not by question count.
+Templates are the canonical T1–T7 in `helio-patterns`, derived from the real test corpus. **Picking one is how you pick your metrics** — each template declares the set it measures, so Step 5 is mostly confirmation rather than a fresh decision.
+
+Decide by shape + stage, not by question count. Ask the asset first, then the stage:
 
 ```
-Single screen?
-  ├── Quick brand impression only? → R5 (2 Qs)
-  ├── Need pre/post comprehension shift? → R3 (4 Qs)
-  ├── Standard impression + intent? → Core 5-Q
-  └── Need to rank page sections by interest? → Core 5-Q + MaxDiff insert
+One screen?
+  ├── Brand-new page, never tested?        → T5 · Homepage Five
+  │                                          engagement · comprehension · desirability · intent
+  ├── Content-heavy, which parts pull?     → T2 · MaxDiff Read
+  │                                          comprehension · desirability · engagement
+  ├── Product / package / shelf appeal?    → T3 · Shelf & NPS
+  │                                          comprehension · desirability · loyalty · occurrence · quality
+  └── Tuning a name, label, or copy line?  → T6 · Expectation Probe   (iterate)
+                                             expectations · sentiment
 
-Multi-screen flow?
-  ├── Linear walkthrough (A → B → C)? → 1 engagement click + 1–2 success
-  │   clicks per screen + reaction likert on final screen
-  ├── Prototype with branching paths? → Same shape, branching ON, define
-  │   hotspot paths in UI
-  └── Onboarding or setup flow? → Per-step expectation likert
-      + completion click test
+Connected flow?
+  ├── A/B-ing one interaction step?        → T1 · Two-Tap Check       (iterate)
+  │                                          engagement · expectations · sentiment
+  └── End-to-end flow, or a competitor?    → T7 · Flow Expectation    (iterate · benchmark)
+                                             expectations · success · sentiment
+
+Either asset, any stage — "can they find or do X?"
+                                           → T4 · Findability Sweep   (the workhorse, 52 uses)
+                                             engagement · success · sentiment · effort
 ```
 
-**Tie-breaker:** when in doubt, start with the **Core 5-Q** and add specialized questions (MaxDiff, success click, R3 pre/post probe) as needed. Removing a question from a draft is one CLI call (`tests remove-question`); restructuring a launched test is impossible.
+**Tie-breaker:** when in doubt, start with **T5** for a single screen or **T4** when the question is findability, then add specialized questions as needed. Removing a question from a draft is one CLI call (`tests remove-question`); restructuring a launched test is impossible.
 
-For the test shape catalog, use `helio-patterns`.
+**Stage check:** T1, T6, and T7 are iteration tools — they assume a locked shape and a prior round. Never open a cold read with them. Full stage-by-stage counts and the per-slot question tables are in `helio-patterns`.
 
 ## Step 4 — Define the audience
 
@@ -98,20 +108,56 @@ helio-cli tests create --audiences <uuid> <uuid> ...   # multi = fanout
 
 **Note:** The CLI accepts `--audiences <ids...>` at create time. Browsing the actual catalog and choosing live-mode pricing is still typically done in the Helio UI. For full audience setup depth, use `helio-audience-flow`.
 
-## Step 5 — Customize the questions
+## Step 5 — Tag the metrics (they build their own sections)
 
-This is the longest step. Most tests follow one of the templates from Step 3, but every test needs question-text customization.
+Your template named the metric set in Step 3; this step tags it so Helio builds those sections for you, with validated wording, before you write anything by hand.
+
+```shell
+# T5 · Homepage Five, on create
+helio-cli tests create --project-id <uuid> --name "..." --intro "..." \
+    --target-audience-size 100 \
+    --ux-metrics comprehension desirability intent \
+    --ux-metric-context "this homepage"
+
+# or onto an existing draft
+helio-cli tests add-ux-metrics <test-uuid> --metrics comprehension desirability intent
+```
+
+`--ux-metric-context` replaces the generic noun in every generated instruction — set it once, then read each generated question aloud to confirm the noun works in *all* of them ("purchase this homepage" is what failure sounds like).
+
+**What metrics can't build, and you'll hand-write in Step 6:** click tests (engagement/success need an asset and hotspots — creatable via CLI as of 0.4.0), MaxDiff section-ranking, and any question genuinely specific to your risk.
+
+**Non-obvious metric choices**, when the template's default set doesn't fit the risk you named in Step 2:
+
+| If the design's goal is… | Pick this metric |
+|---|---|
+| Retention / stickiness | `frequency` |
+| Affective satisfaction with a flow | `satisfaction` |
+| Brand-level loyalty | `loyalty` (NPS) |
+| Findability of a specific affordance | `success` (targeted click test) |
+| Conversion likelihood | `intent` |
+| First impression strength | `engagement` (broad click test) |
+
+**If you need the same metric twice** (e.g. `expectations` on three screens), the API rejects the duplicate even though the platform scores multiple instances fine — build that test in the web app rather than hand-building unscored look-alikes. See `helio-ux-metrics`.
+
+For the full per-metric reference, use `helio-ux-metrics`.
+
+## Step 6 — Customize wording, add what no metric covers
+
+Most tests follow their template's shape; this step tunes the generated wording and adds the sections metrics can't build. Edit a metric-built section in place with `tests edit-question <test-id> <section-id> --instructions "..."` (omit `--type` to keep the metric attached).
 
 ### Question shapes by slot
 
-| Slot | Standard text |
-|---|---|
-| Q1 — Comprehension Likert | "How well do you understand what this company offers?" |
-| Q1 followup (open-text) | "What does this company do?" — or for dual-product pages, "What does this company do, and what can they offer you?" |
-| Q2 — Engagement click test | "Click where you would go first on this page." |
-| Q3 — Desirability multi-select | "How does this feel?" with descriptor set tuned to the risk |
-| Q4 — Likelihood Likert | The verb matches the page's actual conversion outcome (see table below) |
-| Q5 — Next action | NPS for consumer pages; forced multi-select of actual CTAs for B2B |
+The T5 shape, with each slot's source. Slots marked *(metric-built)* already exist after Step 5 — you're only adjusting wording.
+
+| Slot | Source | Standard text |
+|---|---|---|
+| Q1 — Comprehension Likert | *(metric-built:* `comprehension`*)* | "How well do you understand what this company offers?" |
+| Q1 followup (open-text) | *(metric-built)* | "What does this company do?" — or for dual-product pages, "What does this company do, and what can they offer you?" |
+| Q2 — Engagement click test | hand-built (`--type click_test --asset-id`) | "Click where you would go first on this page." |
+| Q3 — Desirability multi-select | *(metric-built:* `desirability`*)* | "How does this feel?" with descriptor set tuned to the risk |
+| Q4 — Likelihood Likert | *(metric-built:* `desirability`*)* | The verb matches the page's actual conversion outcome (see table below) |
+| Q5 — Next action | *(metric-built:* `intent`*)* | NPS for consumer pages; forced multi-select of actual CTAs for B2B |
 
 ### Q4 verb by page type
 
@@ -130,28 +176,6 @@ Followup: always required, always *"Why did you choose that option?"*
 For most B2B pages, replace the standard NPS with a forced-choice next-action multi-select. List the **actual CTAs from the page** as choices, plus a "None of these" escape hatch. This is the load-bearing question for any page with multiple competing CTAs.
 
 If the page is a pure consumer surface with one clear conversion, use NPS instead.
-
-## Step 6 — Attach UX metrics
-
-Mostly mechanical — map each question to its standard metric. The non-obvious choices to flag:
-
-| If the design's goal is… | Pick this metric |
-|---|---|
-| Retention / stickiness | `frequency` |
-| Affective satisfaction with a flow | `satisfaction` |
-| Brand-level loyalty | `loyalty` (NPS) |
-| Findability of a specific affordance | `success` (targeted click test) |
-| Conversion likelihood | `intent` |
-| First impression strength | `engagement` (broad click test) |
-
-CLI:
-
-```shell
-helio-cli tests add-ux-metrics <test-uuid> \
-    --ux-metrics comprehension desirability intent
-```
-
-For the full per-metric reference, use `helio-ux-metrics`.
 
 ## Step 7 — Build, validate, launch
 
@@ -185,13 +209,15 @@ helio-cli tests validate <test-uuid>                         # check readiness t
 
 ### The asset gap
 
-Image upload is CLI-native since helio-cli v0.1.1 (`assets upload <file>`, jpg/jpeg/png/gif, max 10MB; find IDs with `assets list`; attach stimulus images via `--asset-id`). The CLI still **cannot define hotspots or build click-test sections**, so for click-test screens these steps happen in the Helio web UI:
+*Capability boundaries move — verify with `helio-cli update --check` before telling anyone something can't be done. Accurate as of helio-cli 0.6.0.*
 
-1. Attach each screen to its click test (stimulus questions can take `--asset-id` from the CLI instead).
-2. Draw the hotspot regions on each click test.
-3. Configure branching paths (if a multi-screen flow).
+Most of this gap has closed:
 
-After those UI steps, return to the CLI to validate and send.
+- **Image upload** — CLI-native since v0.1.1 (`assets upload <file>`, jpg/jpeg/png/gif, max 10MB; find IDs with `assets list`; attach with `--asset-id`).
+- **Click tests, hotspots included** — CLI-native since v0.4.0. `--type click_test --asset-id <id>` builds an engagement heatmap; add `--hotspots '[{"name":"...","x":0.1,"y":0.2,"width":0.3,"height":0.05,"priority":"Primary"}]'` (relative 0–1 coordinates) for a success click test.
+- **Branching** — CLI-native since v0.4.0 on single-select multiple_choice (`--branching`, forward-only skips or `end_test`). Requires a Helio Enterprise account.
+
+What still needs the web UI: **video and audio upload**, **audience segment creation**, **prototype and tree tests**, and **a second instance of a metric already tagged on the test** (the API rejects the duplicate even though the platform scores multiple instances). Note also that branch targets and hotspot definitions aren't readable back through the API yet, so verify those visually in the UI.
 
 For depth on asset handling, use `helio-assets`. For branching path config, use `helio-branching`.
 
@@ -225,7 +251,7 @@ Three candidate risks, ranked:
 
 ### Step 3 — Template
 
-Single screen + standard impression + intent + dual-CTA risk → **Core 5-Q with two adaptations**:
+Single screen, never tested, impression + intent + dual-CTA risk → **T5 · Homepage Five** (`engagement · comprehension · desirability · intent`) with two adaptations:
 
 - Q1 followup as dual-knowledge probe ("…and what can they offer you?")
 - Q5 forced next-action with all five CTAs + "None of these"
@@ -234,66 +260,43 @@ Single screen + standard impression + intent + dual-CTA risk → **Core 5-Q with
 
 Primary: Product Designers (US). Secondary fanout: UX Researchers, Design Managers. Maybe a "non-designer marketing/product lead" segment as a counterpoint to test whether the methodology language is too in-group.
 
-### Step 5 — Customize
+### Step 5 — Tag the metrics
 
-```json
-[
-  {
-    "type": "likert",
-    "instructions": "How well do you understand what this company offers?",
-    "scale_type": "comprehension",
-    "followup_question": "What does this company do, and what can they offer you?",
-    "enable_followup": true,
-    "followup_required": true
-  },
-  {
-    "type": "click_test",
-    "instructions": "Click where you would go first on this page."
-  },
-  {
-    "type": "multiple_choice",
-    "instructions": "How does this company's offering feel to you?",
-    "choices": [
-      "Credible", "Useful", "Innovative", "Playful",
-      "Gimmicky", "Self-promotional", "Overhyped", "Confusing"
-    ],
-    "allow_multiple": true,
-    "followup_question": "Why did you choose those options?",
-    "enable_followup": true,
-    "followup_required": true
-  },
-  {
-    "type": "likert",
-    "instructions": "How likely would you be to share this with someone on your team?",
-    "scale_type": "likelihood",
-    "followup_question": "Why did you choose that option?",
-    "enable_followup": true,
-    "followup_required": true
-  },
-  {
-    "type": "multiple_choice",
-    "instructions": "What would you most likely do next from this page?",
-    "choices": [
-      "Play the game",
-      "See the leaderboard",
-      "View the 28-metric cheatsheet",
-      "Read about the build process",
-      "Contact the team about a project",
-      "None of these"
-    ],
-    "allow_multiple": false,
-    "followup_question": "Why did you choose that option?",
-    "enable_followup": true,
-    "followup_required": true
-  }
-]
+T5's set, with the context noun set once so every generated instruction reads naturally:
+
+```shell
+helio-cli tests create --project-name "an internal product project" \
+    --name "Dual-Offer Homepage v1" --intro "..." --target-audience-size 100 \
+    --ux-metrics comprehension desirability intent \
+    --ux-metric-context "this homepage"
 ```
 
-### Step 6 — Metrics
+That builds the comprehension Likert, the desirability multi-select and likelihood Likert, and the intent multi-select — validated wording, scored, comparable across waves. Only the engagement click test is left to hand-build.
 
-Per question: `comprehension`, `engagement`, `desirability`, `intent`, `intent`.
+### Step 6 — Customize
 
-The two `intent` slots are deliberate — Q4 measures share/recommend likelihood, Q5 measures stated next action. Watching them diverge is the test's headline diagnostic.
+Add what no metric builds, then tune the generated wording in place:
+
+```shell
+# the one hand-built section — engagement click test on the homepage asset
+helio-cli tests add-question <test-uuid> --type click_test --position 2 \
+    --instructions "Click where you would go first on this page." \
+    --asset-id <asset-id> \
+    --followup "Why did you click there?" --followup-required
+
+# dual-knowledge probe on the comprehension followup (metric stays attached: no --type)
+helio-cli tests edit-question <test-uuid> <section-id> \
+    --followup "What does this company do, and what can they offer you?" --followup-required
+
+# the five real CTAs on the intent question, plus an escape hatch
+helio-cli tests edit-question <test-uuid> <section-id> \
+    --choices "Play the game" "See the leaderboard" "View the 28-metric cheatsheet" \
+              "Read about the build process" "Contact the team about a project" "None of these"
+```
+
+Metric coverage per question: `comprehension`, `engagement`, `desirability`, `desirability`, `intent`.
+
+The desirability pair is deliberate — the multi-select reads the feeling, the likelihood Likert reads the commitment, and watching them diverge is the test's headline diagnostic. (Both come from the one `desirability` tag, which builds two sections. If you ever need the *same* metric tagged twice, see the note in Step 5.)
 
 ### Step 7 — Build
 
@@ -306,11 +309,9 @@ helio-cli tests create \
     --audiences <designer-uuid> <ux-researcher-uuid> \
     --questions @signal-blitz-questions.json
 
-# CLI: helio-cli assets upload signal-blitz-homepage.png   (or upload in UI)
-# UI: attach the image to Q2's click test, draw hotspots
-# UI: optionally set branching off (single-screen test)
+helio-cli assets upload signal-blitz-homepage.png   # -> asset id
 
-helio-cli tests add-ux-metrics <test-uuid> --ux-metrics comprehension engagement desirability intent
+helio-cli tests add-ux-metrics <test-uuid> --metrics comprehension desirability intent
 helio-cli tests preview <test-uuid>
 helio-cli tests validate <test-uuid>
 helio-cli tests send <test-uuid>
@@ -326,7 +327,9 @@ Before `tests send`:
 - [ ] Q3 descriptor set has both positive *and* negative words mapped to the risk.
 - [ ] Q4 verb matches the page's actual conversion outcome.
 - [ ] Q5 choices are the page's *actual* CTAs (not generic ones).
-- [ ] UX metrics are attached to all measurement questions.
+- [ ] Every measurement is a **tagged metric**, not a hand-written look-alike — anything hand-built should be there because no metric covers it (click test, MaxDiff, a risk-specific probe), not because it was quicker to type.
+- [ ] The metric set matches the template you chose in Step 3.
+- [ ] The context noun reads naturally in *every* generated instruction (read them aloud).
 - [ ] Audience matches who the design is for (or is a deliberate fanout).
 - [ ] `helio-cli tests preview` reads like a real test to you.
 - [ ] `helio-cli tests validate` passes.
@@ -339,7 +342,7 @@ After launch:
 ## What this workflow doesn't yet cover
 
 - **Asset upload via API** — landed for images in helio-cli v0.1.1 (`assets upload`, jpg/jpeg/png/gif, max 10MB; attach with `--asset-id`). For image-based tests, Step 7's upload detour is gone. Video/audio upload remains UI-only.
-- **Hotspot region definition** — also UI-only. Worth investigating whether the Helio API has a hotspot endpoint that could be scripted from a JSON spec.
+- **Hotspot region definition** — CLI-native since v0.4.0 (`--hotspots`, relative 0–1 coordinates). Hotspots aren't readable back through the API yet, so confirm placement visually in the UI.
 - **Branching path config** — also UI-only. For complex prototype flows this is the biggest remaining manual step.
 - **Reading the resulting report** — covered in `helio-reading-report`.
 
@@ -372,30 +375,30 @@ For single-aspect depth, drop into sibling skills (sections, metrics, audience, 
 - **Forgetting the dual-knowledge probe** on dual-product pages. The Comprehension followup needs to expose whether respondents name both things.
 - **Generic Q5 choices.** "Learn more / Sign up / Other" tells you nothing. Use the page's actual CTAs.
 - **Sending before validating.** `validate` catches real config issues. `send` locks the structure permanently.
-- **Forgetting the UI-only steps.** Hotspot drawing and branching path config don't happen via the CLI (image upload now does — `assets upload`). Plan for them in the workflow.
+- **Assuming a ceiling that has moved.** Click tests, hotspots, and branching all became CLI-native in v0.4.0; image upload in v0.1.1. Run `helio-cli update --check` before telling a user something requires the web app — a stale binary reports its own limits as the tool's.
 
 ## More worked examples (beyond Dual-Offer)
 
 Quick shape-references for the most common test types — drawn from the corpus in `helio-patterns`. Use these as templates to copy from when designing a new test.
 
-### An athletic-apparel DTC homepage v1 — Marketing page eval (Core 5-Q)
+### An athletic-apparel DTC homepage v1 — Marketing page eval (T5 · Homepage Five)
 
 E-commerce landing page, athletic-apparel shoppers.
 
 - **Risk:** does the value prop read clearly enough to drive purchase intent?
 - **Audience:** US athletic-apparel shoppers (single segment)
-- **Template:** Core 5-Q
+- **Template:** T5 · Homepage Five
 - **Section order:** Click test → Comprehension Likert → Desirability multi-select (8 descriptors) → Likelihood Likert (purchase) → NPS
 - **Metrics:** `engagement` → `comprehension` → `desirability` → `desirability` → `loyalty`
 - **Headline read:** Desirability 87 / NPS 14 — liked but not advocated. Next test: share-moment design.
 
-### A veteran careers landing page — Content prioritization (Core 5-Q with MaxDiff)
+### A veteran careers landing page — Content prioritization (T2 · MaxDiff Read)
 
 Careers page, content-heavy.
 
 - **Risk:** which page sections actually pull job-seekers?
 - **Audience:** Banking, credit-card, credit-union users — adjacent audience, not literal veterans
-- **Template:** Core 5-Q with MaxDiff insert at Q2
+- **Template:** T2 · MaxDiff Read (MaxDiff insert at Q2)
 - **Section order:** Comprehension Likert → **MaxDiff** (best/worst on page sections) → Desirability → Likelihood (use this site) → Click test (next step)
 - **Metrics:** `comprehension` → (no metric on MaxDiff — uses raw best/worst counts) → `desirability` → `desirability` → `engagement`
 - **Headline read:** MaxDiff revealed which sections to lead with vs. demote. Action: reorder hero content.
@@ -422,8 +425,8 @@ Multi-segment audience, evaluation-style test.
 
 ## Where to go next
 
-- For section types in step 5: `helio-section-types`
-- For metric attachment in step 6: `helio-ux-metrics`
+- For section types in step 6: `helio-section-types`
+- For metric selection in steps 3 and 5: `helio-ux-metrics`
 - For audience setup in step 4: `helio-audience-flow`
 - For branching config in step 7: `helio-branching`
 - For asset handling in step 7: `helio-assets`

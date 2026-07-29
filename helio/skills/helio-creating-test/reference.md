@@ -298,6 +298,8 @@ The shapes that produce data but not direction:
 
 Three starting points based on the house patterns. Each is a question set you can edit and launch — not invented, lifted from the shapes Zurb already runs.
 
+**How to build one:** each slot below names its metric. Tag those metrics first (`--ux-metrics …`) and Helio builds the sections with validated wording — then adjust the prompt text in place with `edit-question` (omit `--type` so the metric stays attached). Hand-build only the slots a metric can't generate: click tests, MaxDiff, and anything specific to your risk. The prompts shown are the house wording to aim for, not payloads to paste. For the full T1–T7 template catalog with stage guidance, use `helio-patterns`.
+
 ### Template A — Marketing page eval (5 questions)
 
 Based on the athletic-apparel and B2B data-platform homepage tests.
@@ -387,15 +389,19 @@ The playbook also adds the **stage trigger** this doc doesn't cover: first look 
 
 Some parts of a Helio test can only be built in the web app. This is the one authoritative list; other skills point here. Plan these steps *before* choosing a surface, so a scripted or assistant-driven build doesn't dead-end.
 
+**Accurate as of helio-cli v0.6.0 — this boundary moves.** Run `helio-cli update --check` before telling anyone something can't be scripted; a stale binary reports its own limits as the tool's. Three rows left this list in v0.4.0 (click tests, hotspots, branching) after being documented as permanent.
+
 | Step | Why UI-only | Workaround | Rough effort |
 |---|---|---|---|
-| Video/audio asset upload | `assets upload` (CLI, since v0.1.1) accepts images only — jpg/jpeg/png/gif, max 10MB | Upload video/audio in the web app; images upload via `helio-cli assets upload`, find IDs with `assets list`, reference by `asset_id` / `--asset-id` from CLI (MCP has no asset tools) | ~1 min per asset |
-| Hotspot drawing (click tests) | Visual editor only | Web app | ~2 min per screen |
-| Click test / Tree test / Prototype task sections | API marks these non-creatable | Build the section in the web app; CLI/MCP can still read their reports (clicks, paths, Direct/Indirect/Failed) | ~5 min per section |
-| Branching & conditional follow-ups | No API endpoint | Configure in the web app after sections exist | ~2 min per branch |
-| Audience segment creation & screeners | No API endpoint | Build the segment in the web app; attach by ID via `--audiences` (CLI) / `audiences` (MCP) | varies |
-| 7 UX metrics: brand_score, engagement, success, completion, usability, satisfaction, effort | They require prototypes or click tests | Tag them in the web app once those sections exist | ~1 min |
+| Video/audio asset upload | `assets upload` accepts images only — jpg/jpeg/png/gif, max 10MB | Upload video/audio in the web app; images upload via `helio-cli assets upload` (MCP has no asset tools) | ~1 min per asset |
+| Tree test / Prototype task sections | API marks these non-creatable (need a Figma prototype or menu tree) | Build in the web app; CLI/MCP can still read their reports (paths, Direct/Indirect/Failed) | ~5 min per section |
+| **A second instance of an already-tagged metric** | API rejects the duplicate although the platform scores multiple instances | Build that instance in the web app, or `tests clone` a test that already has it — never hand-build a look-alike section | ~2 min |
+| Branching beyond single-select multiple_choice (hotspots, variations, most/least labels) | Only MC branching has an API surface | `tests clone` an existing branched test and edit the copy | ~2 min per branch |
+| Audience segment creation & screeners | No API endpoint | Build the segment in the web app; attach by ID via `--audiences` (CLI) / `audiences` (MCP), or `tests clone` to inherit the last audience | varies |
+| 5 UX metrics: brand_score, completion, usability, satisfaction, effort | They require prototypes or task-completion data | Tag them in the web app once those sections exist | ~1 min |
 | Scheduled launch | `send` fires immediately on every surface | Send manually at the intended time | — |
+
+**No longer UI-only** (CLI-native since v0.4.0, so don't plan a web detour for these): click test sections, hotspot definition (`--hotspots`, relative 0–1 coordinates), single-select multiple_choice branching (`--branching`, Enterprise accounts), and the `engagement` / `success` metrics that depend on click tests. Note that branch targets and hotspot coordinates aren't readable back through the API — verify those visually.
 
 The working pattern: **script the buildable part first, finish the UI-only steps in the web app, then validate and send from wherever is convenient** — drafts are shared across all three surfaces.
 

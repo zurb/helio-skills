@@ -1,7 +1,7 @@
 ---
 name: helio-patterns
 description: Use this skill when the user wants to recognize or construct Helio tests by shape and stage — the core 5-Q template, the seven data-backed templates (T1 Two-Tap Check, T2 MaxDiff Read, T3 Shelf & NPS, T4 Findability Sweep, T5 Homepage Five, T6 Expectation Probe, T7 Flow Expectation), multi-screen flows, audience fanouts, legacy template generations, the fixed-template vs evolving-flow iteration distinction. Triggers — "Helio test patterns," "test pattern playbook," "which template," "what test should I run at this stage," "first look vs iterate vs benchmark," "findability sweep," "expectation probe," "single-screen vs multi-screen," "engagement vs success click test," "metric coverage," "30-second scan," "audience fanout," "deep vs light template." Do NOT use when the user wants section type spec (use `helio-section-types`), the hunch → shape design arc (use `helio-creating-test`), the asset-first build workflow (use `helio-asset-to-test`), audience setup mechanics (use `helio-audience-flow`), or report synthesis (use `helio-reading-report`).
-version: 0.3.0
+version: 0.4.0
 source_doc_version: Helio Test Patterns v0.2 (scrubbed) + Test Pattern Playbook v0.1 (merged)
 last_rebuilt: 2026-07-06
 
@@ -54,6 +54,10 @@ Read `reference.md` for both layers: the reading synthesis (pattern catalog with
 3. For each metric in use, surface what to watch for — divergences (`engagement` high but `intent` low is the headline read).
 4. If the user is constructing a new test, walk the decision tree: single-screen vs multi-screen, A/B iteration vs flow redesign, headline outcome, audience.
 5. Surface "what's not in the sample" caveats for less-common shapes (MaxDiff, card sort, point allocation).
+
+## What's new in v0.4.0
+
+Metrics-first framing. §5 upgraded from "each question *can* carry a metric" to the default build move (tag first, then adjust wording; hand-write only what no metric builds). The construction decision tree now maps each headline outcome to a **metric to tag** rather than a question shape to assemble, with click-test-backed metrics (`engagement`, `success`) called out as the exception that still needs a hand-built section. This skill is now the routing target for `helio-asset-to-test` Step 3, which picks templates from the canonical T1–T7 set here.
 
 ## What's new in v0.3.0
 
