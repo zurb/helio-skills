@@ -283,7 +283,7 @@ Tagging a metric auto-builds the right section structure — and it's the better
 
 Each metric ships default instructions with a "[product]" noun that `--ux-metric-context` replaces (e.g. `--ux-metric-context "checkout flow"`).
 
-**Not creatable via CLI** (they require prototypes or click tests, which are UI-only): `brand_score`, `engagement`, `success`, `completion`, `usability`, `satisfaction`, `effort`.
+**Not creatable via CLI** — the API rejects these on `create` *and* `add-ux-metrics` ("requires click tests or prototypes and cannot be created via the API"): `brand_score`, `engagement`, `success`, `completion`, `usability`, `satisfaction`, `effort`. **Note the split:** click test *sections* became CLI-creatable in v0.4.0, but the `engagement` / `success` metric *tags* that score them did not — build the click test from the CLI, then attach its metric in the web app. `tests ux-metric-types` lists the eleven that are creatable.
 
 Metrics can be added to or removed from an existing draft (`tests add-ux-metrics --metrics <types...>` / `remove-ux-metrics --metrics <types...>`; `--ux-metrics` works as an alias since v0.3.2) without recreating the test. Duplicate metrics are rejected at validation. Once generated, metric sections can be tweaked in place with `tests edit-question` (omit `--type`) — see the follow-ups section above.
 

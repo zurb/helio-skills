@@ -1,7 +1,7 @@
 ---
 name: helio-cli
 description: Use this skill when the user is working with Helio from the terminal — installing the CLI, authenticating, building and iterating on draft tests, or scripting research. Triggers — "helio-cli," "Helio CLI," "@zurb/helio-cli," "tests create," "add-question," "edit-question," "remove-question," "tests reorder," "tests preview," "tests walkthrough," "tests participants," "question payload," "questions JSON schema," "tests question-types," "ux-metric-types," "add-ux-metrics," "--metrics-json," "--dry-run," "--output json," "tests validate," "tests send," "assets upload," "assets list," "--asset-id," "asset not found," "account name," "scripting helio," "cron helio," "CI helio," "what can't the CLI create." Do NOT use when the user is driving Helio interactively from chat/AI (use `helio-mcp`), designing the test itself (use `helio-creating-test` from a hunch, or `helio-asset-to-test` from an asset), or needs section type depth (use `helio-section-types`). For platform positioning, use `helio-app`.
-version: 0.6.0
+version: 0.6.1
 source_doc_version: Helio CLI v1.4 (+ live sync vs CLI v0.6.0)
 last_rebuilt: 2026-07-23
 
@@ -52,6 +52,10 @@ Read `reference.md` for the full surface — install, auth, the draft → iterat
 6. Recommend `tests walkthrough` before every send — it's the cheapest usability test they'll run. What to look for: duplicate questions from metric stacking (sentiment + desirability, appeal + reaction build identical sections), a context noun that breaks in some generated sentence, and evaluation questions landing before comprehension ones (`tests reorder` fixes sequence).
 7. For image stimuli, use `assets upload` / `assets list` to get a numeric asset ID, then attach with `--asset-id` — no web-app detour needed.
 8. Flag the UI-only boundary early — as of v0.6.0: video/audio upload, tree/prototype tests, audience creation, and duplicate metric instances. Click tests and multiple_choice branching are CLI-native since v0.4.0; don't repeat an older ceiling without checking.
+
+## What's new in v0.6.1
+
+Non-creatable metric list now states *why* and names the split — click test sections became creatable in v0.4.0, their `engagement` / `success` metric tags did not. Verified against `create` and `add-ux-metrics`.
 
 ## What's new in v0.6.0
 

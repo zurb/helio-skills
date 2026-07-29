@@ -1,7 +1,7 @@
 ---
 name: helio-creating-test
 description: Use this skill when the user wants to design a Helio test end to end — from a hunch to a launched test that produces a decision-grade signal. Triggers — "create a Helio test," "design a test," "turn this hunch into a test," "which test shape," "test template," "marketing page eval," "multi-screen flow eval," "content prioritization," "concept comparison," "hunch → shape → test → signal," "required followups," "bias check," "pre-launch checklist," "how many questions," "MaxDiff shows 0%," "one hunch per test," "web app vs CLI vs MCP." Also use when a test produced "interesting findings" but no decision, or the user starts from a belief rather than an asset. Do NOT use when the user starts from an existing asset/mockup (use `helio-asset-to-test`), wants shape recognition across past tests (use `helio-patterns`), section spec (use `helio-section-types`), audience mechanics (use `helio-audience-flow`), launch commands (use `helio-cli` / `helio-mcp`), or report synthesis (use `helio-reading-report`).
-version: 0.2.2
+version: 0.2.3
 source_doc_version: Creating a Helio Test v0.1
 last_rebuilt: 2026-07-23
 
@@ -44,6 +44,10 @@ Read `reference.md` for the full arc: the four shapes with real examples, the hu
 7. Run the bias check (leading / loaded / jargon / forced) on every prompt.
 8. Walk the pre-launch checklist; recommend a CLI dry-run before spending.
 9. Flag UI-only steps early — as of helio-cli v0.6.0: video/audio upload, tree/prototype tasks, audience creation, and a second instance of an already-tagged metric. Click tests, hotspots, and multiple_choice branching became CLI-native in v0.4.0, so check `helio-cli update --check` before repeating an older ceiling.
+
+## What's new in v0.2.3
+
+**Correction to v0.2.2.** The UI-only checklist wrongly dropped `engagement` and `success` from the non-creatable-metrics row on the reasoning that click tests became CLI-creatable in v0.4.0. Verified against the API: the *section* is creatable, the *metric tag* is not — `create` and `add-ux-metrics` both reject them ("requires click tests or prototypes and cannot be created via the API"). All seven remain non-creatable; the row now states the section-vs-tag split explicitly.
 
 ## What's new in v0.2.2
 

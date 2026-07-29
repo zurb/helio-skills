@@ -89,6 +89,8 @@ Either asset, any stage — "can they find or do X?"
 
 **Tie-breaker:** when in doubt, start with **T5** for a single screen or **T4** when the question is findability, then add specialized questions as needed. Removing a question from a draft is one CLI call (`tests remove-question`); restructuring a launched test is impossible.
 
+**Metric-tag caveat:** the sets above are the templates' *design* intent. `engagement` and `success` can't be tagged from the CLI/API — build their click test from the CLI, then attach the metric in the web app. The other nine tag normally with `--ux-metrics`.
+
 **Stage check:** T1, T6, and T7 are iteration tools — they assume a locked shape and a prior round. Never open a cold read with them. Full stage-by-stage counts and the per-slot question tables are in `helio-patterns`.
 
 ## Step 4 — Define the audience
@@ -125,7 +127,7 @@ helio-cli tests add-ux-metrics <test-uuid> --metrics comprehension desirability 
 
 `--ux-metric-context` replaces the generic noun in every generated instruction — set it once, then read each generated question aloud to confirm the noun works in *all* of them ("purchase this homepage" is what failure sounds like).
 
-**What metrics can't build, and you'll hand-write in Step 6:** click tests (engagement/success need an asset and hotspots — creatable via CLI as of 0.4.0), MaxDiff section-ranking, and any question genuinely specific to your risk.
+**What metrics can't build, and you'll hand-write in Step 6:** click tests, MaxDiff section-ranking, and any question specific to your risk. Note the click-test split — the *section* is CLI-creatable since v0.4.0 (`--type click_test --asset-id --hotspots`), but the `engagement` / `success` *metric tags* are still API-rejected, so attach those in the web app after the section exists.
 
 **Non-obvious metric choices**, when the template's default set doesn't fit the risk you named in Step 2:
 

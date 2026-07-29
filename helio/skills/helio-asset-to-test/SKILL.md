@@ -1,7 +1,7 @@
 ---
 name: helio-asset-to-test
 description: Use this skill when the user is going from a design (screenshot, mockup, prototype) to a launched Helio test — building the test, validating it, and sending it. Triggers — "how do I build a test," "from asset to test," "set up a Helio test," "what test should I run," "test build workflow," "validate before launch," "dry-run a test," "how do I structure my questions," "Signal Blitz worked example," "pre-launch checklist," "naming the risk," "picking a template," "audience for my test," "questions JSON," "send test." Do NOT use when the user wants section type depth (use `helio-section-types`), metric attachment specifics (use `helio-ux-metrics`), audience setup specifics (use `helio-audience-flow`), or branching configuration (use `helio-branching`). For reading the resulting report, use `helio-reading-report`. For recognizing test shapes by pattern, use `helio-patterns`.
-version: 0.2.0
+version: 0.2.1
 source_doc_version: From Asset To Test v0.1
 last_rebuilt: 2026-07-21
 
@@ -43,6 +43,10 @@ Read `reference.md` for the full seven-step walkthrough, the worked Signal Blitz
 5. **Tag the template's metrics first** (`--ux-metrics`) and let Helio build those sections with validated wording. A hand-written look-alike returns a distribution, not a scored, wave-comparable metric — see `helio-ux-metrics`.
 6. Then customize: add what no metric builds (click tests, MaxDiff, risk-specific questions), and tune the generated wording in place with `edit-question` (omit `--type` to keep the metric attached). Use `helio-section-types` for section depth.
 7. Walk the user through validation: `helio-cli tests validate`, dry-run, preview/walkthrough. Don't `send` until validate passes clean — and check the journey reads as one conversation (`helio-test-review` for a full pre-launch review).
+
+## What's new in v0.2.1
+
+**Correction to v0.2.0.** Clarified the click-test split wherever it appeared: the section is CLI-creatable since v0.4.0, but `engagement` / `success` metric tags are still API-rejected. Added a metric-tag caveat under the Step 3 template tree, since the templates' declared sets include those two.
 
 ## What's new in v0.1.0
 

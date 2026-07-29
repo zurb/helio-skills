@@ -11,7 +11,7 @@ The marketplace was trimmed in v0.3.0 from 17 to 14, two skills were added in v0
 | Skill | Source doc(s) | Status |
 |---|---|---|
 | `helio-app` | Helio App v1.3 + Using Helio v0.2 (merged) | ✅ v0.1.1 |
-| `helio-cli` | Helio CLI v1.4 (+ live sync vs CLI v0.6.0) | ✅ v0.6.0 |
+| `helio-cli` | Helio CLI v1.4 (+ live sync vs CLI v0.6.0) | ✅ v0.6.1 |
 | `helio-mcp` | Helio MCP v1.3 | ✅ v0.3.0 |
 | `helio-concepts` | Concepts v0.1 | ✅ v0.1.0 (new in v0.4.0) |
 
@@ -19,9 +19,9 @@ The marketplace was trimmed in v0.3.0 from 17 to 14, two skills were added in v0
 
 | Skill | Source doc(s) | Status |
 |---|---|---|
-| `helio-creating-test` | Creating a Helio Test v0.1 | ✅ v0.2.2 (new in v0.6.0; owns the UI-only boundary checklist) |
-| `helio-patterns` | Helio Test Patterns v0.2 (scrubbed) + Test Pattern Playbook v0.1 (merged) | ✅ v0.4.0 |
-| `helio-asset-to-test` | From Asset To Test v0.1 | ✅ v0.2.0 |
+| `helio-creating-test` | Creating a Helio Test v0.1 | ✅ v0.2.3 (new in v0.6.0; owns the UI-only boundary checklist) |
+| `helio-patterns` | Helio Test Patterns v0.2 (scrubbed) + Test Pattern Playbook v0.1 (merged) | ✅ v0.4.1 |
+| `helio-asset-to-test` | From Asset To Test v0.1 | ✅ v0.2.1 |
 | `helio-section-types` | Section Types v0.1 | ✅ v0.2.0 |
 | `helio-audience-flow` | Audience Flow v0.1 | ✅ v0.1.0 |
 | `helio-branching` | Branching v0.1 | ✅ v0.1.0 |
