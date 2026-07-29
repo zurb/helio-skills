@@ -1,5 +1,18 @@
 # Helio Marketplace — Changelog
 
+## v0.13.1 — 2026-07-24 — Correction: click test *sections* are CLI-creatable, their metric *tags* are not
+
+v0.13.0 corrected the UI-only boundary against the shipped CLI and overcorrected in one place. Because click test sections became creatable in helio-cli v0.4.0, we also moved `engagement` and `success` off the non-creatable-metrics list. That was wrong, and the CLI was right: the API rejects both on `tests create` **and** on `add-ux-metrics` — *"requires click tests or prototypes and cannot be created via the API"* — and `tests ux-metric-types` lists only the eleven creatable types. Verified directly against both endpoints.
+
+The distinction that matters: **the section and the metric tag are separate capabilities.** You can build a click test from the CLI (`--type click_test --asset-id --hotspots`) but must attach its `engagement` / `success` metric in the web app. All seven metrics — `brand_score`, `engagement`, `success`, `completion`, `usability`, `satisfaction`, `effort` — remain non-creatable.
+
+- **helio-creating-test 0.2.2 → 0.2.3** — the canonical UI-only checklist restores the seven-metric row and states the section-vs-tag split inline.
+- **helio-patterns 0.4.0 → 0.4.1** — the decision tree said "tag `success`" / "tag `engagement`"; corrected to build the click test from the CLI, attach the metric in the web app.
+- **helio-asset-to-test 0.2.0 → 0.2.1** — metric-tag caveat added under the Step 3 template tree, since T4/T5/T7 declare sets that include those two.
+- **helio-cli 0.6.0 → 0.6.1** — the non-creatable list now says why, and names the split.
+
+Caught by the maintainer reading the CLI's own error text against our docs — a good argument for the tool being the source of truth over any doc, which is the same lesson as [helio-cli#18](https://github.com/zurb/helio-cli/issues/18).
+
 ## v0.13.0 — 2026-07-24 — New review skill; metrics-first across every build path; ceilings corrected to shipped CLI
 
 Three threads, all traceable to one live incident. A teammate's agent session designed an a client assessment around the claim "click tests are UI-only, so add it in the web app." That was true for the binary it had and false as of helio-cli v0.4.0 — the click test was the centerpiece of the design, it never got added, and the test went live with 100 participants and no findability measure. Root-causing that produced a CLI fix (the update notice was suppressed for exactly the agent-shaped callers who most needed it — [helio-cli#18](https://github.com/zurb/helio-cli/issues/18), shipped in CLI v0.6.0), and this release on the skills side. Every capability claim in the family was re-verified against the shipped binary; all behavior changes were verified with fresh-agent tests.

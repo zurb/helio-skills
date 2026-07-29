@@ -170,8 +170,7 @@ When designing a new test:
 **What's the headline outcome you want?** Each answer is a **metric to tag**, not a question to write — the tag builds the section shown in parentheses.
 
 - Comprehension → tag `comprehension` (builds the likert; add the open-text knowledge probe as its followup).
-- Findability → tag `success` (hand-build the targeted click test it scores — `--type click_test --asset-id --hotspots`).
-- Engagement → tag `engagement` (hand-build the broad click test, hotspots optional for a heatmap).
+- Findability → `success`, and Engagement → `engagement`. **These two are the exception:** the click test itself is CLI-creatable (`--type click_test --asset-id --hotspots`), but the metric tag is not — the API rejects `engagement`/`success` on create *and* on `add-ux-metrics` ("requires click tests or prototypes and cannot be created via the API"). Build the click test from the CLI, then attach the metric in the web app.
 - Purchase / sign-up → tag `intent`, or `desirability` for the likelihood likert + required followup.
 - Stickiness → tag `frequency` ("how often would you use this") or `loyalty` (NPS).
 
