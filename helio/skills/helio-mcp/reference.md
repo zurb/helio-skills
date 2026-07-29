@@ -101,7 +101,7 @@ Twenty tools, grouped by what they're for.
 
 ### Building a draft (5)
 
-- `create_test` — create a draft: `project_id`, `name`, `intro`, `target_audience_size`, plus `questions` and/or `ux_metrics`. Same ten creatable question types and eleven auto-generated UX metrics as the CLI. Also accepts `ux_metric_context` (noun replacement) and `ux_metric_assets` (attach an asset_id or site_link per metric — **not available in the CLI**). Returns spend estimate, answers remaining, test and preview URLs.
+- `create_test` — create a draft: `project_id`, `name`, `intro`, `target_audience_size`, plus `ux_metrics` and/or `questions`. **Lead with `ux_metrics`** — each tag auto-builds its sections with validated wording and returns a scored, wave-comparable metric; use `questions` only for what no metric covers. Same creatable question types and eleven auto-generated UX metrics as the CLI. Also accepts `ux_metric_context` (noun replacement — read every generated instruction aloud to confirm the noun fits each sentence) and `ux_metric_assets` (attach an asset_id or site_link per metric — **not available in the CLI**). Returns spend estimate, answers remaining, test and preview URLs.
 - `add_question` — append a question to a draft
 - `update_question` — replace a regular question in place (provide `type`), or safely edit a UX metric section (omit `type`; only instructions / asset_id / site_link, plus choices on intent metrics)
 - `remove_question` — remove a question (subsequent questions shift down; UX metric sections are removed via `update_test` instead)

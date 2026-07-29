@@ -1,8 +1,8 @@
 ---
 name: helio-cli
 description: Use this skill when the user is working with Helio from the terminal — installing the CLI, authenticating, building and iterating on draft tests, or scripting research. Triggers — "helio-cli," "Helio CLI," "@zurb/helio-cli," "tests create," "add-question," "edit-question," "remove-question," "tests reorder," "tests preview," "tests walkthrough," "tests participants," "question payload," "questions JSON schema," "tests question-types," "ux-metric-types," "add-ux-metrics," "--metrics-json," "--dry-run," "--output json," "tests validate," "tests send," "assets upload," "assets list," "--asset-id," "asset not found," "account name," "scripting helio," "cron helio," "CI helio," "what can't the CLI create." Do NOT use when the user is driving Helio interactively from chat/AI (use `helio-mcp`), designing the test itself (use `helio-creating-test` from a hunch, or `helio-asset-to-test` from an asset), or needs section type depth (use `helio-section-types`). For platform positioning, use `helio-app`.
-version: 0.5.0
-source_doc_version: Helio CLI v1.4 (+ live sync vs CLI v0.3.2, + pending feat/helio-alias-clone-audiences)
+version: 0.6.0
+source_doc_version: Helio CLI v1.4 (+ live sync vs CLI v0.6.0)
 last_rebuilt: 2026-07-23
 
 sources:
@@ -10,13 +10,13 @@ sources:
     title: Helio CLI v1.4
     drive_url: https://docs.google.com/document/d/1M2PXT5oASNk_CaITO4ekcVGWKYpTrzTkLOuqz2DrYLo/edit
     last_synced: 2026-07-21
-  - title: Live verification against installed helio-cli v0.3.0 (--help output + real commands)
-    last_synced: 2026-07-23
+  - title: Live verification against installed helio-cli v0.4.0–v0.6.0 (--help output + real commands)
+    last_synced: 2026-07-24
 ---
 
 You are helping the user drive **Helio from the terminal** — by hand, by cron, or inside a CI/CD pipeline.
 
-**The binary is `helio-cli`, not `helio`.** Agents reach for `helio` first and it fails on v≤0.3.2; a `helio` alias ships in the next release (branch feat/helio-alias-clone-audiences). Until the user confirms that version is installed, always invoke `helio-cli`.
+**Check the version before stating any capability limit.** Run `helio-cli update --check` (or `--version`) first — capability boundaries move between releases, and a stale binary reports its own limits as the tool's. Since v0.6.0 the CLI prints an update notice to stderr even in `--output json` and non-TTY sessions, so agents are told; on older binaries nothing warns you. Both `helio-cli` and the shorter `helio` work as of v0.4.0 (note a user's own shell alias can shadow `helio`).
 
 ## Core idea
 
@@ -28,11 +28,15 @@ Helio CLI (`@zurb/helio-cli`) puts the full Helio research platform behind a ter
 4. **Review** — `tests preview` (structural) and `tests walkthrough` (participant-eye, `--interactive` or `--output json`)
 5. **`tests validate` then `tests send`** — server-side blocker check, then launch (immediate; locks structure, charges answers)
 
-Ten question types are creatable with formal payload schemas (free_response, multiple_choice, likert with 11 scale types, nps, ranking, preference, matrix, card_sort, max_diff, point_allocation), plus 11 auto-generated UX metrics. Machine-readable schemas ship in the tool itself: `tests question-types` and `tests ux-metric-types`.
+**Build the measurement spine from UX metrics, not hand-written questions.** `--ux-metrics <types...>` auto-generates each metric's sections with validated, non-leading wording and returns a 0–100 score with a threshold label, comparable across waves and rolled into the Overall Score; a hand-written look-alike returns only an answer distribution. Reach for `--questions` for what no metric covers. Eleven metrics are creatable this way; `helio-patterns` maps stage and asset to the right metric set.
+
+Question types are creatable with formal payload schemas (free_response, multiple_choice, likert with 11 scale types, nps, ranking, preference, matrix, card_sort, max_diff, point_allocation, and click_test since v0.4.0). Machine-readable schemas ship in the tool itself: `tests question-types` and `tests ux-metric-types`.
 
 Image assets are CLI-native too (v0.1.1): `assets upload <file>` (jpg/jpeg/png/gif, max 10MB), `assets list` to find IDs, `assets get <id>` for status and signed URLs — then attach with `tests add-question --asset-id` / `tests edit-question --asset-id` or `asset_id` in a question payload. Assets are **account-scoped** to the token's home account — cross-account attachment fails with `asset not found`.
 
-Known ceilings (UI-only): video/audio upload, tree/prototype tests, audience creation from scratch, scheduled launch, and branching on hotspots/variations/most-least labels. (Click tests AND multiple_choice branching became creatable in the pending release — see v0.5.0 below.) For the still-UI-only branching surfaces: `tests clone` an existing branched test and edit the copy — clone copies questions, UX metric groupings, branching, and the last audience/quota.
+Known ceilings as of **v0.6.0** (verify with `update --check` before repeating these): video/audio upload, tree/prototype tests, audience creation from scratch, scheduled launch, branching on hotspots/variations/most-least labels, and a second instance of a metric already tagged on the test (the API rejects the duplicate even though the platform scores multiple instances — build that one in the web app). Click tests with hotspots and single-select multiple_choice branching became creatable in v0.4.0. For the still-UI-only surfaces: `tests clone` an existing test and edit the copy — clone carries questions, UX metric groupings, branching, and the last audience/quota.
+
+Read-side gaps worth knowing: branch targets, click-test hotspots, and audience configuration aren't returned by any read command, so verify those in the web app.
 
 ## Files to read
 
@@ -40,23 +44,28 @@ Read `reference.md` for the full surface — install, auth, the draft → iterat
 
 ## How to apply
 
-1. Confirm the user has Node ≥ 22 and a Helio API token.
+1. Confirm the user has Node ≥ 22, a Helio API token, and a current binary (`helio-cli update --check`) — never state a capability limit without knowing the version.
 2. Walk them through install (`npm install -g @zurb/helio-cli`) and auth choice (interactive vs env vars).
 3. Match the task to the right command — and prefer the incremental loop over recreating tests to change one question.
 4. When they're building questions programmatically, pull the exact payload schema from `reference.md` (or `tests question-types`) rather than guessing fields.
 5. Surface `--dry-run` and `tests validate` before anything that touches money; `--output json` for anything scripted.
 6. Recommend `tests walkthrough` before every send — it's the cheapest usability test they'll run. What to look for: duplicate questions from metric stacking (sentiment + desirability, appeal + reaction build identical sections), a context noun that breaks in some generated sentence, and evaluation questions landing before comprehension ones (`tests reorder` fixes sequence).
 7. For image stimuli, use `assets upload` / `assets list` to get a numeric asset ID, then attach with `--asset-id` — no web-app detour needed.
-8. Flag the UI-only boundary early (video/audio upload, click/tree/prototype, branching, audience creation) so scripted builds don't dead-end.
+8. Flag the UI-only boundary early — as of v0.6.0: video/audio upload, tree/prototype tests, audience creation, and duplicate metric instances. Click tests and multiple_choice branching are CLI-native since v0.4.0; don't repeat an older ceiling without checking.
 
-## What's new in v0.5.0 (pending CLI release)
+## What's new in v0.6.0
 
-Built 2026-07-23 from Benjamin's dogfooding feedback (helio-cli branch feat/helio-alias-clone-audiences + helio branch claude/helio-skills-feedback-2ea061; features work once both ship):
+Metrics-first framing. Core idea now leads with building the measurement spine from `--ux-metrics` (scored, wave-comparable, Overall-Score-eligible) and reaching for `--questions` only for what no metric covers; the draft-loop create example leads with metrics plus `--ux-metric-context`. Question-type list adds `click_test` (creatable since CLI v0.4.0).
+
+## What's new in v0.5.0
+
+Built 2026-07-23 from Benjamin's dogfooding feedback and **verified live against the shipped CLI v0.4.0–v0.6.0**:
 
 - **`helio` bin alias** alongside `helio-cli`.
 - **`tests clone <id>`** — wraps `POST /tests/:id/clone` (API live since helio #4992). New draft in the same project; copies questions, UX metrics, branching, last audience. The scripted route to branched tests.
 - **`audiences list`** grew `--name <partial>` (case-insensitive), `--recent` (most recently used in a test first), and richer columns: `participants_count`, `tests_count`, `last_used_at`. **`audiences clone <id>`** copies an audience within its customer list ("Copy of …" naming).
-- **Branching is creatable on single-select multiple_choice** — `branching` in question payloads or `--branching <json|@file>` on `add-question`/`edit-question`: `[{choice: 0, action: "skip_to_question", question: 3}, {choice: 1, action: "end_test", message: "Not a fit", redirect_url: "..."}]`. choice = 0-based index; question = 1-based number (add/edit also take `section_id`). Mutually exclusive with followups. This is the scripted screener/disqualification pattern — see `helio-branching`.
+- **Branching is creatable on single-select multiple_choice** — `branching` in question payloads or `--branching <json|@file>` on `add-question`/`edit-question`: `[{choice: 0, action: "skip_to_question", question: 3}, {choice: 1, action: "end_test", message: "Not a fit", redirect_url: "..."}]`. choice = 0-based index; question = 1-based number counting researcher questions only (add/edit also take `section_id`, uuid or numeric). **Requires a Helio Enterprise account** (same gate as the editor); skips are **forward-only** (later questions); mutually exclusive with followups. This is the scripted screener/disqualification pattern — see `helio-branching`.
+- **Position round-trip rule**: mutation responses echo `position` as the 1-based question number matching the `position`/`add_ux_metrics_position` params — safe to feed back. Raw `tests get` section positions remain 0-based platform storage.
 - **`click_test` is creatable** (11th question type): requires `asset_id` (upload via `assets upload`), optional `hotspots` array `[{name?, x, y, width, height, priority?}]` with relative 0–1 coordinates — omit hotspots for an engagement heatmap, include them for a success click test. New `--hotspots <json|@file>` flag on `add-question`/`edit-question`. Priorities: Primary (default) | Secondary | Tertiary.
 - Recommended pattern for "build it like our usual tests": `projects list` → project's tests → `tests preview` the recent ones (or just `tests clone` the closest match) before building fresh.
 

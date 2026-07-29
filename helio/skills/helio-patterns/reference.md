@@ -67,7 +67,9 @@ Every likert and multi-select with a meaningful score has a *required* open-text
 
 ## 5. The UX metric is the real instrument
 
-Each question can carry a UX metric. The metric — not the question wording — determines what the test is measuring. Metrics seen across these 15 tests:
+The metric — not the question wording — determines what the test is measuring, and it's what you pick *first*. Tagging a metric generates the section it needs with validated, non-leading wording and returns a 0–100 score with a threshold label, comparable across waves and rolled into the Overall Score. A hand-written question that resembles a metric returns an answer distribution and feeds none of that. So: tag the metric, then adjust its wording — hand-write only what no metric builds (click tests, MaxDiff, risk-specific probes). Full argument in `helio-ux-metrics`.
+
+Metrics seen across these 15 tests:
 
 `comprehension`, `engagement`, `success`, `desirability`, `sentiment`, `intent`, `likelihood`, `satisfaction`, `frequency`, `loyalty`
 
@@ -165,13 +167,15 @@ When designing a new test:
 - A/B/C on the same screen → lock the test structure (145-style).
 - Redesigned flow → expect the test to evolve too (144-style), and document structural drift.
 
-**What's the headline outcome you want?**
+**What's the headline outcome you want?** Each answer is a **metric to tag**, not a question to write — the tag builds the section shown in parentheses.
 
-- Comprehension → comprehension likert + open-text knowledge probe.
-- Findability → success click tests with branching.
-- Engagement → engagement click test with many hotspots.
-- Purchase / sign-up → likelihood likert + required followup.
-- Stickiness → frequency or loyalty metric (NPS or "how often would you use this").
+- Comprehension → tag `comprehension` (builds the likert; add the open-text knowledge probe as its followup).
+- Findability → tag `success` (hand-build the targeted click test it scores — `--type click_test --asset-id --hotspots`).
+- Engagement → tag `engagement` (hand-build the broad click test, hotspots optional for a heatmap).
+- Purchase / sign-up → tag `intent`, or `desirability` for the likelihood likert + required followup.
+- Stickiness → tag `frequency` ("how often would you use this") or `loyalty` (NPS).
+
+Click-test-backed metrics (`engagement`, `success`) are the exception that still needs a hand-built section, because they need an asset and hotspot coordinates. Everything else on this list is one tag.
 
 **Who's it for?**
 

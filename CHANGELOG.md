@@ -1,5 +1,35 @@
 # Helio Marketplace — Changelog
 
+## v0.13.0 — 2026-07-24 — New review skill; metrics-first across every build path; ceilings corrected to shipped CLI
+
+Three threads, all traceable to one live incident. A teammate's agent session designed an Everpure assessment around the claim "click tests are UI-only, so add it in the web app." That was true for the binary it had and false as of helio-cli v0.4.0 — the click test was the centerpiece of the design, it never got added, and the test went live with 100 participants and no findability measure. Root-causing that produced a CLI fix (the update notice was suppressed for exactly the agent-shaped callers who most needed it — [helio-cli#18](https://github.com/zurb/helio-cli/issues/18), shipped in CLI v0.6.0), and this release on the skills side. Every capability claim in the family was re-verified against the shipped binary; all behavior changes were verified with fresh-agent tests.
+
+### New: helio-test-review 0.2.0
+
+Pre-launch review of one or more draft tests (single, or a 2–5 variant set), walking every screen participant-eye **including looking at every image**, through five lenses — Structure, Journey, Metric leverage, Stimuli, Cross-variant — returning severity-ordered findings that each carry a ready-to-run fix. Mechanical checks are tagged `[M]` as the spec for a future `helio-cli tests review` command. Derived from the new Drive doc *Reviewing Helio Tests v0.1*. In a live test against two planted-mismatch drafts it caught all three planted flaws plus four nobody planted, including a placeholder stimulus and byte-identical "variant" images.
+
+### Metrics-first, on the paths where tests actually get built
+
+The v0.12.0 framing landed only in the reference skills; the build paths still taught metrics-last. Fixed at the decision points:
+
+- **helio-asset-to-test 0.1.2 → 0.2.0** — Step 3 now routes to the canonical **T1–T7 templates in `helio-patterns`**, retiring the parallel R5/R3/Core-5-Q vocabulary that had diverged from it; each template names the metric set it measures, so picking the template *is* picking the metrics. Old steps 5 and 6 swapped: tag metrics first, then customize wording and add only what no metric builds. The Signal Blitz worked example was rebuilt — it had modelled a hand-built `questions.json` recreating metric-covered questions, using legacy `enable_followup`/`followup_question` keys the CLI now rejects outright.
+- **helio-patterns 0.3.0 → 0.4.0** — the construction decision tree maps each headline outcome to a **metric to tag** rather than a question shape to assemble; §5 upgraded from "each question *can* carry a metric" to the default build move.
+- **helio-cli 0.5.0 → 0.6.0**, **helio-mcp 0.2.2 → 0.3.0** (which had no version of the argument at all), **helio-section-types 0.1.0 → 0.2.0** (metric pairings became a check-before-you-hand-build decision point), **helio-creating-test 0.2.0 → 0.2.2**.
+
+### Ceilings corrected to the shipped CLI, and version-stamped
+
+- **The canonical UI-only checklist** in `helio-creating-test` — the one other skills defer to — listed click tests, hotspot drawing, and branching as permanently web-app-only. All three became CLI-native in v0.4.0. The table now carries a version stamp, a "this boundary moves, run `helio-cli update --check`" instruction, an explicit *no-longer-UI-only* row, and a new row for duplicate metric instances.
+- **helio-test-review** retires its degraded-mode premise: the API's blanking of `type`/`variations`/`ux_metric` on any test containing a click test was fixed upstream 2026-07-24. It was never a UI-built-vs-CLI-built split — the click test was the predictor. Known ceilings narrowed to three genuine read gaps (audience config, branch targets, hotspot coordinates).
+- Capability claims across the family now carry version stamps, and `helio-cli` / `helio-asset-to-test` instruct a version check before stating any limit.
+
+### New guidance: the same metric twice
+
+**helio-ux-metrics 0.2.1 → 0.3.0.** Previously undocumented anywhere, and the direct cause of the hand-built workaround in the incident. The platform scores multiple instances of one metric — a live test carries three `expectations` metrics at 77/78/78 — but the API and CLI reject the duplicate. Guidance: build that instance in the web app, or `tests clone` a test that has it; never hand-build a look-alike, which trades a scored metric for a raw distribution. `helio-test-review` lens 3 gains a check for exactly this workaround, plus a metric-set baseline against the corpus norms in `helio-patterns`.
+
+### Plugin metadata
+
+- `marketplace.json` / `plugin.json` version: 0.12.1 → 0.13.0; skill count 17 → 18; SKILLS-CATALOG.md updated.
+
 ## v0.12.1 — 2026-07-23 — Journey coherence: the participant journey must read as one conversation
 
 The counterweight to v0.12.0's metrics-first framing, born from a real walkthrough: a draft built by the book (metrics tagged, context noun set) asked the identical question twice in a row (sentiment and desirability both open with the 8-word impressions MC), generated "How likely would you be to purchase this concept page?" (context noun breaks in the purchase sentence), and put purchase intent before comprehension. Tagging guarantees each section is valid — nothing guaranteed the sequence was coherent, and no skill said what to look for on the participant-eye pass. Now specified. Behavior-tested: a fresh agent reviewing that exact flawed sequence caught all three issues with the right fixes.

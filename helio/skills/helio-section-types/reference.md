@@ -473,7 +473,11 @@ For the single-variation types, you can still A/B test concepts by making each o
 
 ### UX Metric pairings
 
-If you tag a section with a UX Metric, Helio will auto-build the section structure needed to compute it. For the full pairing table, use `helio-ux-metrics`.
+**Check this before hand-building any section.** If a UX Metric measures what you're after, tag the metric instead of writing the section — Helio auto-builds the structure it needs, with validated non-leading wording, and returns a 0–100 score with a threshold label that's comparable across waves and rolled into the Overall Score. A hand-built section that resembles a metric returns only an answer distribution and feeds none of that.
+
+Metric-built by default: Likert (comprehension, usefulness, appeal, reaction, frequency, expectations), Multiple Choice (sentiment, feeling, desirability, intent), NPS (loyalty), Free Response (the expectations baseline).
+
+Hand-build when no metric covers it — Click Test and Prototype/Tree tasks (the metric scores them but can't generate them), MaxDiff, Ranking, Card Sort, Matrix, Point Allocation, and any probe specific to your risk. For the full pairing table, use `helio-ux-metrics`; for which metric set fits the stage, use `helio-patterns`.
 
 ### Branching
 

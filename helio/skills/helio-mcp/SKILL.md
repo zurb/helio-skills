@@ -1,7 +1,7 @@
 ---
 name: helio-mcp
 description: Use this skill when the user is connecting an AI assistant (Claude Desktop, Cursor, Claude Code, custom agent) to Helio via the Model Context Protocol — or driving Helio from one. Triggers — "Helio MCP," "MCP server," "MCP transport," "stdio vs HTTP," "@zurb/helio-mcp," "mcp.helio.app," "list_projects," "list_tests," "create_test via MCP," "add_question," "update_question," "update_test," "validate_test," "send_test," "get_test_report," "include filter_options," "get_filtered_responses," "compare_segments," "demographic filters MCP," "list_assessments," "create_assessment," "analyze_test prompt," "compare_audiences prompt," "how many MCP tools," "build a test from Claude." Do NOT use when the user is scripting from the terminal or CI (use `helio-cli`), designing the test itself (use `helio-creating-test` from a hunch, or `helio-asset-to-test` from an asset), or needs section type depth (use `helio-section-types`). For platform positioning, use `helio-app`.
-version: 0.2.2
+version: 0.3.0
 source_doc_version: Helio MCP v1.3
 last_rebuilt: 2026-07-06
 
@@ -26,6 +26,8 @@ Helio MCP exposes the platform to any MCP-aware client as **20 tools, 2 prompts,
 
 Plus the `analyze_test` and `compare_audiences` prompts and the `helio://guide/analysis-workflow` resource.
 
+**Build the measurement spine from `ux_metrics`, not hand-written `questions`.** A tagged metric auto-builds its sections with validated, non-leading wording and returns a 0–100 score with a threshold label, comparable across waves and rolled into the Overall Score; a hand-written question that resembles a metric returns only an answer distribution and feeds none of that. Pass `questions` for what no metric covers (click tests, MaxDiff, risk-specific probes). MCP has an edge here the CLI lacks — `ux_metric_assets` attaches an asset per metric at create time. See `helio-ux-metrics` for the argument and `helio-patterns` for which metric set fits the stage.
+
 Two transports, same contract: **stdio** (`npx @zurb/helio-mcp` — Claude Desktop, Cursor, Claude Code) and **hosted HTTP** (`https://mcp.helio.app/api/mcp` with a Bearer token — Claude.ai web, custom agents).
 
 Ceilings: no asset upload or listing on the MCP surface (the CLI has `assets upload/list/get` since v0.1.1 — route image uploads there), no click/tree/prototype creation, no branching, no audience creation, plus two MCP-specific gaps: no dry-run (`validate_test` is the pre-spend check) and no participant-eye walkthrough (use the preview URL `create_test` returns).
@@ -43,6 +45,10 @@ Read `reference.md` for the full setup — transports, requirements, the complet
 5. For reporting requests, start `get_test_report` with `include: "filter_options,summary"`, then drill in; use `compare_segments` for side-by-side cohort reads.
 6. Route metric-section edits correctly: `update_question` without `type` for safe fields, `update_test` for add/remove — never `remove_question`.
 7. Flag the boundary early (asset upload — web app or helio-cli, not MCP; click/tree/prototype; branching; audience creation) so an assistant-driven build doesn't dead-end.
+
+## What's new in v0.3.0
+
+Metrics-first framing, which this skill previously lacked entirely. Core idea and the `create_test` reference entry now lead with `ux_metrics` over hand-written `questions`, and note MCP's edge over the CLI here (`ux_metric_assets` attaches an asset per metric at create time). Routes to `helio-ux-metrics` for the argument and `helio-patterns` for stage-appropriate metric sets.
 
 ## What's new in v0.2.2
 

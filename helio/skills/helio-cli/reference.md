@@ -70,8 +70,12 @@ This is the workflow the CLI is actually built for. A test created via the CLI i
 ```shell
 helio-cli tests create --dry-run --project-id <uuid> \
     --name "..." --intro "..." --target-audience-size 100 \
-    --questions @questions.json
+    --ux-metrics comprehension desirability intent \
+    --ux-metric-context "this homepage" \
+    --questions @questions.json          # only what no metric covers
 ```
+
+Lead with `--ux-metrics` — those sections come back scored, wave-comparable, and validated in wording. Add `--questions` for the rest (click tests, MaxDiff, risk-specific probes). `--ux-metric-context` replaces the generic noun in every generated instruction, so read them all aloud once to confirm the noun fits each sentence.
 
 `--dry-run` runs the full client-side validation (schema, required fields, choice minimums, scale types), estimates spend (questions × audience size), and never calls the API.
 
