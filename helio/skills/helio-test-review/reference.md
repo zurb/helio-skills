@@ -23,6 +23,7 @@ Per test, collect and cache:
 helio-cli tests walkthrough <id> --output json   # participant-eye screens: order, question text, choices, assets
 helio-cli tests get <id> --output json           # structural fields walkthrough lacks: followup flags, randomization, branching, likert_type
 helio-cli tests validate <id> --output json      # launch blockers, spend, answers remaining (drafts only)
+helio-cli tests preview <id> --output json       # audience config, branching routes, hotspot geometry (v0.7.0+)
 ```
 
 Then **fetch and actually look at every asset image** (walkthrough `assets[].url` signed URLs, or `assets get <id>`). The stimuli lens and the question-image checks are impossible without eyes on the images — a review that skipped them must say so.
@@ -48,7 +49,7 @@ Each check is tagged **[M]** (mechanical — deterministic from the data, portab
 - [J] Section type fits the ask: forced trade-off → max_diff, ordered priority → ranking, budget mindset → point_allocation, one-of-many → multiple choice single, sentiment words → multi-select
 - [M] Every Likert / rating section has a followup; [J] the followup is required where the "why" matters
 - [J] Each followup makes sense against the exact question above it
-- [M] Branching routes don't strand participants (every branch reaches an end)
+- [M] Branching routes don't strand participants (every branch reaches an end). Read from `preview --output json` → `.branching`: each entry gives `from_question_number`, the choice `label`, `action`, and a resolved `target_question_number`. Check every skip is forward, every `end_test` is intended, and no question is unreachable
 
 ### Lens 2 — Journey: does it read as one conversation? (Walk screens in participant order, with the images.)
 
@@ -65,7 +66,7 @@ Each check is tagged **[M]** (mechanical — deterministic from the data, portab
 - [J] Context noun reads naturally in **every** generated sentence — one noun feeds all metric instructions ("the checkout flow" works for impressions, breaks in "How likely would you be to purchase this ___?")
 - [J] Metric coverage vs the hunch: behavioral paired with attitudinal; comprehension/advocacy not just missing
 - [J] **Metric set vs the template/stage baseline.** Identify the shape (single screen vs flow; first look / iterate / benchmark) and compare against the corpus norms in `helio-patterns`: a first-look single-screen test with no `comprehension` is suspicious (44% coverage across the corpus), a findability test with no `success`, an iteration test with no `expectations`. Average is ~4.4 metrics per test — a one-metric test rarely supports a decision, and a nine-metric test usually dilutes the Overall Score. Flag as a Note with the template it resembles, not as a rule
-- [M] **Hand-built look-alikes of an already-tagged metric.** If a hand-written section duplicates a metric already on the test, the builder probably hit the duplicate-metric rejection and worked around it. That trades a scored metric for a distribution — the fix is building that instance in the web app (the platform scores multiple instances; only the API rejects them), not hand-building. See `helio-ux-metrics`
+- [M] **Hand-built look-alikes of an already-tagged metric.** A hand-written section duplicating a metric already on the test usually means the builder worked around the old duplicate-metric rejection. Since v0.7.0 the type can simply be tagged again — each instance scores independently — so the fix is to replace the look-alike with a second tag rather than keep a distribution. See `helio-ux-metrics`
 - [M] Metric collisions present (the lens-2 duplicates, caught here as cause: which tags produced them)
 - [J] Overall Score composition: every tagged metric counts equally — anything tagged that won't inform the decision dilutes the composite
 
@@ -75,6 +76,8 @@ Each check is tagged **[M]** (mechanical — deterministic from the data, portab
 - [J] Right state: the UI state shown matches what's asked (not the cart when the question is about checkout)
 - [J] Legibility at participant sizes: resolution, cropping, phone readability
 - [M] Asset health: status complete (not processing/expired), attached to the section it belongs to
+- [M] **Hotspots on click-backed metrics.** `preview --output json` → `.hotspots` returns each click section's geometry plus a `scores_zero` flag. A click test scored by `engagement` / `success` / `usability` with no hotspots measures nothing — the CLI warns at create time, but a draft can reach review with the gap unfilled. Fix with `edit-question --hotspots`
+- [J] Hotspot placement matches the affordance the question names — geometry is now readable, so check the rectangle actually covers the CTA rather than trusting it was drawn right
 - [J] (Sets) each variant carries **its own** image — not a copy-paste of another variant's
 
 ### Lens 5 — Cross-variant: is the only difference the thing being tested? (Sets of 2+ only.)
@@ -85,7 +88,7 @@ Align tests question-by-question (by position, then by type+wording similarity w
 - [M] Wording parity modulo the intended difference — flag any drift the user didn't name as the variable
 - [M] Metric parity: same metrics tagged on every variant
 - [M] Followup parity: same followups, same required flags
-- [M] Audience parity: same target size, audience type, filters/screeners — a mismatch turns a preference read into noise. The CLI doesn't expose audience config directly (see Known ceilings); use `validate`'s estimated spend as the indirect proxy — unequal spends on structurally similar variants means unequal audience settings
+- [M] Audience parity: same target size, audience type, filters/screeners — a mismatch turns a preference read into noise. Read it directly from `tests preview --output json` → `.audience` (type, target_size, segments, customer_lists, demographics, screener, allow_retake, exclude_test_ids) and diff across variants
 - [J] Stimulus-difference isolation: the images differ **only** in the intended variable (same fidelity, crop, state; right frame per variant)
 
 ## Severity rubric
@@ -144,9 +147,9 @@ Three blockers in five questions, invisible to every mechanical pre-send check. 
 
 ## Known ceilings (v0.1)
 
-- ~~Completed/UI-built tests review in degraded mode~~ — **resolved 2026-07-24.** `GET /api/public/tests/:id` now returns section `type`, resolved `ux_metric` names, and per-section assets, including on tests containing click tests. Full-fidelity review works on real completed tests.
-- **Audience configuration** (target size beyond `target_audience_size`, audience type, filters, screeners) is not exposed by any read command — cross-variant audience parity has to be inferred from `validate` spend estimates.
-- **Branch targets and click-test hotspots** are write-only: `tests get` shows `enable_branching: true` and `show_hotspot_hints` but no routes or coordinates. Verify those in the web app.
+- ~~Completed/UI-built tests review in degraded mode~~ — **resolved 2026-07-24.** `GET /api/public/tests/:id` now returns section `type`, resolved `ux_metric` names, and per-section assets, including on tests containing click tests.
+- ~~Audience config, branch targets, and hotspots are write-only~~ — **resolved in helio-cli v0.7.0 / the 2026-07-30 API release.** All three read back through `tests preview --output json` (`.audience`, `.branching`, `.hotspots`), and `walkthrough` screens carry `branching` and `hotspots` too. Lenses 1, 4, and 5 now check them directly instead of inferring.
+- **Repeated metric instances can't be reordered from a fresh session.** `reorder` distinguishes them by `metric:<uuid>`, which `GET /tests/:id` doesn't return; `tests order` reports `reorderable: false` and `ambiguous_metric_types` rather than printing a command that would 400. If a review recommends reordering such a test, say the uuids must come from the original create response — or that the reorder happens in the web app.
 - No `tests compare` CLI command yet — lens 5 alignment is done by the reviewer from N walkthroughs. The [M]-tagged checks above are the spec for that future command.
 - Branching soundness is only fully checkable in the web app; the CLI exposes `enable_branching` but not the route graph.
 - Audience configuration (target size, audience type, filters/screeners) isn't exposed by any CLI read — audience parity is checked indirectly via `validate` spend estimates. API ask: audience block on the show response.

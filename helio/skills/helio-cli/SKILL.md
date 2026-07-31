@@ -1,16 +1,16 @@
 ---
 name: helio-cli
 description: Use this skill when the user is working with Helio from the terminal — installing the CLI, authenticating, building and iterating on draft tests, or scripting research. Triggers — "helio-cli," "Helio CLI," "@zurb/helio-cli," "tests create," "add-question," "edit-question," "remove-question," "tests reorder," "tests preview," "tests walkthrough," "tests participants," "question payload," "questions JSON schema," "tests question-types," "ux-metric-types," "add-ux-metrics," "--metrics-json," "--dry-run," "--output json," "tests validate," "tests send," "assets upload," "assets list," "--asset-id," "asset not found," "account name," "scripting helio," "cron helio," "CI helio," "what can't the CLI create." Do NOT use when the user is driving Helio interactively from chat/AI (use `helio-mcp`), designing the test itself (use `helio-creating-test` from a hunch, or `helio-asset-to-test` from an asset), or needs section type depth (use `helio-section-types`). For platform positioning, use `helio-app`.
-version: 0.6.1
-source_doc_version: Helio CLI v1.4 (+ live sync vs CLI v0.6.0)
+version: 0.7.0
+source_doc_version: Helio CLI v1.4 (+ live sync vs CLI v0.7.0)
 last_rebuilt: 2026-07-23
 
 sources:
   - doc_id: src-helio-cli-v1.4
     title: Helio CLI v1.4
     last_synced: 2026-07-21
-  - title: Live verification against installed helio-cli v0.4.0–v0.6.0 (--help output + real commands)
-    last_synced: 2026-07-24
+  - title: Live verification against installed helio-cli v0.4.0–v0.7.0 (--help output + real commands)
+    last_synced: 2026-07-30
 ---
 
 You are helping the user drive **Helio from the terminal** — by hand, by cron, or inside a CI/CD pipeline.
@@ -27,15 +27,15 @@ Helio CLI (`@zurb/helio-cli`) puts the full Helio research platform behind a ter
 4. **Review** — `tests preview` (structural) and `tests walkthrough` (participant-eye, `--interactive` or `--output json`)
 5. **`tests validate` then `tests send`** — server-side blocker check, then launch (immediate; locks structure, charges answers)
 
-**Build the measurement spine from UX metrics, not hand-written questions.** `--ux-metrics <types...>` auto-generates each metric's sections with validated, non-leading wording and returns a 0–100 score with a threshold label, comparable across waves and rolled into the Overall Score; a hand-written look-alike returns only an answer distribution. Reach for `--questions` for what no metric covers. Eleven metrics are creatable this way; `helio-patterns` maps stage and asset to the right metric set.
+**Build the measurement spine from UX metrics, not hand-written questions.** `--ux-metrics <types...>` auto-generates each metric's sections with validated, non-leading wording and returns a 0–100 score with a threshold label, comparable across waves and rolled into the Overall Score; a hand-written look-alike returns only an answer distribution. Reach for `--questions` for what no metric covers. Sixteen metrics are creatable this way as of v0.7.0; `helio-patterns` maps stage and asset to the right metric set.
 
 Question types are creatable with formal payload schemas (free_response, multiple_choice, likert with 11 scale types, nps, ranking, preference, matrix, card_sort, max_diff, point_allocation, and click_test since v0.4.0). Machine-readable schemas ship in the tool itself: `tests question-types` and `tests ux-metric-types`.
 
 Image assets are CLI-native too (v0.1.1): `assets upload <file>` (jpg/jpeg/png/gif, max 10MB), `assets list` to find IDs, `assets get <id>` for status and signed URLs — then attach with `tests add-question --asset-id` / `tests edit-question --asset-id` or `asset_id` in a question payload. Assets are **account-scoped** to the token's home account — cross-account attachment fails with `asset not found`.
 
-Known ceilings as of **v0.6.0** (verify with `update --check` before repeating these): video/audio upload, tree/prototype tests, audience creation from scratch, scheduled launch, branching on hotspots/variations/most-least labels, and a second instance of a metric already tagged on the test (the API rejects the duplicate even though the platform scores multiple instances — build that one in the web app). Click tests with hotspots and single-select multiple_choice branching became creatable in v0.4.0. For the still-UI-only surfaces: `tests clone` an existing test and edit the copy — clone carries questions, UX metric groupings, branching, and the last audience/quota.
+Known ceilings as of **v0.7.0** (verify with `update --check` before repeating these): video/audio upload, tree/prototype tests, audience creation from scratch, scheduled launch, branching on hotspots/variations/most-least labels, and the `completion` / `effort` metrics (each built from a Figma prototype section the API can't create). Everything else moved: click tests with hotspots and multiple_choice branching in v0.4.0; the `engagement`, `success`, `usability`, `satisfaction`, `brand_score` metrics and **repeated metric types** in v0.7.0. For the still-UI-only surfaces: `tests clone` an existing test and edit the copy.
 
-Read-side gaps worth knowing: branch targets, click-test hotspots, and audience configuration aren't returned by any read command, so verify those in the web app.
+**Read-back landed in v0.7.0:** audience config, branching routes, and hotspot geometry all return from `tests preview --output json` (`.audience`, `.branching`, `.hotspots`), and `walkthrough` screens carry branching and hotspots. One gap remains — repeated metric instances can't be reordered from a fresh session, since `reorder` needs uuids `GET /tests/:id` doesn't return.
 
 ## Files to read
 
@@ -50,7 +50,17 @@ Read `reference.md` for the full surface — install, auth, the draft → iterat
 5. Surface `--dry-run` and `tests validate` before anything that touches money; `--output json` for anything scripted.
 6. Recommend `tests walkthrough` before every send — it's the cheapest usability test they'll run. What to look for: duplicate questions from metric stacking (sentiment + desirability, appeal + reaction build identical sections), a context noun that breaks in some generated sentence, and evaluation questions landing before comprehension ones (`tests reorder` fixes sequence).
 7. For image stimuli, use `assets upload` / `assets list` to get a numeric asset ID, then attach with `--asset-id` — no web-app detour needed.
-8. Flag the UI-only boundary early — as of v0.6.0: video/audio upload, tree/prototype tests, audience creation, and duplicate metric instances. Click tests and multiple_choice branching are CLI-native since v0.4.0; don't repeat an older ceiling without checking.
+8. Flag the UI-only boundary early — as of v0.7.0: video/audio upload, tree/prototype tests, audience creation, and the `completion` / `effort` metrics. Everything else has moved in the last three releases; don't repeat an older ceiling without running `update --check`.
+
+## What's new in v0.7.0
+
+Synced to helio-cli **v0.7.0** — the release that reversed most of v0.6.1's ceilings.
+
+- **Sixteen metrics creatable** (was eleven): `engagement`, `success`, `usability`, `satisfaction`, `brand_score` joined once the API caught up with click-test creation. Only `completion` and `effort` remain, each excluded for a named reason rather than a blanket one.
+- **A metric type may repeat on one test** — each instance owns its sections and score. `remove-ux-metrics` takes a type or a single metric id; `tests order` reports `reorderable: false` for repeated types because reorder needs uuids the read endpoint doesn't return.
+- **Read-back of audience, branching, hotspots** via `preview --output json`, with branch targets resolved to CLI-listing question numbers.
+- **Zero-score warnings** on create/add-ux-metrics for click-backed metrics without hotspots and `brand_score` without `brand_choice`; per-section `hotspots` / `choices` / `brand_choice` overrides on the metric object form.
+- **Breaking:** `tests ux-metric-types --output json` moved the table under `.metrics` to make room for `.excluded`.
 
 ## What's new in v0.6.1
 

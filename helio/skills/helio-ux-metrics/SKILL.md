@@ -1,7 +1,7 @@
 ---
 name: helio-ux-metrics
 description: Use this skill when the user is working with Helio's UX Metrics — picking which metric to attach, understanding what a score means, comparing metrics across studies, or interpreting threshold labels. Triggers — "UX metric," "what does Sentiment mean," "Behavioral vs Attitudinal," "Brand Score," "Desirability v1 vs v2," "what's a Good score," "threshold labels," "Very Good Good Average Poor Very Poor," "Overall Score," "the 17 metrics," "metric sections," "auto-build sections," "metric versioning," "Effort metric," "Feeling metric," "Appeal metric," "Usability metric," "AI-derived metrics," "metric isn't showing." Do NOT use when the question is about picking a section type (use `helio-section-types`), the AI heuristic evaluator (use `helio-design-analysis`), filtering report data (use `helio-report-filtering`), or synthesis (use `helio-reading-report`). For the Glare framework's broader metric taxonomy, use `glare-ux-metrics`.
-version: 0.3.0
+version: 0.4.0
 source_doc_version: UX Metrics v0.1
 last_rebuilt: 2026-05-23
 
@@ -57,9 +57,13 @@ Read `reference.md` for the full per-metric reference — what each metric captu
 6. Flag versioning gotchas (especially Desirability v1 vs v2 — they coexist; confirm which is active before comparing across studies).
 7. Note the AI-derived metric caveat: Design Analysis scores use the same metric names but live in a separate data structure as labels only (no numeric 0–100).
 
+## What's new in v0.4.0
+
+Same-metric-twice rewritten for helio-cli v0.7.0 / the 2026-07-30 API release: repeating a metric type now works — tag it as many times as you need, each instance owns its sections and score. The web-app workaround is retired to a historical note. Adds the two consequences: `tests order` emits one block per instance and reports `reorderable: false` for repeated types (capture uuids from the create response), and `remove-ux-metrics` accepts either a type or a specific metric id.
+
 ## What's new in v0.3.0
 
-Documents the same-metric-twice case, previously undocumented anywhere and the cause of a real hand-built workaround: the platform scores multiple instances of one metric (a live test carries three `expectations` metrics at 77/78/78), but the API and CLI reject the duplicate. Guidance is to build that instance in the web app — never to hand-build look-alike sections, which trades a scored metric for a distribution.
+*(Superseded by v0.4.0 — the restriction described here was lifted in helio-cli v0.7.0.)* Documents the same-metric-twice case, previously undocumented anywhere and the cause of a real hand-built workaround: the platform scores multiple instances of one metric (a live test carries three `expectations` metrics at 77/78/78), but the API and CLI reject the duplicate. Guidance is to build that instance in the web app — never to hand-build look-alike sections, which trades a scored metric for a distribution.
 
 ## What's new in v0.2.1
 

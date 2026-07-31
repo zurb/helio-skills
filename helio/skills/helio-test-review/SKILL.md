@@ -1,7 +1,7 @@
 ---
 name: helio-test-review
 description: Use this skill when the user wants a pre-launch review of one or more Helio draft tests — "review this test," "review this draft," "review these variants," "check this before I send it," "pre-launch review," "compare these tests," "do these variants match," "will this test produce clean data," "is this test ready to launch," "audit my draft," "variant mismatch," "does this question fit the image." Reviews unsent tests as the priority; completed tests only when the user explicitly asks. Do NOT use when the user is designing a test from scratch (use `helio-creating-test` from a hunch or `helio-asset-to-test` from an asset), reading results (use `helio-reading-report`), or looking for CLI command syntax (use `helio-cli`).
-version: 0.2.0
+version: 0.3.0
 source_doc_version: Reviewing Helio Tests v0.1
 last_rebuilt: 2026-07-24
 
@@ -39,6 +39,10 @@ Read `reference.md` before reviewing — it has the gather commands, the five le
 4. **Report findings** severity-ordered (Blocker / Warning / Note), each with test + screen, what's wrong, why it corrupts data or experience, and the exact fix.
 5. **On approval, apply CLI-applicable fixes** and re-run the affected checks. Hand web-app-only fixes back as steps.
 6. **Respect deliberate choices.** If a check flags something that could plausibly be intentional (an unusual order, a repeated question used as an attention check), ask — don't assert.
+
+## What's new in v0.3.0
+
+Synced to helio-cli v0.7.0. The three known read gaps closed: `tests preview --output json` now returns `.audience`, `.branching`, and `.hotspots`, so lens 5 diffs audience config directly instead of inferring from spend estimates, lens 1 verifies branch routes and reachability, and lens 4 gains two hotspot checks (a click-backed metric with no hotspots scores zero — the response flags it as `scores_zero`). Lens 3's look-alike check now recommends a second metric tag rather than a web-app build, since repeated metric types are allowed. New ceiling documented: repeated instances can't be reordered from a fresh session because `reorder` needs uuids `GET /tests/:id` doesn't return.
 
 ## What's new in v0.2.0
 
