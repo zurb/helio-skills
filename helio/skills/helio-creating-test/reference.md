@@ -1,13 +1,13 @@
 # Creating a Helio Test — Reference
 
 **Skill:** `helio-creating-test`
-**Source:** Creating a Helio Test v0.1
+**Source:** Creating a Helio Test v0.2 (v0.1 archived)
 **Source last synced:** 2026-07-06
 **Notes:** Customer engagement names in the source doc were replaced with anonymized category descriptors during the skill build (same pattern as marketplace v0.3.2): the athletic-apparel DTC homepage, the B2B SaaS data-platform homepage, the banking app's Accounts & Dashboard flow, the veteran careers landing page.
 
 ---
 
-<!-- DERIVED FROM: 1taoVaGdiPQ0A88YY9PV65Nf2A_WUUTrDJ1fR16djXBU — Creating a Helio Test v0.1 -->
+<!-- DERIVED FROM: 13tZ1UE38PNTmDClkRD51OYgNXps7uszGLHJaIi7qrPQ — Creating a Helio Test v0.2 -->
 
 This is how you create a Helio test that produces a signal worth using — one a designer, a PM, or a leader can carry into a Design Review and act on. Not just "ran a study." A signal tied to a hunch, a metric, and a decision.
 

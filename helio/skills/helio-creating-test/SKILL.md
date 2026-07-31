@@ -2,13 +2,13 @@
 name: helio-creating-test
 description: Use this skill when the user wants to design a Helio test end to end — from a hunch to a launched test that produces a decision-grade signal. Triggers — "create a Helio test," "design a test," "turn this hunch into a test," "which test shape," "test template," "marketing page eval," "multi-screen flow eval," "content prioritization," "concept comparison," "hunch → shape → test → signal," "required followups," "bias check," "pre-launch checklist," "how many questions," "MaxDiff shows 0%," "one hunch per test," "web app vs CLI vs MCP." Also use when a test produced "interesting findings" but no decision, or the user starts from a belief rather than an asset. Do NOT use when the user starts from an existing asset/mockup (use `helio-asset-to-test`), wants shape recognition across past tests (use `helio-patterns`), section spec (use `helio-section-types`), audience mechanics (use `helio-audience-flow`), launch commands (use `helio-cli` / `helio-mcp`), or report synthesis (use `helio-reading-report`).
 version: 0.3.0
-source_doc_version: Creating a Helio Test v0.1
+source_doc_version: Creating a Helio Test v0.2
 last_rebuilt: 2026-07-23
 
 sources:
-  - doc_id: 1taoVaGdiPQ0A88YY9PV65Nf2A_WUUTrDJ1fR16djXBU
-    title: Creating a Helio Test v0.1
-    drive_url: https://docs.google.com/document/d/1taoVaGdiPQ0A88YY9PV65Nf2A_WUUTrDJ1fR16djXBU/edit
+  - doc_id: 13tZ1UE38PNTmDClkRD51OYgNXps7uszGLHJaIi7qrPQ
+    title: Creating a Helio Test v0.2
+    drive_url: https://docs.google.com/document/d/13tZ1UE38PNTmDClkRD51OYgNXps7uszGLHJaIi7qrPQ/edit
     last_synced: 2026-07-06
 ---
 
@@ -31,7 +31,7 @@ Surface rule: **person → web app, script → CLI, assistant → MCP.** Test de
 
 ## Files to read
 
-Read `reference.md` for the full arc: the four shapes with real examples, the hunch worked example, the metric table (Helio metric → Glare type), audience shaping and sizing, question types/modes/bias checks, the followup pattern, the validation checklist, launch-and-read guidance, the one-sentence signal format, anti-patterns, Templates A/B/C, and the **canonical UI-only boundary checklist** (the seven steps that must happen in the web app, with workarounds and effort estimates — other skills point here for it).
+Read `reference.md` for the full arc: the four shapes with real examples, the hunch worked example, the metric table (Helio metric → Glare type), audience shaping and sizing, question types/modes/bias checks, the followup pattern, the validation checklist, launch-and-read guidance, the one-sentence signal format, anti-patterns, Templates A/B/C, and the **canonical surface-boundary guidance** (which parts of a test still need the web app, stated by kind rather than by list — other skills point here for it, and it defers to the tool for anything version-dependent).
 
 ## How to apply
 
