@@ -2,14 +2,14 @@
 name: helio-test-review
 description: Use this skill when the user wants a pre-launch review of one or more Helio draft tests — "review this test," "review this draft," "review these variants," "check this before I send it," "pre-launch review," "compare these tests," "do these variants match," "will this test produce clean data," "is this test ready to launch," "audit my draft," "variant mismatch," "does this question fit the image." Reviews unsent tests as the priority; completed tests only when the user explicitly asks. Do NOT use when the user is designing a test from scratch (use `helio-creating-test` from a hunch or `helio-asset-to-test` from an asset), reading results (use `helio-reading-report`), or looking for CLI command syntax (use `helio-cli`).
 version: 0.3.0
-source_doc_version: Reviewing Helio Tests v0.1
+source_doc_version: Reviewing Helio Tests v0.2
 last_rebuilt: 2026-07-24
 
 sources:
-  - doc_id: 1AxiYCRgRFZoIUEXZJlECuvjvik_hajCjZgJ0Uy_xPaA
-    title: Reviewing Helio Tests v0.1
-    drive_url: https://docs.google.com/document/d/1AxiYCRgRFZoIUEXZJlECuvjvik_hajCjZgJ0Uy_xPaA/edit
-    last_synced: 2026-07-24
+  - doc_id: 1LyYDFlgDH2wK5EGn8yjKRx8nPi8bE2DbgQ4-5vf4cmc
+    title: Reviewing Helio Tests v0.2
+    drive_url: https://docs.google.com/document/d/1LyYDFlgDH2wK5EGn8yjKRx8nPi8bE2DbgQ4-5vf4cmc/edit
+    last_synced: 2026-07-31
 ---
 
 You are running a **pre-launch review of Helio draft tests** — a single draft or a 2–5 test variant set — so flaws get caught before answers are spent, not after.
