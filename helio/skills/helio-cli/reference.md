@@ -1,8 +1,8 @@
 # Helio CLI — Reference
 
 **Skill:** `helio-cli`
-**Source:** Helio CLI v1.4 + live verification against installed CLI v0.3.2
-**Source last synced:** 2026-07-23
+**Source:** Helio CLI v1.4 + live verification against installed CLI v0.7.0
+**Source last synced:** 2026-07-30
 **Notes:** v1.3 was regenerated from the CLI codebase (README, built-in guide, validation schemas) so the doc matches what the tool ships. This rebuild closes the v1.2 gap where only 4 of ~20 test commands were documented. v1.4 (2026-07-21) folds in the helio-cli v0.1.1 `assets` command group — asset upload/listing is no longer UI-only. The 2026-07-23 sync verified every documented command against helio-cli **v0.3.0** live: renamed `add-ux-metrics` flags (`--metrics` / `--metrics-json`), added follow-up question flags, `tests participants`, `helio-cli update`, `--ux-metrics-json`, account name/ID on `projects list`, and the account-scoping rule for assets.
 
 ---
@@ -128,6 +128,8 @@ Always run `validate` before `send`. Send is immediate; there is no scheduled la
 - **Launching:** `tests validate`, `tests send`
 - **Reading results:** `tests report <id>`, `tests responses <id>`, `tests participants <id>` (per-respondent journeys, with the same demographic/segment filters as `report`, plus `--participant <rsp_id>` and `--group-by cohort|audience_type`)
 - **Aliases:** `t` (tests), `p` (projects), `cl` (custom-lists), `pt` (participants), `a` (audiences), `ic` (intercepts), `r` (responses)
+
+**Read-back of audience, branching, and hotspots (v0.7.0).** `tests preview --output json` gains `.audience` (type, target size, segments, customer lists, demographics, screener), `.branching` (per choice: `from_question_number`, `label`, `action`, resolved `target_question_number`), and `.hotspots` (geometry per click section, plus a `scores_zero` flag). `walkthrough` screens carry `branching` and `hotspots` too. Note the deliberate split in numbering: everything the CLI prints counts sections in position order *including* metric sections, while a branch's own `question` counts researcher questions only — branch targets resolve via `section_id` so `skip to Q3` always names the Q the CLI just printed.
 
 **Account visibility (v0.3.0, expanded v0.3.2):** `projects list` returns `account_id` and `account_name` on every project — the first CLI surface that resolves account context by name. `projects list --name <search>` filters by project name. As of v0.3.2, `tests preview` and `tests walkthrough` headers also show `Project: <name> · <account name>` (backfilled from the report endpoint when the show response lacks it). Caveats: raw `tests get` JSON and `auth status` still show only numeric IDs, and on multi-account/staff tokens `projects list` returns projects from *every* visible account (potentially very large). The JSON is wrapped in a `projects` key:
 
@@ -283,9 +285,15 @@ Tagging a metric auto-builds the right section structure — and it's the better
 
 Each metric ships default instructions with a "[product]" noun that `--ux-metric-context` replaces (e.g. `--ux-metric-context "checkout flow"`).
 
-**Not creatable via CLI** — the API rejects these on `create` *and* `add-ux-metrics` ("requires click tests or prototypes and cannot be created via the API"): `brand_score`, `engagement`, `success`, `completion`, `usability`, `satisfaction`, `effort`. **Note the split:** click test *sections* became CLI-creatable in v0.4.0, but the `engagement` / `success` metric *tags* that score them did not — build the click test from the CLI, then attach its metric in the web app. `tests ux-metric-types` lists the eleven that are creatable.
+**Sixteen metrics are creatable as of v0.7.0** — `engagement`, `success`, `usability`, `satisfaction` and `brand_score` joined when the API caught up with click-test creation. **Only `completion` and `effort` are excluded**, each built from a Figma prototype section the API can't create; `tests ux-metric-types` names the reason per type under `.excluded`.
 
-Metrics can be added to or removed from an existing draft (`tests add-ux-metrics --metrics <types...>` / `remove-ux-metrics --metrics <types...>`; `--ux-metrics` works as an alias since v0.3.2) without recreating the test. Duplicate metrics are rejected at validation. Once generated, metric sections can be tweaked in place with `tests edit-question` (omit `--type`) — see the follow-ups section above.
+**Breaking in v0.7.0:** `tests ux-metric-types --output json` moved the table under `.metrics` (was top-level) to make room for `.excluded`. Scripts need `| jq '.metrics'` added.
+
+**Zero-score warnings.** `create` and `add-ux-metrics` warn (not error) when a metric will score nothing: a click-backed metric whose sections have no hotspots, or a `brand_score` with no `brand_choice`. The API accepts both — fill the gap with `edit-question --hotspots` / `--brand-choice` before sending. `tests validate` is the gate that actually refuses.
+
+**Per-section overrides** on the metric object form (`--ux-metrics-json` / `--metrics-json`): `hotspots` (same shape and validation as a `click_test` question — coordinates are relative 0–1 and a rectangle that runs off the image is rejected), `choices`, and `brand_choice` (0-based index of your brand).
+
+Metrics can be added to or removed from an existing draft (`tests add-ux-metrics --metrics <types...>` / `remove-ux-metrics --metrics <types...>`; `--ux-metrics` works as an alias since v0.3.2) without recreating the test. **A type may repeat on one test as of v0.7.0** — each instance owns its sections and is scored independently, which is what a multi-screen flow measuring `expectations` per screen needs. `remove-ux-metrics --metrics` then takes either a type (removes every instance) or a metric id (removes one). Caveat: `tests order` reports `reorderable: false` for repeated types because `reorder` needs `metric:<uuid>` and `GET /tests/:id` doesn't return uuids — capture them from the `create` / `add-ux-metrics` response if you'll reorder later. Once generated, metric sections can be tweaked in place with `tests edit-question` (omit `--type`) — see the follow-ups section above.
 
 ## Working with output
 

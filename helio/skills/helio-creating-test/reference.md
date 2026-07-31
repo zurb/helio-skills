@@ -366,7 +366,7 @@ Route away when the user starts from an **existing asset/mockup and wants the op
 - **Letting the test grow past 8 questions.** Every extra question costs completion rate and dilutes synthesis. Split into two tests — one hunch per test.
 - **Treating the templates as fixed.** They're starting points lifted from real tests; the prompts' bracketed slots ([context], [primary action]) must be filled per test or the questions read as generic.
 - **Forgetting the MaxDiff reading rule.** If a test includes MaxDiff, warn at design time that the report must be read as raw best/worst counts — aggregated percentages will show 0%.
-- **Designing a shape the chosen surface can't build.** Click tests, tree tests, and prototype tasks can't be created via CLI/MCP — they're UI-only. If the user plans to script the build, flag which template steps need the web app.
+- **Designing a shape the chosen surface can't build.** Tree tests and prototype tasks can't be created via CLI/MCP (click tests can, since v0.4.0). If the user plans to script the build, flag which template steps need the web app — and check `helio-cli update --check` first, since this boundary has moved every release lately.
 
 ## The template layer — shapes → T1–T7 (cross-reference)
 
@@ -389,19 +389,18 @@ The playbook also adds the **stage trigger** this doc doesn't cover: first look 
 
 Some parts of a Helio test can only be built in the web app. This is the one authoritative list; other skills point here. Plan these steps *before* choosing a surface, so a scripted or assistant-driven build doesn't dead-end.
 
-**Accurate as of helio-cli v0.6.0 — this boundary moves.** Run `helio-cli update --check` before telling anyone something can't be scripted; a stale binary reports its own limits as the tool's. Three rows left this list in v0.4.0 (click tests, hotspots, branching) after being documented as permanent.
+**Accurate as of helio-cli v0.7.0 — this boundary moves, fast.** Run `helio-cli update --check` before telling anyone something can't be scripted; a stale binary reports its own limits as the tool's. Three rows left this list in v0.4.0 (click tests, hotspots, branching) and four more in v0.7.0 (the click-backed metrics, `brand_score`, repeated metric types, and read-back of audience/branching/hotspots) — all after being documented as permanent.
 
 | Step | Why UI-only | Workaround | Rough effort |
 |---|---|---|---|
 | Video/audio asset upload | `assets upload` accepts images only — jpg/jpeg/png/gif, max 10MB | Upload video/audio in the web app; images upload via `helio-cli assets upload` (MCP has no asset tools) | ~1 min per asset |
 | Tree test / Prototype task sections | API marks these non-creatable (need a Figma prototype or menu tree) | Build in the web app; CLI/MCP can still read their reports (paths, Direct/Indirect/Failed) | ~5 min per section |
-| **A second instance of an already-tagged metric** | API rejects the duplicate although the platform scores multiple instances | Build that instance in the web app, or `tests clone` a test that already has it — never hand-build a look-alike section | ~2 min |
 | Branching beyond single-select multiple_choice (hotspots, variations, most/least labels) | Only MC branching has an API surface | `tests clone` an existing branched test and edit the copy | ~2 min per branch |
 | Audience segment creation & screeners | No API endpoint | Build the segment in the web app; attach by ID via `--audiences` (CLI) / `audiences` (MCP), or `tests clone` to inherit the last audience | varies |
-| 7 UX metrics: brand_score, engagement, success, completion, usability, satisfaction, effort | The API rejects them on create and on `add-ux-metrics` — they score click tests or prototypes. Note this is *separate* from section creation: click test sections became CLI-creatable in v0.4.0, but their metric tags did not | Build the click test via CLI if you like, then tag the metric in the web app | ~1 min |
+| 2 UX metrics: `completion`, `effort` | Each is built from a Figma prototype section, which the API can't create — the CLI names this reason per type | Build the prototype section in the web app, then tag the metric | ~1 min |
 | Scheduled launch | `send` fires immediately on every surface | Send manually at the intended time | — |
 
-**No longer UI-only** (CLI-native since v0.4.0, so don't plan a web detour for these): click test sections, hotspot definition (`--hotspots`, relative 0–1 coordinates), single-select multiple_choice branching (`--branching`, Enterprise accounts), and the `engagement` / `success` metrics that depend on click tests. Note that branch targets and hotspot coordinates aren't readable back through the API — verify those visually.
+**No longer UI-only.** Since v0.4.0: click test sections, hotspot definition (`--hotspots`, relative 0–1 coordinates), and single-select multiple_choice branching (`--branching`, Enterprise accounts). Since **v0.7.0**: the `engagement`, `success`, `usability`, `satisfaction` and `brand_score` metrics; **repeating a metric type** on one test (each instance scores independently — the multi-screen `expectations` case); and read-back of audience, branching, and hotspots via `preview` / `walkthrough` (so those no longer need visual verification in the web app).
 
 The working pattern: **script the buildable part first, finish the UI-only steps in the web app, then validate and send from wherever is convenient** — drafts are shared across all three surfaces.
 

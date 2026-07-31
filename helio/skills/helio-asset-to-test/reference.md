@@ -89,7 +89,7 @@ Either asset, any stage — "can they find or do X?"
 
 **Tie-breaker:** when in doubt, start with **T5** for a single screen or **T4** when the question is findability, then add specialized questions as needed. Removing a question from a draft is one CLI call (`tests remove-question`); restructuring a launched test is impossible.
 
-**Metric-tag caveat:** the sets above are the templates' *design* intent. `engagement` and `success` can't be tagged from the CLI/API — build their click test from the CLI, then attach the metric in the web app. The other nine tag normally with `--ux-metrics`.
+**Click-backed metrics need hotspots.** Every metric in the sets above is CLI-taggable as of v0.7.0, including `engagement` and `success` — but those two build a click section, and a click section with no hotspots scores zero. Pass them inline when you tag: `--ux-metrics-json '[{"type":"engagement","sections":[{"asset_id":<id>,"hotspots":[{"name":"Primary CTA","x":0.1,"y":0.2,"width":0.3,"height":0.08}]}]}]'`. The CLI warns at create time if a click-backed metric has none.
 
 **Stage check:** T1, T6, and T7 are iteration tools — they assume a locked shape and a prior round. Never open a cold read with them. Full stage-by-stage counts and the per-slot question tables are in `helio-patterns`.
 
@@ -127,7 +127,7 @@ helio-cli tests add-ux-metrics <test-uuid> --metrics comprehension desirability 
 
 `--ux-metric-context` replaces the generic noun in every generated instruction — set it once, then read each generated question aloud to confirm the noun works in *all* of them ("purchase this homepage" is what failure sounds like).
 
-**What metrics can't build, and you'll hand-write in Step 6:** click tests, MaxDiff section-ranking, and any question specific to your risk. Note the click-test split — the *section* is CLI-creatable since v0.4.0 (`--type click_test --asset-id --hotspots`), but the `engagement` / `success` *metric tags* are still API-rejected, so attach those in the web app after the section exists.
+**What metrics can't build, and you'll hand-write in Step 6:** MaxDiff section-ranking and any question specific to your risk. Standalone click tests are still hand-built (`--type click_test --asset-id --hotspots`), but if the click test exists to feed `engagement` or `success`, tag the metric instead and give it hotspots inline — the tag builds the section for you.
 
 **Non-obvious metric choices**, when the template's default set doesn't fit the risk you named in Step 2:
 
@@ -140,7 +140,7 @@ helio-cli tests add-ux-metrics <test-uuid> --metrics comprehension desirability 
 | Conversion likelihood | `intent` |
 | First impression strength | `engagement` (broad click test) |
 
-**If you need the same metric twice** (e.g. `expectations` on three screens), the API rejects the duplicate even though the platform scores multiple instances fine — build that test in the web app rather than hand-building unscored look-alikes. See `helio-ux-metrics`.
+**If you need the same metric twice** (e.g. `expectations` on three screens), just tag it repeatedly — supported since v0.7.0, and each instance is scored on its own. See `helio-ux-metrics`.
 
 For the full per-metric reference, use `helio-ux-metrics`.
 

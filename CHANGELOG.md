@@ -1,5 +1,35 @@
 # Helio Marketplace — Changelog
 
+## v0.14.0 — 2026-07-30 — Synced to helio-cli v0.7.0: the ceilings moved again, and mostly outward
+
+helio-cli v0.7.0 (with the 2026-07-30 Public API release, [helio#5006](https://github.com/zurb/helio/pull/5006)) closed both API issues this family raised and unblocked five metrics. Verified command-by-command against the shipped binary. Yesterday's v0.13.1 correction is obsolete in the good direction.
+
+### Five metrics became creatable; two remain
+
+`engagement`, `success`, `usability` and `satisfaction` build click sections and were unblocked once `click_test` creation landed; `brand_score` never needed click tests at all. **Sixteen of eighteen types are now creatable.** Only `completion` and `effort` are excluded, and the CLI names the actual reason per type — each is built from a Figma prototype section the API can't create — instead of a blanket "requires click tests or prototypes". This reverses the v0.13.1 correction, which was accurate when written.
+
+### A metric type may now repeat on one test
+
+The duplicate check is gone ([helio#5003](https://github.com/zurb/helio/issues/5003), raised from this work). Every instance owns its sections and is scored independently — exactly what a multi-screen flow measuring `expectations` per screen needs. The web-app workaround in `helio-ux-metrics` is retired to a historical note. Two consequences documented: `tests order` emits one block per *instance*, and repeated types report `reorderable: false` because `reorder` distinguishes them by `metric:<uuid>` which `GET /tests/:id` doesn't return — capture uuids from the create response if you'll reorder later. Verified the workaround end to end.
+
+### Audience, branching and hotspots read back
+
+[helio#5004](https://github.com/zurb/helio/issues/5004) closed. `tests preview --output json` returns `.audience` (type, target size, segments, customer lists, demographics, screener), `.branching` (per choice: source question, label, action, resolved target), and `.hotspots` (geometry per click section plus a `scores_zero` flag); `walkthrough` screens carry branching and hotspots too. **helio-test-review 0.2.0 → 0.3.0** upgrades three lenses on the back of it: lens 5 diffs audience config directly instead of inferring from spend estimates, lens 1 verifies branch routes and reachability, and lens 4 gains two hotspot checks — a click-backed metric with no hotspots measures nothing, and geometry is now checkable against the affordance the question names.
+
+### Zero-score warnings and per-section overrides
+
+`create` / `add-ux-metrics` now warn when a metric will score zero — a click-backed metric whose sections have no hotspots, or a `brand_score` with no brand marked. Warnings rather than errors, since the API accepts both and `validate` is the real gate. The metric object form gained `hotspots`, `choices` and `brand_choice` per section, so a findability test is one `--ux-metrics-json` call rather than a tag plus a hand-built click test.
+
+### Breaking, for anyone scripting
+
+`tests ux-metric-types --output json` moved the metric table under `.metrics` (was top-level) to make room for `.excluded` and its per-type reasons. Scripts need `| jq '.metrics'`.
+
+### Versions
+
+helio-cli 0.6.1 → 0.7.0 · helio-ux-metrics 0.3.0 → 0.4.0 · helio-creating-test 0.2.3 → 0.3.0 · helio-test-review 0.2.0 → 0.3.0 · helio-patterns 0.4.1 → 0.4.2 · helio-asset-to-test 0.2.1 → 0.2.2. Plugin 0.13.1 → 0.14.0.
+
+Superseded what's-new entries in `helio-creating-test` and `helio-ux-metrics` are now marked as such inline — a fresh-agent check read one of those changelog entries as current guidance, which is a failure mode worth designing against when a boundary moves this often.
+
 ## v0.13.1 — 2026-07-24 — Correction: click test *sections* are CLI-creatable, their metric *tags* are not
 
 v0.13.0 corrected the UI-only boundary against the shipped CLI and overcorrected in one place. Because click test sections became creatable in helio-cli v0.4.0, we also moved `engagement` and `success` off the non-creatable-metrics list. That was wrong, and the CLI was right: the API rejects both on `tests create` **and** on `add-ux-metrics` — *"requires click tests or prototypes and cannot be created via the API"* — and `tests ux-metric-types` lists only the eleven creatable types. Verified directly against both endpoints.
