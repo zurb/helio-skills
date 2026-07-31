@@ -2,13 +2,13 @@
 name: helio-patterns
 description: Use this skill when the user wants to recognize or construct Helio tests by shape and stage — the core 5-Q template, the seven data-backed templates (T1 Two-Tap Check, T2 MaxDiff Read, T3 Shelf & NPS, T4 Findability Sweep, T5 Homepage Five, T6 Expectation Probe, T7 Flow Expectation), multi-screen flows, audience fanouts, R3/R5 generations, the 145-vs-144 iteration distinction. Triggers — "Helio test patterns," "test pattern playbook," "which template," "what test should I run at this stage," "first look vs iterate vs benchmark," "findability sweep," "expectation probe," "single-screen vs multi-screen," "engagement vs success click test," "metric coverage," "30-second scan," "audience fanout," "R3 vs R5." Do NOT use when the user wants section type spec (use `helio-section-types`), the hunch → shape design arc (use `helio-creating-test`), the asset-first build workflow (use `helio-asset-to-test`), audience setup mechanics (use `helio-audience-flow`), or report synthesis (use `helio-reading-report`).
 version: 0.4.2
-source_doc_version: Helio Test Patterns v0.2 (scrubbed) + Test Pattern Playbook v0.1 (merged)
+source_doc_version: Helio Test Patterns v0.3 + Test Pattern Playbook v0.1 (merged)
 last_rebuilt: 2026-07-06
 
 sources:
-  - doc_id: 1L3QQeb94EQCZILHthywAYCRb0TG7nEofW61QFU-0ae8
-    title: Helio Test Patterns v0.2 (scrubbed)
-    drive_url: https://docs.google.com/document/d/1L3QQeb94EQCZILHthywAYCRb0TG7nEofW61QFU-0ae8/edit
+  - doc_id: 11G8YIFnZcdnrAL_2v792T_Ua_F8fkjMGQQQu8QBEyZ0
+    title: Helio Test Patterns v0.3
+    drive_url: https://docs.google.com/document/d/11G8YIFnZcdnrAL_2v792T_Ua_F8fkjMGQQQu8QBEyZ0/edit
     last_synced: 2026-07-06
   - doc_id: 14upcMSPKz5GEtcwPBQMnUFvoDZHS8qoH-A7wlE4Rqzg
     title: Test Pattern Playbook v0.1

@@ -1,13 +1,13 @@
 # Helio Test Patterns — Reference
 
 **Skill:** `helio-patterns`
-**Source:** Helio Test Patterns v0.2 (scrubbed) + Test Pattern Playbook v0.1 (merged)
+**Source:** Helio Test Patterns v0.3 (v0.2 archived) + Test Pattern Playbook v0.1 (merged)
 **Source last synced:** 2026-07-06
 **Notes:** Two DERIVED blocks. The Test Patterns block is the *reading* synthesis (15-test sample): recognize shapes, the 30-second scan, iteration methodologies. The Playbook block is the *construction* companion (285-test analysis): when each of seven templates gets pulled (first look / iterate / benchmark), the metric coverage data, and per-template question tables. The playbook empirically resolves several of Test Patterns' "what's NOT in this sample" caveats.
 
 ---
 
-<!-- DERIVED FROM: 1L3QQeb94EQCZILHthywAYCRb0TG7nEofW61QFU-0ae8 — Helio Test Patterns v0.2 (scrubbed) -->
+<!-- DERIVED FROM: 11G8YIFnZcdnrAL_2v792T_Ua_F8fkjMGQQQu8QBEyZ0 — Helio Test Patterns v0.3 -->
 
 A reference for reading and constructing Helio tests, drawn from a sample of 15 tests across four projects (Test and Learn, Homepage Baselines, Helio Services, and a multi-screen iteration series referred to here as the "145" and "144" series).
 
