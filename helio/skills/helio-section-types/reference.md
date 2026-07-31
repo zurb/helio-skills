@@ -1,13 +1,13 @@
 # Section Types — Reference
 
 **Skill:** `helio-section-types`
-**Source:** Section Types v0.1
+**Source:** Section Types v0.2 (v0.1 archived)
 **Source last synced:** 2026-05-23
 **Notes:** Source doc had two minor AEO-rubric gaps (Problem opener; Action pointer). Both are addressed in the ADDED sections at the end of this file.
 
 ---
 
-<!-- DERIVED FROM: src-section-types-v0.1 — Section Types v0.1 -->
+<!-- DERIVED FROM: src-section-types-v0.2 — Section Types v0.2 -->
 
 A reference for every section type you can add to a Helio study — what it does, how to configure it, what participants experience, what comes back in the report, and when to reach for it.
 

@@ -1,13 +1,13 @@
 # Helio Test Review — Reference
 
 **Skill:** `helio-test-review`
-**Source:** Reviewing Helio Tests v0.1 (Drive doc `a source document`)
-**Source last synced:** 2026-07-24
+**Source:** Reviewing Helio Tests v0.2 (Drive doc *Reviewing Helio Tests v0.2*; v0.1 archived)
+**Source last synced:** 2026-07-31
 **Scope:** Pre-launch review of unsent Helio tests — single drafts or 2–5 test variant sets. Completed tests only when the user explicitly asks (forensics mode). Since the 2026-07-24 API fix, completed and UI-built tests return full-fidelity data.
 
 ---
 
-<!-- DERIVED FROM: a source document — Reviewing Helio Tests v0.1 -->
+<!-- DERIVED FROM: src-reviewing-helio-tests-v0.2 — Reviewing Helio Tests v0.2 -->
 
 ## Inputs and set resolution
 
