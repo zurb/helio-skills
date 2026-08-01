@@ -1,5 +1,26 @@
 # Helio Marketplace — Changelog
 
+## v0.14.1 — 2026-08-01 — Source docs rewritten as new versions; capability claims moved out of prose
+
+The skills were current as of v0.14.0; the Drive docs they derive from were not — two hadn't been touched since May. A doc-driven rebuild would have silently restored every error of the past week, including the "click tests are UI-only" claim that put a live test in the field without its findability measure. All six source docs are now rewritten as new versions per the house convention (new doc, archive the old, never edit in place), and every skill is repointed.
+
+The structural change matters more than any individual edit. helio-cli shipped four releases in eight days, each moving a boundary that had been documented as permanent; we corrected the same class of error three times in one week, once reversing our own correction the next day. So the docs no longer enumerate what the tool can do. They carry workflow, metric definitions, templates and judgment; capability questions go to `update --check`, `ux-metric-types` (`.metrics` / `.excluded` with per-type reasons), `question-types`, `--help` and `--dry-run`.
+
+### New doc versions
+
+- **Helio CLI v1.5** — a rebuild, not a patch. Opens with "ask the tool, not this page" and the incident that justifies it. Keeps the draft → iterate → launch loop, the command catalog, the two-numbering-systems explanation, and the walkthrough discipline. (Also supersedes an abandoned v1.5 draft written against CLI 0.3.2.)
+- **From Asset To Test v0.2** — the biggest structural rewrite: Step 3 routes to the canonical T1–T7 templates, retiring the R5/R3/Core-5-Q vocabulary that had drifted from the Playbook; steps 5 and 6 swap so metrics are tagged before questions are written; the worked example is rebuilt. Also restores the "question shapes by slot" table, which v0.1 had lost in Drive.
+- **Creating a Helio Test v0.2** — metrics before questions; the journey-coherence walk and its checklist items; two dogfooding workflow steps promoted into the doc (check the project's history and clone the closest match; draft in text first). The UI-only checklist becomes a shape-level statement plus a tool pointer. Client names anonymized, matching Test Patterns.
+- **Helio Test Patterns v0.3** — §5 states the metric is chosen first; the construction decision tree maps each outcome to a metric to tag rather than a question shape to assemble.
+- **Section Types v0.2** — a "check whether a metric builds it" decision point now precedes the catalog, with per-type "check first" notes on the section types most often hand-built when a metric would have done it.
+- **Reviewing Helio Tests v0.2** — folds in the lens upgrades and strikes the read-gap list, all since closed.
+
+### Also
+
+- `helio-cli` reference notes rewritten to explain why v1.5 is shaped differently; it keeps concrete flags and payload schemas (an agent needs them to construct calls) but version-stamps every boundary.
+- SKILLS-CATALOG source-doc column updated for all six.
+- Archive queue for whoever owns Drive: Helio CLI v1.4 and the v1.5 draft, From Asset To Test v0.1, Creating a Helio Test v0.1, Helio Test Patterns v0.2, Section Types v0.1, Reviewing Helio Tests v0.1.
+
 ## v0.14.0 — 2026-07-30 — Synced to helio-cli v0.7.0: the ceilings moved again, and mostly outward
 
 helio-cli v0.7.0 (with the 2026-07-30 Public API release, [helio#5006](https://github.com/zurb/helio/pull/5006)) closed both API issues this family raised and unblocked five metrics. Verified command-by-command against the shipped binary. Yesterday's v0.13.1 correction is obsolete in the good direction.
