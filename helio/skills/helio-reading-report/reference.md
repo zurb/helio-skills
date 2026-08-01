@@ -236,6 +236,19 @@ The signal should be one sentence. If it takes a paragraph, you're describing th
 
 <!-- ADDED 2026-05-23 (skill-builder context) -->
 
+## Reading per-respondent journeys
+
+Aggregates hide the shape of an individual experience. When the summary reads oddly — a metric that splits rather than clusters, a followup theme that only makes sense for some people — `tests participants` returns each respondent's answers stitched together in order, so you can read one person's path through the test rather than one question across everybody.
+
+It takes the same demographic and segment filters as the report (age, gender, country, state, city, income, education, company, sentiment, segment, response time, hidden, flagged), plus `--participant <rsp_id>` for a single respondent and `--group-by cohort|audience_type` when you want the journeys bundled by who they came from.
+
+Two uses where it earns its keep:
+
+- **Explaining a bimodal metric.** A score of 60 can mean everyone was lukewarm or that half loved it and half didn't. Reading a handful of journeys tells you which, and usually tells you what separates the two groups — often something visible in an earlier answer.
+- **Checking whether a followup theme is real.** A phrase that shows up in five open-text answers is more convincing when you can see that those five people also behaved consistently elsewhere in the test.
+
+Use it after the aggregate read, not instead of it — it's for explaining a pattern you've already spotted, not for finding one.
+
 ## When to use
 
 Reach for this skill when the user is:

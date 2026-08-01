@@ -144,6 +144,18 @@ Generate synthetic participant responses from AI personas.
 **Best for:** Rapid early-stage validation of a concept before spending real-participant budget. Useful for "do these questions even make sense?" checks.
 **Plan tier:** Enterprise. May require an additional feature enablement on your account.
 
+## Working with audiences from the CLI
+
+Creating a segment or screener is still web-app work. Everything around it is scriptable, and more of it than most people realize.
+
+**Finding the right audience.** `audiences list` takes `--name <partial>` (case-insensitive) and `--recent` (most recently used in a test first), and returns `participants_count`, `tests_count` and `last_used_at` per audience — enough to tell a live segment from an abandoned one without opening the app. `audiences get <id>` confirms a single match.
+
+**Reusing one.** `tests create --audiences <id> <id> ...` attaches existing segments at create time; passing several is how you run a fanout. `audiences clone <id>` copies an audience within its customer list when you want to vary one without disturbing the original. And `tests clone` carries the source test's last audience along with its questions and metrics — often the fastest way to reuse a configuration you didn't build.
+
+**Verifying what's attached.** As of helio-cli v0.7.0 the audience configuration reads back: `tests preview --output json` returns an `.audience` block with the type, target size, attached segments, customer lists, demographic filters, screener, and retake/exclusion settings. Before that, the only proxy was inferring from the spend estimate.
+
+That read-back matters most for **variant sets**. If V1 and V2 ran against different segments or different sizes, the comparison is noise — and nothing in the questions themselves would show it. Diff the `.audience` blocks across variants before launching a set. (`helio-test-review` does this as one of its cross-variant checks.)
+
 ## Combining Audiences
 
 A study has **one active quota at a time** — you can't simultaneously launch the same test against Helio's Panel and a Customer List in a single quota.

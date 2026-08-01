@@ -1,7 +1,7 @@
 ---
 name: helio-assets
 description: Use this skill when the user is working with assets in Helio — uploading images, video, audio, linking Figma prototypes, managing the media library, or troubleshooting asset delivery. Triggers — "Helio assets," "upload image," "upload video," "upload audio," "image variants," "signed URLs," "Figma integration," "Figma prototype URL," "Figma OAuth," "Figma sync," "media library," "asset library," "asset expired," "asset broken," "alt text," "video bitrates," "audio transcoding," "asset delivery," "upload from terminal," "assets upload CLI," "asset id." Do NOT use when the user wants section type spec (use `helio-section-types`), test build workflow (use `helio-asset-to-test`), or the full CLI command surface (use `helio-cli`).
-version: 0.2.1
+version: 0.2.2
 source_doc_version: Assets v0.2
 last_rebuilt: 2026-07-21
 
@@ -39,6 +39,10 @@ Read `reference.md` for the supported formats, upload mechanics (direct-to-stora
 5. Flag the silent failures: image dimensions defaulting to 0, video processing failures without auto-retry, Figma token expiration breaking sync.
 6. For accessibility-sensitive research, surface the no-alt-text-field limitation — captioning and alt text need to go in surrounding section instructions or choice text.
 
+## What's new in v0.2.2
+
+An uploaded image plus hotspot coordinates is now a complete scripted stimulus — click test sections and their hotspots became creatable in helio-cli v0.4.0, and hotspot geometry reads back in v0.7.0, so the asset half of a findability test no longer needs a web-app detour. Adds the hotspot geometry rules and the `--account-id` flag for multi-account tokens. Corrects the handoff line, which still listed click tests and branching among UI-only steps.
+
 ## What's new in v0.2.1
 
 Repointed to Drive doc Assets v0.2, which now carries the CLI upload path — single-source again.
@@ -56,5 +60,5 @@ Initial release. Sourced from Assets v0.1. AEO scorecard flagged Problem and Act
 - For **section types that use assets** (Click, Preference, Prototype, etc.), use `helio-section-types`.
 - For **the build workflow**, use `helio-asset-to-test`.
 - For **uploading, listing, or attaching image assets from the terminal** (`assets upload/list/get`, `--asset-id`), use `helio-cli`.
-- For **the canonical UI-only boundary checklist** (plan UI-only steps — video/audio upload, click/tree/prototype builds, branching — before choosing a surface), use `helio-creating-test`.
+- For **the canonical surface-boundary guidance** (what still needs the web app before choosing a surface — media beyond images, prototype-backed sections, audience creation), use `helio-creating-test`. Click tests and their hotspots are scriptable; confirm current boundaries with `helio-cli update --check`.
 - For **Figma-specific sync depth** (full sync/auth/embed behavior), note that's covered here in summary; deeper engineering detail lives in the Helio codebase docs.

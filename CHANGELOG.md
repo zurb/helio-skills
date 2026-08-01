@@ -1,5 +1,33 @@
 # Helio Marketplace — Changelog
 
+## v0.15.0 — 2026-08-01 — The other staleness: four skills that never heard about capability they gained
+
+Everything corrected this week was a skill claiming something *can't* be done. This release is the mirror image — capability arrived and nobody told the skill. It doesn't surface in a "check for wrong claims" sweep, only in a "what shipped that nobody wrote down" sweep, which is worth running after each release rather than only the first.
+
+Audited all thirteen untouched skills; four needed work, nine didn't (they describe platform behavior and data models — the durable content, correctly left alone).
+
+### helio-branching 0.2.0 → 0.2.1
+
+The skill you'd consult to build branching could not tell you how to build it. Its what's-new announced creation as *"pending deploy"* of branches that merged a week earlier, and `reference.md` never mentioned `--branching`, `skip_to_question` or `end_test` at all.
+
+Now carries the payload shape (`choice` 0-based, `question` 1-based counting researcher questions only, forward-only skips, `end_test` stray-key rejection, the Enterprise gate and why `--dry-run` can only warn about it), branch **read-back** from v0.7.0, the two-numbering-systems reconciliation, and the `remove-ux-metrics` interaction that can silently orphan a branch target. Verified: a fresh agent given only this skill produced a complete, correct scripted-screener answer including the three-layer confirmation path — dry-run, read-back to check the choice label, and a real take session because branches don't fire in preview.
+
+### helio-audience-flow 0.1.0 → 0.2.0
+
+No mention of the CLI at all. Adds finding an audience (`--name`, `--recent`, and the participant/test counts that distinguish a live segment from an abandoned one), reusing one (`--audiences`, `audiences clone`, and `tests clone` inheriting the source's audience), and verifying what's attached now that `preview --output json` returns the full audience block. Flags the variant-set case: an audience mismatch between variants is invisible in the questions and turns a preference read into noise.
+
+### helio-reading-report 0.1.1 → 0.2.0
+
+No mention of `tests participants`, despite per-respondent journeys being squarely a reading-the-report capability. Added and framed for the two cases where it earns its keep — explaining a bimodal metric (does a 60 mean everyone was lukewarm, or that two groups disagreed?) and pressure-testing whether a followup theme is real — with the caution to use it after the aggregate read, not instead of it.
+
+### helio-assets 0.2.1 → 0.2.2
+
+An uploaded image plus hotspot coordinates is now a complete scripted stimulus. Adds the hotspot geometry rules (relative 0–1, must fit inside the image), the zero-score trap, hotspot read-back, the account-scoping rule and `--account-id`. Corrects a handoff that still listed click tests and branching among UI-only steps.
+
+### Left alone deliberately
+
+`helio-app`, `helio-features`, `helio-concepts`, `helio-licensing`, `helio-participant-experience`, `helio-design-analysis`, `helio-findings`, `helio-report-filtering`, `helio-forms-screeners` — grepped for falsified capability claims, none found. Audience creation and screeners genuinely remain web-app work, so forms-screeners is still accurate.
+
 ## v0.14.1 — 2026-08-01 — Source docs rewritten as new versions; capability claims moved out of prose
 
 The skills were current as of v0.14.0; the Drive docs they derive from were not — two hadn't been touched since May. A doc-driven rebuild would have silently restored every error of the past week, including the "click tests are UI-only" claim that put a live test in the field without its findability measure. All six source docs are now rewritten as new versions per the house convention (new doc, archive the old, never edit in place), and every skill is repointed.

@@ -49,6 +49,21 @@ For video and audio, processing takes longer because Helio transcodes the file i
 - Image dimensions are capped at 5000 × 10000 pixels (anything larger is auto-resized down).
 - No explicit file size cap on video/audio, but the underlying transcoding service has its own quotas.
 
+## Hotspots — an image plus coordinates is a complete stimulus
+
+An uploaded image is half of a findability test; the hotspots are the other half. Both are scriptable as of helio-cli v0.4.0, so a click-test stimulus no longer needs a web-app detour.
+
+Hotspots are rectangles in **relative coordinates** — `x`, `y`, `width`, `height` each between 0 and 1, measured from the top-left of the image — plus an optional `name` and a `priority` of Primary, Secondary or Tertiary (Primary is the ideal target; the others are acceptable alternatives). A rectangle that runs off the image is rejected: `x + width` and `y + height` must each be at most 1.
+
+Two things worth knowing:
+
+- **A click section with no hotspots scores zero** on any metric that scores clicks. That's correct when you want a raw attention heatmap and no score; it's a silent mistake otherwise. The CLI warns at create time when a click-backed metric has no hotspots to score.
+- **Hotspot geometry reads back** as of v0.7.0 — `tests preview --output json` returns the rectangles per click section, along with a flag marking sections that will score zero. So placement is verifiable from a script rather than only by eye in the editor.
+
+## Assets across accounts
+
+Assets are **account-scoped**. An upload lands in the API token's home account library, and an asset can only attach to tests in projects belonging to that same account — attaching across accounts fails at create time with "asset not found", even though fetching the asset by id succeeds. If a token can see more than one account's projects, check the project's account before wiring an asset id into a payload. `assets list/get/upload` take `--account-id` for tokens with access to more than one, so the upload lands where the test that needs it lives.
+
 ## Image Variants
 
 Helio auto-generates multiple sizes for each uploaded image:
