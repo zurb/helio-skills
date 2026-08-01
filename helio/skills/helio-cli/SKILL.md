@@ -2,13 +2,13 @@
 name: helio-cli
 description: Use this skill when the user is working with Helio from the terminal — installing the CLI, authenticating, building and iterating on draft tests, or scripting research. Triggers — "helio-cli," "Helio CLI," "@zurb/helio-cli," "tests create," "add-question," "edit-question," "remove-question," "tests reorder," "tests preview," "tests walkthrough," "tests participants," "question payload," "questions JSON schema," "tests question-types," "ux-metric-types," "add-ux-metrics," "--metrics-json," "--dry-run," "--output json," "tests validate," "tests send," "assets upload," "assets list," "--asset-id," "asset not found," "account name," "scripting helio," "cron helio," "CI helio," "what can't the CLI create." Do NOT use when the user is driving Helio interactively from chat/AI (use `helio-mcp`), designing the test itself (use `helio-creating-test` from a hunch, or `helio-asset-to-test` from an asset), or needs section type depth (use `helio-section-types`). For platform positioning, use `helio-app`.
 version: 0.7.0
-source_doc_version: Helio CLI v1.4 (+ live sync vs CLI v0.7.0)
+source_doc_version: Helio CLI v1.5 (rebuilt against CLI v0.7.0)
 last_rebuilt: 2026-07-23
 
 sources:
-  - doc_id: src-helio-cli-v1.4
-    title: Helio CLI v1.4
-    last_synced: 2026-07-21
+  - doc_id: a source document
+    title: Helio CLI v1.5
+    last_synced: 2026-08-01
   - title: Live verification against installed helio-cli v0.4.0–v0.7.0 (--help output + real commands)
     last_synced: 2026-07-30
 ---

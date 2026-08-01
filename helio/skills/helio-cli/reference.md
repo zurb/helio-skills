@@ -1,13 +1,13 @@
 # Helio CLI — Reference
 
 **Skill:** `helio-cli`
-**Source:** Helio CLI v1.4 + live verification against installed CLI v0.7.0
-**Source last synced:** 2026-07-30
-**Notes:** v1.3 was regenerated from the CLI codebase (README, built-in guide, validation schemas) so the doc matches what the tool ships. This rebuild closes the v1.2 gap where only 4 of ~20 test commands were documented. v1.4 (2026-07-21) folds in the helio-cli v0.1.1 `assets` command group — asset upload/listing is no longer UI-only. The 2026-07-23 sync verified every documented command against helio-cli **v0.3.0** live: renamed `add-ux-metrics` flags (`--metrics` / `--metrics-json`), added follow-up question flags, `tests participants`, `helio-cli update`, `--ux-metrics-json`, account name/ID on `projects list`, and the account-scoping rule for assets.
+**Source:** Helio CLI v1.5 (v1.4 and the abandoned v1.5 draft archived) + live verification against installed CLI v0.7.0
+**Source last synced:** 2026-08-01
+**Notes:** v1.5 is a rebuild rather than a patch. v1.4 enumerated CLI capabilities; four releases in eight days invalidated most of those claims, and one stale claim put a live test in the field missing its findability measure. v1.5 keeps the workflow, the command catalog and the judgment, and hands capability questions to the tool (`update --check`, `ux-metric-types`, `question-types`, `--help`, `--dry-run`). This reference keeps concrete flags and payload schemas — an agent needs them to construct calls — but every capability boundary carries a version stamp and a re-verify instruction, because they will move again.
 
 ---
 
-<!-- DERIVED FROM: src-helio-cli-v1.4 — Helio CLI v1.4 -->
+<!-- DERIVED FROM: a source document — Helio CLI v1.5 -->
 
 Helio CLI is the most robust way to script Glare data collection — by hand, by cron, or by AI agent. It puts the full Helio research platform behind a terminal, with structured JSON output, dry-run validation, predictable exit codes, and test definitions you can version-control alongside the code they evaluate. Anywhere automation or an AI agent needs to call into Glare, the CLI is the contract.
 
