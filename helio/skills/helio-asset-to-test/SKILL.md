@@ -2,13 +2,13 @@
 name: helio-asset-to-test
 description: Use this skill when the user is going from a design (screenshot, mockup, prototype) to a launched Helio test — building the test, validating it, and sending it. Triggers — "how do I build a test," "from asset to test," "set up a Helio test," "what test should I run," "test build workflow," "validate before launch," "dry-run a test," "how do I structure my questions," "Signal Blitz worked example," "pre-launch checklist," "naming the risk," "picking a template," "audience for my test," "questions JSON," "send test." Do NOT use when the user wants section type depth (use `helio-section-types`), metric attachment specifics (use `helio-ux-metrics`), audience setup specifics (use `helio-audience-flow`), or branching configuration (use `helio-branching`). For reading the resulting report, use `helio-reading-report`. For recognizing test shapes by pattern, use `helio-patterns`.
 version: 0.2.2
-source_doc_version: From Asset To Test v0.1
+source_doc_version: From Asset To Test v0.2
 last_rebuilt: 2026-07-21
 
 sources:
-  - doc_id: 1mzj79nyrqDPLqhW1nC4ib7ug5HMbOKfRGJxIgAz8CcA
-    title: From Asset To Test v0.1
-    drive_url: https://docs.google.com/document/d/1mzj79nyrqDPLqhW1nC4ib7ug5HMbOKfRGJxIgAz8CcA/edit
+  - doc_id: 1W6jPyH2ex7PkcpvycSzHMwLBr_3DAc4CqQHzYgISEYs
+    title: From Asset To Test v0.2
+    drive_url: https://docs.google.com/document/d/1W6jPyH2ex7PkcpvycSzHMwLBr_3DAc4CqQHzYgISEYs/edit
     last_synced: 2026-05-23
 ---
 
