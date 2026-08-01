@@ -70,6 +70,38 @@ Helio identifies branch targets by a **UUID per section**, not by position. This
 
 You don't see UUIDs in the UI. The editor shows you "Jump to Question 4" — Helio handles the underlying reference.
 
+## Setting Up Branches from the CLI or API
+
+Single-select **Multiple Choice** branching is creatable outside the editor as of helio-cli v0.4.0 — the only trigger type with an API surface today. Everything else on the trigger list above is still editor-only (or clone an existing test that already has it).
+
+Pass `branching` in a question payload, or `--branching <json|@file>` on `add-question` / `edit-question`:
+
+```json
+[
+  {"choice": 0, "action": "skip_to_question", "question": 3},
+  {"choice": 1, "action": "end_test", "message": "Not a fit — thanks!", "redirect_url": "https://..."}
+]
+```
+
+- `choice` is a **0-based index** into that question's choices.
+- `question` is a **1-based question number** counting researcher questions only; `add-question`/`edit-question` also accept `section_id` (uuid or numeric).
+- Skips are **forward-only** — targeting an earlier or the same question is rejected.
+- `question` / `section_id` apply only to `skip_to_question`; passing them alongside `end_test` is rejected.
+- Branching is **mutually exclusive with follow-ups** on the same question.
+- Requires a **Helio Enterprise account** — the same gate as the editor. `--dry-run` warns about this because validation can't see your plan; without Enterprise it surfaces as a 400 on create.
+
+`--dry-run` catches the structural mistakes before anything exists: backward and self-targeting skips, skips past the last question, and `section_id` on `create` (sections don't exist yet at that point, so create takes question numbers only).
+
+### Reading branches back
+
+As of helio-cli v0.7.0, branches are readable, not just writable. `tests preview --output json` returns a `.branching` array — per entry: the source question, the choice label, the action, and a resolved target question number — and `walkthrough` screens carry the same. `tests preview` in text mode prints them under each question.
+
+**Two numbering systems meet here.** Everything the CLI *prints* numbers sections in position order **including** UX metric sections; a branch's own `question` counts researcher questions **only**. Branch targets are resolved through `section_id` so that "skip to Q3" always names the Q the CLI just printed. In JSON, `from_question_number` / `target_question_number` are CLI-listing numbers, while the API's own `question` field is passed through untouched. If you script against positions, know which one you're holding.
+
+### Removing metrics can silently reset branches
+
+`remove-ux-metrics` deletes the metric's sections. If a branch targeted one of them, that target is gone — the CLI warns when the test has branching, but the warning is your only signal. Re-read `.branching` after any structural change.
+
 ## Setting Up Branches in the Editor
 
 Branching configuration lives inside the section editor. The general pattern:

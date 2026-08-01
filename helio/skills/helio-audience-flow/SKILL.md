@@ -1,7 +1,7 @@
 ---
 name: helio-audience-flow
 description: Use this skill when the user is configuring how Helio recruits participants for a study — picking an audience type, setting demographics or segments, uploading customer lists, configuring intercept, or running an API audience. Triggers — "audience for my test," "Helio panel," "targeted demographics," "advanced segments," "customer list upload," "intercept survey," "API audience," "AI audience," "AI personas," "how do I send a test," "send test flow," "launch validation," "panelist availability," "audience fanout," "Order More Customer Lists," "audience cost." Do NOT use when the user wants test design (use `helio-asset-to-test`), section types (use `helio-section-types`), or filtering the report after launch (use `helio-report-filtering`).
-version: 0.1.0
+version: 0.2.0
 source_doc_version: Audience Flow v0.1
 last_rebuilt: 2026-05-23
 
@@ -45,6 +45,10 @@ Read `reference.md` for the launch flow, validation rules, each audience's setup
 6. For Customer Lists, flag pre-charge behavior and bounce/unsubscribe rules — answers are debited at send, not at response.
 7. For AI Audience, note the higher per-completion cost (4 answers per section per persona response).
 8. Surface post-launch behaviors: tests don't auto-stop at quota; flagged responses don't refund automatically.
+
+## What's new in v0.2.0
+
+Adds the CLI surface, which the skill had no mention of. Finding an audience (`audiences list --name` / `--recent`, with participant and test counts to distinguish live segments from abandoned ones), reusing one (`--audiences` at create, `audiences clone`, and `tests clone` inheriting the source's audience), and — new in helio-cli v0.7.0 — **verifying what's actually attached**, since `tests preview --output json` now returns the full audience block. Segment and screener *creation* remains web-app work. Calls out the variant-set case specifically: an audience mismatch between variants turns a preference read into noise and is invisible in the questions.
 
 ## What's new in v0.1.0
 
