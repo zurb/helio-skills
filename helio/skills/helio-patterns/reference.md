@@ -7,9 +7,9 @@
 
 ---
 
-<!-- DERIVED FROM: src-helio-test-patterns-v0.3 — Helio Test Patterns v0.3 -->
+<!-- DERIVED FROM: src-helio-test-patterns — Helio Test Patterns v0.3 -->
 
-A reference for reading and constructing Helio tests, drawn from a sample of 15 tests across four projects (a continuous-experimentation project, the homepage-baseline project, an internal product project, and a multi-screen iteration series referred to here as the "145" and "144" series).
+A reference for reading and constructing Helio tests, drawn from a sample of 15 tests across four projects: a continuous-experimentation project, a homepage-baseline project, an internal product project, and a multi-screen iteration series referred to here as the fixed-template and evolving-flow series.
 
 ## The thesis
 
@@ -27,7 +27,7 @@ Almost every homepage / landing-page / single-screen test follows this functiona
 | 4. Likelihood | Likert "How likely would you be to [purchase / use / request a demo / sign up]?" + required *"Why?"* followup | `desirability` or `intent` |
 | 5. Commit / loyalty | Either an NPS question, or a forced "What would you most likely do next?" multi-select across the page's actual CTAs | `loyalty` or `intent` |
 
-This pattern appears verbatim (with order shuffles) across single-screen marketing-page tests in the corpus — athletic-apparel DTC homepages, B2B SaaS data-platform homepages, investment-platform homepages, veteran careers landing pages, and all six variants of the the fixed-template series PDP. The order shifts but the *roles* do not.
+This pattern appears verbatim (with order shuffles) across single-screen marketing-page tests in the corpus — athletic-apparel DTC homepages, B2B SaaS data-platform homepages, investment-platform homepages, veteran careers landing pages, and all six variants of the fixed-template PDP series. The order shifts but the *roles* do not.
 
 **When the order shifts:** if Q1 is a click test rather than a comprehension likert, the test is leading with behavior (where will they look) before opinion (what do they think). Common on PDP / CTA-heavy pages where engagement is the headline outcome.
 
@@ -36,7 +36,7 @@ This pattern appears verbatim (with order shuffles) across single-screen marketi
 There are essentially two intro styles across the entire batch:
 
 - **Generic boilerplate:** *"Welcome to our test! We'll use the results to improve the design of our site."* When this appears, the actual scenario is buried in Q1's instructions (e.g., the athletic-apparel homepage Q1 starts with *"Imagine you're shopping for athletic apparel"*).
-- **Scenario-led:** *"Imagine you're shopping for a seasonal occasion invites"* / *"We'll be asking you questions as if you're using a mobile banking app."*
+- **Scenario-led:** *"Imagine you're shopping for party invitations"* / *"We'll be asking you questions as if you're using a mobile banking app."*
 
 **Reading rule:** when the intro is boilerplate, always read Q1 carefully. The framing lives there, not in the intro.
 
@@ -77,7 +77,7 @@ Non-obvious metric choices worth noticing:
 
 - **A press-room/media site test in the corpus uses `satisfaction`** (via impression likerts) rather than `success`. This signals the team's actual goal was *"does the press feel served by this site"* rather than *"can journalists find things,"* even though most of the test is findability. The metric clarifies intent that the questions alone don't.
 - **An investment-platform test uses `frequency`** — unique in the batch. Q5 asks "How often would you use a platform like this?" — a retention proxy, not a one-shot intent. Worth replicating for stickiness-sensitive products.
-- **The the fixed-template series uses `intent` and `desirability` as separate metrics on adjacent questions, and watches them diverge.** V5 scored high on engagement (92) and desirability (87) but tanked on intent (38). That divergence *is* the finding.
+- **The fixed-template series uses `intent` and `desirability` as separate metrics on adjacent questions, and watches them diverge.** V5 scored high on engagement (92) and desirability (87) but tanked on intent (38). That divergence *is* the finding.
 
 ## 6. Audience definitions are a strategic statement
 
@@ -87,47 +87,47 @@ Audience lists are deliberately built to mirror who the design is for. They're n
 |---|---|---|
 | a press-room site | 7 segments of journalists, bloggers, vloggers, social media marketers | Built for press, tested by press |
 | the hunting-apparel store | "Hunting Apparel Consumers" (sole segment) | Niche audience, narrow target |
-| 145 seasonal invites | 6 overlapping event-planner / wedding-planner / host segments | The buyer is one of several adjacent personas |
+| a seasonal-invitations product | 6 overlapping event-planner / wedding-planner / host segments | The buyer is one of several adjacent personas |
 | a veteran careers landing page | Banking, credit-card, credit-union users | Adjacent audience — not literally veterans. Deliberate choice. |
 | a campaign page run three ways — [Consumers] / [SMB Owners] / [Strangers] | Same test, three audiences | Audience-fanout testing |
 
-**Audience-fanout testing** (running identical tests across multiple audiences) is itself a method. the homepage-baseline project uses it deliberately to see how the same page lands for different buyer types.
+**Audience-fanout testing** (running identical tests across multiple audiences) is itself a method. The homepage-baseline project uses it deliberately to see how the same page lands for different buyer types.
 
 ## 7. Two iteration methodologies
 
-Comparing the the evolving-flow series and the fixed-template series shows two distinct iteration methods sitting side by side:
+Comparing the evolving-flow series and the fixed-template series shows two distinct iteration methods sitting side by side:
 
-| | the fixed-template series (template iteration) | the evolving-flow series (flow evolution) |
+| | Fixed-template series | Evolving-flow series |
 |---|---|---|
 | Test structure | Fixed 5 Qs across all 6 variants | Shifted: V1–V3 had 8 Qs, V4 dropped to 7 |
 | What's compared | Just the screen design | Both the design *and* the flow shape |
 | Clean comparison? | Yes — all 6 metric scores directly comparable | Partial — Q-positions shifted between V3 and V4 |
 | When to use | A/B/C on the same screen | Funnel redesign where steps get added/removed |
 
-**Heuristic:** if you're A/B-ing within the same screen, lock the test structure (à la 145). If you're refactoring a flow, expect the test to evolve with the design (à la 144), and call out structural drift when comparing variant scores.
+**Heuristic:** if you're A/B-ing within the same screen, lock the test structure (à la the fixed-template series). If you're refactoring a flow, expect the test to evolve with the design (à la the evolving-flow series), and call out structural drift when comparing variant scores.
 
 ## 8. Single-screen vs multi-screen tests are fundamentally different shapes
 
 | | Single-screen | Multi-screen / flow |
 |---|---|---|
 | Asset count | 1 | 3–7 |
-| Examples in this batch | the athletic-apparel homepage, the B2B data-platform homepage, the investment-platform, legacy template series, all fixed-template variants | the hunting-apparel store (3 screens), the press-room site (7), the banking-app prototype, the evolving-flow series |
+| Examples in this batch | the athletic-apparel homepage, the B2B data-platform homepage, the investment-platform, the brand-template series, all fixed-template variants | the hunting-apparel store (3 screens), the press-room site (7), the banking-app prototype, the evolving-flow series |
 | Branching | Rarely enabled | Almost always enabled on click tests |
 | Question rhythm | Explore → comprehend → react → decide | Each screen gets 1–3 task-oriented Qs |
 | What it's measuring | First impression | End-to-end usability |
 
 **Identifying by name:** anything with `>` (e.g. "Homepage > PLP > PDP"), "Flow", "Onboarding", "Dashboard", or a numbered series (e.g. "Q1...Q6") is multi-screen. Anything with just "Homepage" or "Landing Page" is almost always single-screen.
 
-## 9. deep vs light template — the depth/cost tradeoff
+## 9. Deep vs light brand template — the depth/cost tradeoff
 
 Within the homepage-baseline project two template generations coexist:
 
 | Template | Questions | What it captures |
 |---|---|---|
-| R3 | 4 Qs: familiarity (yes/no) → describe **before** seeing → describe **after** seeing → multi-pick brand impressions | Pre/post comprehension shift — what changed in their understanding from seeing the page |
-| R5 | 2 Qs: familiarity (yes/no) → multi-pick brand impressions | Just the impression — no before/after |
+| Deep (4 Qs) | familiarity (yes/no) → describe **before** seeing → describe **after** seeing → multi-pick brand impressions | Pre/post comprehension shift — what changed in their understanding from seeing the page |
+| Light (2 Qs) | familiarity (yes/no) → multi-pick brand impressions | Just the impression — no before/after |
 
-R3 is more diagnostically useful (you can see how the page changed understanding) but takes roughly 2× the response time. R5 trades that signal for cheaper iteration. The choice is a cost-per-insight tradeoff worth making consciously per project.
+The deep template is more diagnostically useful (you can see how the page changed understanding) but takes roughly 2× the response time. The light template trades that signal for cheaper iteration. The choice is a cost-per-insight tradeoff worth making consciously per project.
 
 ## 10. Branching ≈ "this test has connected screens"
 
@@ -135,8 +135,8 @@ Quick reading heuristic: if branching is enabled on click tests, the test is pro
 
 Branching status across this batch:
 
-- **the fixed-template series:** branching on Q1 only (the engagement click test). Other Qs have no follow-through.
-- **the evolving-flow series:** branching on the `success` click tests (the path through the flow).
+- **Fixed-template series:** branching on Q1 only (the engagement click test). Other Qs have no follow-through.
+- **Evolving-flow series:** branching on the `success` click tests (the path through the flow).
 - **The hunting-apparel store:** branching on all 5 click tests (3 connected screens).
 - **The investment-platform:** branching on Q2 (the engagement click test).
 - **The press-room site:** branching off (each click test is isolated to its screen, not a flow).
@@ -188,7 +188,7 @@ This synthesis is drawn from 15 tests. Patterns to verify if you go deeper:
 - **MaxDiff usage** — only seen in two tests in the batch (a content-heavy careers page and the press-room site). Worth pulling more MaxDiff tests to see how it's typically scoped.
 - **Card-sort / preference / matrix / point-allocation** — none appeared in this sample. The CLI supports them; whether they're rare or absent in actual usage is unknown.
 - **Tests saved as templates** — none in this sample. The platform has a template system that's separate from the iteration pattern documented here.
-- **Long tests (>10 Qs)** — only a continuous-experimentation project's "a 15-Q homepage assessment" (15 Qs) appeared as an outlier in the listings. Worth pulling to see if it's a different methodology or just a longer version of the same template.
+- **Long tests (>10 Qs)** — only one 15-Q homepage assessment appeared as an outlier in the listings. Worth pulling to see if it's a different methodology or just a longer version of the same template.
 
 ## Tooling notes
 
@@ -201,7 +201,7 @@ This synthesis is drawn from 15 tests. Patterns to verify if you go deeper:
 
 ---
 
-<!-- DERIVED FROM: src-test-pattern-playbook-v0.1 — Test Pattern Playbook v0.1 -->
+<!-- DERIVED FROM: src-test-pattern-playbook — Test Pattern Playbook v0.1 -->
 
 # The Test Pattern Playbook
 
@@ -407,7 +407,7 @@ For the full build/validate/launch workflow, route to `helio-asset-to-test`. For
 ## Failure modes
 
 - **Reading every Click Test as the same thing.** The metric matters more than the question shape — `engagement` vs `success` are different reads.
-- **Comparing variants across the fixed-template vs evolving-flow boundary.** If question positions or counts shifted, the comparison is partial. Surface the structural drift before reporting metric changes.
+- **Comparing variants across the fixed-template / evolving-flow boundary.** If question positions or counts shifted, the comparison is partial. Surface the structural drift before reporting metric changes.
 - **Defaulting to "the 5-Q template" without checking whether the page calls for it.** Multi-screen flows, retention tests, and content prioritization all need different shapes.
 - **Treating the audience as an afterthought.** Audience choice is a strategic statement — fanout testing is a method, not noise.
 - **Treating the seven templates as cages.** ~39% of the corpus is custom variations; templates are starting points. Match the moment and asset first, then adapt.

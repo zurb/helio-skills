@@ -19,7 +19,7 @@ Each skill is a folder under `helio/skills/<skill-name>/` containing:
 
 ## Source of truth
 
-All Helio skill content derives from Google Drive docs maintained by the docs owner in folder [`the source-doc folder`](the source-doc folder source-doc folder). When a source doc is updated, the corresponding skill is rebuilt to match.
+All Helio skill content derives from a set of internally maintained source documents. Skills reference them by opaque key (`src-*`); the key-to-document mapping is held privately outside this repo. When a source document is updated, the corresponding skill is rebuilt to match.
 
 See `HELIO-SKILL-BUILDING-CONTEXT.md` for the full conversion workflow and conventions.
 

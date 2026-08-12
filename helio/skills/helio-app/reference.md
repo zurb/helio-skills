@@ -7,7 +7,7 @@
 
 ---
 
-<!-- DERIVED FROM: src-helio-app-v1.3 — Helio App v1.3 -->
+<!-- DERIVED FROM: src-helio-app — Helio App v1.3 -->
 
 ## Helio (positioning, plans, Glare workflow)
 
@@ -100,7 +100,7 @@ For the full bridge from Helio result to Glare signal, see `helio-reading-report
 
 ---
 
-<!-- DERIVED FROM: src-using-helio-v0.2 — Using Helio v0.2 -->
+<!-- DERIVED FROM: src-using-helio — Using Helio v0.2 -->
 
 ## Using Helio (capability tour)
 
@@ -251,7 +251,7 @@ Drop into a sibling skill when the user is going deep on one surface:
 
 ## Failure modes
 
-- **Conflating marketing plans with internal license tiers.** Helio's marketing plans (Pilot/Scale/On Demand/Business) are the customer-facing offer. The Answers & Licensing doc lists different internal tiers (Trial/Pro/Business 1–3/Scale/Design–Agency–Enterprise/Custom) for the answers-balance accounting model. Both are valid — don't merge them.
+- **Conflating the marketing plans with the billing model.** The plans above (Pilot/Scale/On Demand/Business) are the customer-facing offer. Answers-balance accounting runs on its own set of license tiers, which don't map one-to-one onto the plan names. Both are valid — don't merge them.
 - **Treating Helio as a moderated research tool.** Helio is unmoderated. For interview-style research, pair with a moderated tool.
 - **Assuming Performance metrics exist in Helio.** The Glare framework defines them; Helio doesn't implement them yet. If a question is about drop-off rate or time-on-task, name that gap explicitly and route to whichever analytics tool actually measures it.
 

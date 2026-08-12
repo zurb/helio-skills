@@ -1,12 +1,12 @@
 ---
 name: helio-branching
 description: Use this skill when the user is configuring conditional routing in a Helio study — branching participants based on their answers, screening / disqualifying, redirecting at end-of-test, or troubleshooting why a branch isn't firing. Triggers — "Helio branching," "conditional routing," "screener," "disqualify participants," "jump to section," "end test with custom message," "redirect URL after test," "branching from a choice," "branching on best/worst answer," "hotspot branching," "Branching and quotas," "Branching and UX metrics," "Branching and Conditional Follow-ups," "Why is my branch not firing," "multi-select branching." Do NOT use when the user wants conditional follow-ups inline (those live in `helio-section-types`), section type details (use `helio-section-types`), or test build workflow (use `helio-asset-to-test`).
-version: 0.2.1
+version: 0.2.2
 source_doc_version: Branching v0.1 (+ CLI v0.4.0 create, v0.7.0 read-back)
 last_rebuilt: 2026-07-23
 
 sources:
-  - doc_id: src-branching-v0.1
+  - doc_id: src-branching
     title: Branching v0.1
     last_synced: 2026-05-23
 ---
@@ -46,6 +46,10 @@ Read `reference.md` for the full surface — trigger sections, action types, dis
 6. Surface the UX Metric interaction: branching past a metric-tagged section means those participants don't contribute to that metric's score.
 7. Surface the quota interaction: branched-out participants still count toward quota.
 8. Note: branches don't fire in preview mode; you need to take the test as a real participant to verify.
+
+## What's new in v0.2.2
+
+Disclosure scrub. Source documents are now referenced by opaque key (`src-*`) rather than by Drive id or link, with the real mapping held privately outside the repo. Named references were removed throughout: customer and engagement names, internal project and template codes, real test names, colleague names, and issue references into private repositories. No capability, workflow, or guidance content changed.
 
 ## What's new in v0.2.1
 

@@ -1,12 +1,12 @@
 ---
 name: helio-report-filtering
 description: Use this skill when the user is slicing report data — applying demographic, question-level, sentiment, or segment filters; combining filters; or troubleshooting why a filter shows no results. Triggers — "Helio report filter," "demographic filter," "filter by age," "filter by country," "sentiment filter," "question-level filter," "Tree Test filter," "Card Sort filter," "Prototype path filter," "View Flows modal," "Direct Indirect Failed filter," "filter combine AND OR," "URL-persistent filter," "cohort comparison," "clear filters," "no participants match." Do NOT use when the user wants synthesis (use `helio-reading-report`), test design (use `helio-asset-to-test`), or section type spec (use `helio-section-types`).
-version: 0.1.0
+version: 0.1.1
 source_doc_version: Report Filtering v0.1
 last_rebuilt: 2026-05-23
 
 sources:
-  - doc_id: src-report-filtering-v0.1
+  - doc_id: src-report-filtering
     title: Report Filtering v0.1
     last_synced: 2026-05-23
 ---
@@ -47,6 +47,10 @@ Read `reference.md` for the full filter surface — every filter type, its sourc
 6. For complex prototype-path filtering, route to the View Flows modal (Contains / Includes / Exact path modes).
 7. Surface the URL-persistence quirk (refresh before copying for share).
 8. Note the absence of saved filter sets and side-by-side cohort views — both are common requests that don't exist yet.
+
+## What's new in v0.1.1
+
+Disclosure scrub. Source documents are now referenced by opaque key (`src-*`) rather than by Drive id or link, with the real mapping held privately outside the repo. Named references were removed throughout: customer and engagement names, internal project and template codes, real test names, colleague names, and issue references into private repositories. No capability, workflow, or guidance content changed.
 
 ## What's new in v0.1.0
 

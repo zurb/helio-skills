@@ -1,15 +1,15 @@
 ---
 name: helio-patterns
-description: Use this skill when the user wants to recognize or construct Helio tests by shape and stage — the core 5-Q template, the seven data-backed templates (T1 Two-Tap Check, T2 MaxDiff Read, T3 Shelf & NPS, T4 Findability Sweep, T5 Homepage Five, T6 Expectation Probe, T7 Flow Expectation), multi-screen flows, audience fanouts, legacy template generations, the fixed-template vs evolving-flow iteration distinction. Triggers — "Helio test patterns," "test pattern playbook," "which template," "what test should I run at this stage," "first look vs iterate vs benchmark," "findability sweep," "expectation probe," "single-screen vs multi-screen," "engagement vs success click test," "metric coverage," "30-second scan," "audience fanout," "deep vs light template." Do NOT use when the user wants section type spec (use `helio-section-types`), the hunch → shape design arc (use `helio-creating-test`), the asset-first build workflow (use `helio-asset-to-test`), audience setup mechanics (use `helio-audience-flow`), or report synthesis (use `helio-reading-report`).
-version: 0.4.2
+description: Use this skill when the user wants to recognize or construct Helio tests by shape and stage — the core 5-Q template, the seven data-backed templates (T1 Two-Tap Check, T2 MaxDiff Read, T3 Shelf & NPS, T4 Findability Sweep, T5 Homepage Five, T6 Expectation Probe, T7 Flow Expectation), multi-screen flows, audience fanouts, brand-template depth, and two iteration methodologies. Triggers — "Helio test patterns," "test pattern playbook," "which template," "what test should I run at this stage," "first look vs iterate vs benchmark," "findability sweep," "expectation probe," "single-screen vs multi-screen," "engagement vs success click test," "metric coverage," "30-second scan," "audience fanout," "deep vs light." Do NOT use when the user wants section type spec (use `helio-section-types`), the hunch → shape design arc (use `helio-creating-test`), the asset-first build workflow (use `helio-asset-to-test`), audience setup mechanics (use `helio-audience-flow`), or report synthesis (use `helio-reading-report`).
+version: 0.4.3
 source_doc_version: Helio Test Patterns v0.3 + Test Pattern Playbook v0.1 (merged)
 last_rebuilt: 2026-07-06
 
 sources:
-  - doc_id: src-helio-test-patterns-v0.3
+  - doc_id: src-helio-test-patterns
     title: Helio Test Patterns v0.3
     last_synced: 2026-07-06
-  - doc_id: src-test-pattern-playbook-v0.1
+  - doc_id: src-test-pattern-playbook
     title: Test Pattern Playbook v0.1
     last_synced: 2026-07-06
 ---
@@ -28,9 +28,9 @@ The patterns, drawn from a sample of 15 tests across four projects:
 4. **Required followups carry the insight** — the comprehension followup is the only one that converts self-rating to knowledge probe
 5. **The UX metric is the real instrument** — not the question wording
 6. **Audience definitions are strategic** — not generic; fanout testing is its own method
-7. **Two iteration methodologies** — fixed-template style template iteration (locked structure) vs evolving-flow style flow evolution (structure drifts)
+7. **Two iteration methodologies** — fixed-template iteration (locked structure) vs evolving-flow iteration (structure drifts)
 8. **Single-screen vs multi-screen are fundamentally different shapes**
-9. **deep vs light template depth/cost tradeoff** — R3 captures pre/post comprehension shift; R5 is just impression
+9. **Deep vs light brand template** — the deep version captures pre/post comprehension shift; the light version is just impression
 10. **Branching ≈ "this test has connected screens"**
 
 Plus a 30-second scan routine for reading new reports and a quick decision tree for constructing new tests.
@@ -55,6 +55,10 @@ Read `reference.md` for both layers: the reading synthesis (pattern catalog with
 4. If the user is constructing a new test, walk the decision tree: single-screen vs multi-screen, A/B iteration vs flow redesign, headline outcome, audience.
 5. Surface "what's not in the sample" caveats for less-common shapes (MaxDiff, card sort, point allocation).
 
+## What's new in v0.4.3
+
+Disclosure scrub. Source documents are now referenced by opaque key (`src-*`) rather than by Drive id or link, with the real mapping held privately outside the repo. Named references were removed throughout: customer and engagement names, internal project and template codes, real test names, colleague names, and issue references into private repositories. No capability, workflow, or guidance content changed.
+
 ## What's new in v0.4.2
 
 Synced to helio-cli v0.7.0: `engagement` and `success` are now taggable from the CLI (the v0.4.1 correction is obsolete), with the caveat that a click section needs hotspots or the metric scores zero — pass them via `--ux-metrics-json`.
@@ -73,7 +77,7 @@ Merged in the **Test Pattern Playbook v0.1** as a second source (new Drive doc, 
 
 ## What's new in v0.2.0
 
-Rebuilt against Helio Test Patterns v0.2 (scrubbed) — the Drive-side anonymized revision. Customer engagement names in the source are now category descriptors (matching the local scrub shipped in marketplace v0.3.2), the "O2" project prefix is dropped in favor of "the 145/the evolving-flow series," and the tooling notes gain the Node 22 / nvm PATH caveat. No pattern content changed.
+Rebuilt against Helio Test Patterns v0.2 — the anonymized revision. Engagement names in the source are now category descriptors, project prefixes are replaced with descriptive series names, and the tooling notes gain the Node 22 / nvm PATH caveat. No pattern content changed.
 
 ## What's new in v0.1.0
 

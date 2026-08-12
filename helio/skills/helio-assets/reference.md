@@ -7,7 +7,7 @@
 
 ---
 
-<!-- DERIVED FROM: src-assets-v0.2 — Assets v0.2 -->
+<!-- DERIVED FROM: src-assets — Assets v0.2 -->
 
 Images, videos, audio, and Figma prototypes — how to upload, where they're used, and what to know about delivery.
 

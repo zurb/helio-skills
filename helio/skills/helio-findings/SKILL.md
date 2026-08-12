@@ -1,12 +1,12 @@
 ---
 name: helio-findings
 description: Use this skill when the user is capturing or organizing observations from a Helio study — Findings. Triggers — "Helio findings," "capture insight," "share finding URL," "favorite finding," "search findings," "findings panel," "filter context snapshot," "comments vs findings," "AI-generated findings," "moderated follow-up findings cost," "tag findings," "workspace insights," "regenerate share URL." Do NOT use when the user wants synthesis (use `helio-reading-report`), report filtering (use `helio-report-filtering`), or moderated follow-up section configuration (use `helio-section-types`).
-version: 0.1.0
+version: 0.1.1
 source_doc_version: Findings v0.1
 last_rebuilt: 2026-05-23
 
 sources:
-  - doc_id: src-findings-v0.1
+  - doc_id: src-findings
     title: Findings v0.1
     last_synced: 2026-05-23
 ---
@@ -46,6 +46,10 @@ Read `reference.md` for the full surface — what gets captured automatically, l
 4. For team collaboration questions, distinguish findings (observations to capture / share) from comments (discussions threads, with @-mentions and resolve).
 5. For "AI didn't auto-generate findings" questions, be honest: the infrastructure exists but auto-generation isn't shipping yet. AI Summary and Common Phrases are different features.
 6. For bulk export, note the API is the path — no CSV export of findings yet.
+
+## What's new in v0.1.1
+
+Disclosure scrub. Source documents are now referenced by opaque key (`src-*`) rather than by Drive id or link, with the real mapping held privately outside the repo. Named references were removed throughout: customer and engagement names, internal project and template codes, real test names, colleague names, and issue references into private repositories. No capability, workflow, or guidance content changed.
 
 ## What's new in v0.1.0
 

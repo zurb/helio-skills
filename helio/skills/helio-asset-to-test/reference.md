@@ -7,7 +7,7 @@
 
 ---
 
-<!-- DERIVED FROM: src-from-asset-to-test-v0.3 — From Asset To Test v0.3 -->
+<!-- DERIVED FROM: src-from-asset-to-test — From Asset To Test v0.3 -->
 
 A prescriptive walkthrough for going from a design (a screenshot, mockup, or live page) to a launched Helio test. Companion to `helio-patterns` — that skill tells you what the patterns *are*; this one tells you how to *use* them.
 
@@ -232,14 +232,14 @@ helio-cli tests send <test-uuid>
 
 Once sent, the structure is locked. Don't `send` until validate passes clean and preview matches your intent.
 
-## Worked example — Dual-Offer homepage
+## Worked example — a dual-offer homepage
 
-Running the full workflow on the Dual-Offer / the studio landing page.
+Running the full workflow on a landing page that promotes a game and the studio behind it.
 
 ### Step 1 — Classify
 
 - Single screen, long-scroll. One asset.
-- Marketing landing page promoting two things at once: a game (*Dual-Offer*) and an agency (*the studio*).
+- Marketing landing page promoting two things at once: a game, and the design studio that made it.
 - B2B-ish — agency wants project conversations; game is the lead magnet.
 - Primary outcome the page is selling: **debatable** (game adoption vs agency contact). This is itself a finding the test should expose.
 
@@ -267,7 +267,7 @@ Primary: Product Designers (US). Secondary fanout: UX Researchers, Design Manage
 T5's set, with the context noun set once so every generated instruction reads naturally:
 
 ```shell
-helio-cli tests create --project-name "an internal product project" \
+helio-cli tests create --project-name "Example Project" \
     --name "Dual-Offer Homepage v1" --intro "..." --target-audience-size 100 \
     --ux-metrics comprehension desirability intent \
     --ux-metric-context "this homepage"
@@ -304,7 +304,7 @@ The desirability pair is deliberate — the multi-select reads the feeling, the 
 
 ```shell
 helio-cli tests create \
-    --project-name "an internal product project" \
+    --project-name "Example Project" \
     --name "Dual-Offer Homepage v1" \
     --intro "Imagine you're a product designer looking for new ways to test your UX. You come across this page." \
     --target-audience-size 100 \
@@ -379,7 +379,7 @@ For single-aspect depth, drop into sibling skills (sections, metrics, audience, 
 - **Sending before validating.** `validate` catches real config issues. `send` locks the structure permanently.
 - **Assuming a ceiling that has moved.** Click tests, hotspots, and branching all became CLI-native in v0.4.0; image upload in v0.1.1. Run `helio-cli update --check` before telling a user something requires the web app — a stale binary reports its own limits as the tool's.
 
-## More worked examples (beyond Dual-Offer)
+## More worked examples
 
 Quick shape-references for the most common test types — drawn from the corpus in `helio-patterns`. Use these as templates to copy from when designing a new test.
 

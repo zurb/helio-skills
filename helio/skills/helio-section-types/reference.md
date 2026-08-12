@@ -7,7 +7,7 @@
 
 ---
 
-<!-- DERIVED FROM: src-section-types-v0.2 — Section Types v0.2 -->
+<!-- DERIVED FROM: src-section-types — Section Types v0.2 -->
 
 A reference for every section type you can add to a Helio study — what it does, how to configure it, what participants experience, what comes back in the report, and when to reach for it.
 

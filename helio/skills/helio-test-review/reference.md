@@ -1,18 +1,18 @@
 # Helio Test Review — Reference
 
 **Skill:** `helio-test-review`
-**Source:** Reviewing Helio Tests v0.2 (Drive doc *Reviewing Helio Tests v0.2*; v0.1 archived)
+**Source:** Reviewing Helio Tests v0.2 (Drive doc `src-reviewing-helio-tests`; v0.1 archived)
 **Source last synced:** 2026-07-31
 **Scope:** Pre-launch review of unsent Helio tests — single drafts or 2–5 test variant sets. Completed tests only when the user explicitly asks (forensics mode). Since the 2026-07-24 API fix, completed and UI-built tests return full-fidelity data.
 
 ---
 
-<!-- DERIVED FROM: src-reviewing-helio-tests-v0.2 — Reviewing Helio Tests v0.2 -->
+<!-- DERIVED FROM: src-reviewing-helio-tests — Reviewing Helio Tests v0.2 -->
 
 ## Inputs and set resolution
 
 - **Explicit is the contract.** The user names 1–5 tests by ID or name. Names resolve via `projects tests <project-id>` or `tests list`.
-- **Discovery is an assist, never silent.** Given one test that smells like part of a set (version suffixes, sibling names like "…a product line"/"…a second product line", same project + same question shape), list the candidates and ask the user to confirm the set before running lens 5. A wrong grouping poisons the whole comparison.
+- **Discovery is an assist, never silent.** Given one test that smells like part of a set (version suffixes, sibling names that differ only by product line, same project + same question shape), list the candidates and ask the user to confirm the set before running lens 5. A wrong grouping poisons the whole comparison.
 - **Unsent tests are the priority.** Review completed tests only when the user explicitly asks (forensics mode) — say so in the report header when you do.
 
 ## Gather (one pass, before any lens)

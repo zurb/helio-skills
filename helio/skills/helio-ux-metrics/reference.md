@@ -7,7 +7,7 @@
 
 ---
 
-<!-- DERIVED FROM: src-ux-metrics-v0.1 — UX Metrics v0.1 -->
+<!-- DERIVED FROM: src-ux-metrics — UX Metrics v0.1 -->
 
 The full reference for Helio's measurement layer — all 17 metrics, how they're computed, what sections they need, and when to reach for each.
 
@@ -318,7 +318,7 @@ Real scores drawn from the test corpus catalogued in `helio-patterns`. Use these
 
 ### Engagement (Behavioral) — high attention concentration
 
-- **a retail PDP variant: 92 (Very Good)** — Primary-hotspot click rate dominated the page. Healthy on its own; only meaningful in context with Intent (see below).
+- **A PDP variant: 92 (Very Good)** — Primary-hotspot click rate dominated the page. Healthy on its own; only meaningful in context with Intent (see below).
 - **An athletic-apparel DTC homepage Q1: 30** — clicks distributed across 5 hotspots. Not broken; means no single CTA is dominant.
 
 ### Comprehension (Behavioral) — message clarity
@@ -329,12 +329,12 @@ Real scores drawn from the test corpus catalogued in `helio-patterns`. Use these
 
 ### Desirability (Attitudinal) — emotional reaction
 
-- **a retail PDP variant: 87 (Good)** with positive descriptors dominant (Helpful 73%, Innovative 69%).
+- **The same PDP variant: 87 (Good)** with positive descriptors dominant (Helpful 73%, Innovative 69%).
 - **An athletic-apparel DTC homepage: 87 (Good)** — paired with NPS 14 (see below) for the "liked but not advocated" pattern.
 
 ### Intent (Behavioral) — planned next action
 
-- **a retail PDP variant: 38 (Poor)** while Engagement 92 / Desirability 87 — the headline cross-metric divergence. Attractive but not persuasive.
+- **The same PDP variant: 38 (Poor)** while Engagement 92 / Desirability 87 — the headline cross-metric divergence. Attractive but not persuasive.
 - **The B2B data-platform homepage Q5: 37** — stated intent for "Explore the Platform" at 35%, but actual first-click went elsewhere. Stated-vs-behavioral mismatch.
 
 ### Loyalty / NPS (Attitudinal) — recommendation intent

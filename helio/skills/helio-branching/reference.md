@@ -6,7 +6,7 @@
 
 ---
 
-<!-- DERIVED FROM: src-branching-v0.1 — Branching v0.1 -->
+<!-- DERIVED FROM: src-branching — Branching v0.1 -->
 
 How to route participants down different paths through your study based on what they answer.
 

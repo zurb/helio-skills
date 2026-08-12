@@ -1,12 +1,12 @@
 ---
 name: helio-ux-metrics
 description: Use this skill when the user is working with Helio's UX Metrics — picking which metric to attach, understanding what a score means, comparing metrics across studies, or interpreting threshold labels. Triggers — "UX metric," "what does Sentiment mean," "Behavioral vs Attitudinal," "Brand Score," "Desirability v1 vs v2," "what's a Good score," "threshold labels," "Very Good Good Average Poor Very Poor," "Overall Score," "the 17 metrics," "metric sections," "auto-build sections," "metric versioning," "Effort metric," "Feeling metric," "Appeal metric," "Usability metric," "AI-derived metrics," "metric isn't showing." Do NOT use when the question is about picking a section type (use `helio-section-types`), the AI heuristic evaluator (use `helio-design-analysis`), filtering report data (use `helio-report-filtering`), or synthesis (use `helio-reading-report`). For the Glare framework's broader metric taxonomy, use `glare-ux-metrics`.
-version: 0.4.1
+version: 0.4.2
 source_doc_version: UX Metrics v0.1
 last_rebuilt: 2026-05-23
 
 sources:
-  - doc_id: src-ux-metrics-v0.1
+  - doc_id: src-ux-metrics
     title: UX Metrics v0.1
     last_synced: 2026-05-23
 ---
@@ -56,6 +56,10 @@ Read `reference.md` for the full per-metric reference — what each metric captu
 5. Name the threshold label the user should expect / target.
 6. Flag versioning gotchas (especially Desirability v1 vs v2 — they coexist; confirm which is active before comparing across studies).
 7. Note the AI-derived metric caveat: Design Analysis scores use the same metric names but live in a separate data structure as labels only (no numeric 0–100).
+
+## What's new in v0.4.2
+
+Disclosure scrub. Source documents are now referenced by opaque key (`src-*`) rather than by Drive id or link, with the real mapping held privately outside the repo. Named references were removed throughout: customer and engagement names, internal project and template codes, real test names, colleague names, and issue references into private repositories. No capability, workflow, or guidance content changed.
 
 ## What's new in v0.4.1
 

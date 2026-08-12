@@ -1,12 +1,12 @@
 ---
 name: helio-design-analysis
 description: Use this skill when the user is running or interpreting Helio's AI heuristic evaluation — Design Analysis. Triggers — "Design Analysis," "Helio AI evaluation," "AI heuristic," "Feel Understand Do Trust," "four master user needs," "AI score 1-5," "annotated screenshot," "design analysis cost," "AI evaluator," "evaluate without participants," "headline AI scores," "design analysis pipeline," "AI scoring without users," "design critique AI." Do NOT use when the user wants participant-driven UX metrics (use `helio-ux-metrics`), the AI Audience for synthetic participant responses (use `helio-audience-flow`), or the broader test build (use `helio-asset-to-test`).
-version: 0.1.0
+version: 0.1.1
 source_doc_version: Design Analysis v0.1
 last_rebuilt: 2026-05-23
 
 sources:
-  - doc_id: src-design-analysis-v0.1
+  - doc_id: src-design-analysis
     title: Design Analysis v0.1
     last_synced: 2026-05-23
 ---
@@ -41,6 +41,10 @@ Read `reference.md` for the full setup, the four user needs (with backing metric
 5. Surface the headline architectural caveats: AI scores live in a separate data structure (don't mix with participant scores), stored as labels only (not numeric 0–100), and tied to a Design Analysis report (not a regular study).
 6. For follow-up questions the AI suggests, note they don't auto-convert to a real study — researcher manually creates one.
 7. Cost: 4 answers regardless of complexity — only place in Helio where cost is fixed.
+
+## What's new in v0.1.1
+
+Disclosure scrub. Source documents are now referenced by opaque key (`src-*`) rather than by Drive id or link, with the real mapping held privately outside the repo. Named references were removed throughout: customer and engagement names, internal project and template codes, real test names, colleague names, and issue references into private repositories. No capability, workflow, or guidance content changed.
 
 ## What's new in v0.1.0
 

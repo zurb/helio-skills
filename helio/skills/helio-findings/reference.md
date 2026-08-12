@@ -6,7 +6,7 @@
 
 ---
 
-<!-- DERIVED FROM: src-findings-v0.1 — Findings v0.1 -->
+<!-- DERIVED FROM: src-findings — Findings v0.1 -->
 
 How to capture, organize, and share observations from your studies.
 

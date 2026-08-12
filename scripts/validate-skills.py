@@ -71,6 +71,54 @@ SKILLS_DIR = "helio/skills"
 MAX_DESCRIPTION_LENGTH = 1024
 MIN_DESCRIPTION_LENGTH = 50
 
+# ---------------------------------------------------------------------------
+# Disclosure denylist
+#
+# These skills are published to a PUBLIC repo. Nothing that names a customer,
+# an internal project, a colleague, or an internal system may ship. Every
+# pattern below has been in the tree at least once; this check is what keeps
+# them from drifting back in.
+#
+# Real Drive doc ids live only in helio-sources-private.yml, outside the repo.
+# Skills reference their sources by opaque `src-*` key.
+# ---------------------------------------------------------------------------
+DENYLIST = [
+    (r"docs\.google\.com/document",           "Google Drive document link"),
+    (r"\bdrive_url\s*:",                      "drive_url in frontmatter (use the src-* key only)"),
+    (r"\b1[A-Za-z0-9_-]{25,}\b",              "raw Drive document id"),
+    (r"`1[A-Za-z0-9_-]{4,}…`",                "truncated Drive document id"),
+    (r"\b01[A-HJKMNP-TV-Z0-9]{24}\b",         "ULID (test / report id)"),
+    (r"\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b", "UUID"),
+    (r"(?i)\bflash(array|blade)\b",           "customer product name"),
+    (r"(?i)\bpure storage\b",                 "customer name"),
+    (r"(?i)\b(a client|a client|seasonal)\b",  "customer / engagement name"),
+    (r"(?i)\b(a continuous-experimentation project|the homepage-baseline project|an internal product project)\b", "internal project name"),
+    (r"\bO2 \d",                              "internal project prefix"),
+    (r"(?<![\w.])1[45][45] series\b",         "internal project code"),
+    (r"(?i)\bR[35]/R[35]\b",                  "internal template generation code"),
+    (r"(?i)\b(the maintainer|the docs owner|a practitioner)\b",      "colleague name"),
+    (r"helio ?#\d+",                          "issue reference in a private repo"),
+    (r"github\.com/zurb/helio(?!-cli|-skills)\b", "link into a private repo"),
+    (r"(?i)\b(HELIO_API_TOKEN|HELIO_API_KEY)\s*=\s*(?!\.\.\.|your-|YOUR_|\$)\S", "possible real credential"),
+]
+DENYLIST = [(re.compile(p), label) for p, label in DENYLIST]
+
+
+def scan_denylist(path):
+    """Return [(line_no, label, snippet)] for disclosure-denylist hits in a file."""
+    hits = []
+    try:
+        with open(path, encoding="utf-8") as f:
+            lines = f.readlines()
+    except OSError:
+        return hits
+    for i, line in enumerate(lines, 1):
+        for pattern, label in DENYLIST:
+            m = pattern.search(line)
+            if m:
+                hits.append((i, label, m.group(0)[:60]))
+    return hits
+
 GREEN = "\033[32m"
 RED = "\033[31m"
 YELLOW = "\033[33m"
@@ -227,11 +275,26 @@ def main():
         if parsed is not None:
             issues.extend(validate_reference_md(skill_dir, parsed))
 
+        # Disclosure denylist across every markdown file in the skill
+        for fname in sorted(os.listdir(skill_dir)):
+            if not fname.endswith(".md"):
+                continue
+            for line_no, label, snippet in scan_denylist(os.path.join(skill_dir, fname)):
+                issues.append(f"{fname}:{line_no} discloses {label}: {snippet!r}")
+
         results.append((folder, issues))
 
         # Capture name for duplicate check
         if parsed and isinstance(parsed, dict) and parsed.get("name"):
             names_seen.append(parsed["name"])
+
+    # Repo-root docs ship publicly too — hold them to the same denylist
+    root_issues = []
+    for fname in sorted(os.listdir(".")):
+        if fname.endswith(".md"):
+            for line_no, label, snippet in scan_denylist(fname):
+                root_issues.append(f"{fname}:{line_no} discloses {label}: {snippet!r}")
+    results.append(("(repo docs)", root_issues))
 
     # Duplicate name check across marketplace
     name_counts = Counter(names_seen)

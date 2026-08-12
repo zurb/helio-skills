@@ -10,11 +10,11 @@ This document captures the pattern, conventions, and current state of the Helio 
 
 ## TL;DR — what you're being asked to do
 
-Helio is ZURB's user research platform. Its documentation set is shipped as a **Claude Code plugin marketplace** parallel to Glare's: a collection of skills that researchers, designers, PMs, and AI workflows use to operate Helio and read its output. The source of truth for the content is **Google Drive docs** maintained by the docs owner in folder `the source-doc folder`. Each doc covers a specific aspect of the platform (section types, UX metrics, audience flow, etc.). When the docs owner revises a doc, the corresponding skill gets rebuilt to match.
+Helio is ZURB's user research platform. Its documentation set is shipped as a **Claude Code plugin marketplace** parallel to Glare's: a collection of skills that researchers, designers, PMs, and AI workflows use to operate Helio and read its output. The source of truth for the content is a set of internally maintained **source documents**, referenced from skills by opaque key (`src-*`) with the mapping held privately outside this repo. Each document covers a specific aspect of the platform (section types, UX metrics, audience flow, etc.). When the docs owner revises one, the corresponding skill gets rebuilt to match.
 
 **Your job:**
 
-1. **Detect updates.** the docs owner ships new or revised Drive docs. Compare against what's already in the skill.
+1. **Detect updates.** The docs owner ships new or revised source documents. Compare against what's already in the skill.
 2. **Rebuild the skill** following the conventions below — preserve what's still accurate, refresh what changed, add what's new.
 3. **Bump versions and write a CHANGELOG entry.**
 4. **Verify before committing.** Description length, marker balance, frontmatter validity, file integrity.
@@ -64,7 +64,7 @@ This means Helio's `reference.md` typically has **one DERIVED section** (the ful
 - **`helio/.claude-plugin/plugin.json`** declares the plugin (one plugin per marketplace, named `helio`).
 - **`helio/skills/<skill-name>/SKILL.md`** is loaded by Claude Code when the description triggers a match against the user's request.
 
-Skill descriptions have a **hard 1024-character limit**. The Glare validator (the docs owner's tooling) will fail above this. Plan trigger phrases carefully.
+Skill descriptions have a **hard 1024-character limit**. The Glare validator will fail above this. Plan trigger phrases carefully.
 
 ---
 
@@ -122,7 +122,7 @@ Mapping the 19 active source docs to skills with two natural consolidations:
 
 | Skill name | Source doc(s) | Triggers on |
 |---|---|---|
-| `helio-patterns` | Helio Test Patterns v0.1 | Test shapes, the core 5-Q template, multi-screen, legacy template |
+| `helio-patterns` | Helio Test Patterns v0.1 | Test shapes, the core 5-Q template, multi-screen, brand-template depth |
 | `helio-asset-to-test` | From Asset To Test v0.1 | Build-validate-launch workflow, the 7-step arc |
 | `helio-section-types` | Section Types v0.1 | Every section type — Click, Prototype, Likert, MaxDiff, etc. |
 | `helio-audience-flow` | Audience Flow v0.1 | Audience choice, panel filters, custom lists, intercept |
@@ -217,7 +217,7 @@ source_doc_version: v0.1
 last_rebuilt: 2026-05-23
 
 sources:
-  - doc_id: src-section-types-v0.1
+  - doc_id: src-section-types
     title: Section Types v0.1
     last_synced: 2026-05-23
 ---
@@ -243,7 +243,7 @@ Most Helio skills have a single source. The two merged skills (`helio-app`, `hel
 ### Version semantics
 
 - **`version`** — the skill's version, bumped on any meaningful change. Starts at 0.1.0 for initial builds; first stable release is 1.0.0.
-- **`source_doc_version`** — the version of the docs owner's source docs this skill reflects (e.g., "v0.1," "v1.2").
+- **`source_doc_version`** — the version of the source document this skill reflects (e.g., "v0.1," "v1.2").
 - **`last_rebuilt`** — ISO date of the rebuild.
 
 When the marketplace as a whole gets a version bump, all three files need updating: `.claude-plugin/marketplace.json`, `helio/.claude-plugin/plugin.json`, and `CHANGELOG.md`.
@@ -516,7 +516,7 @@ Drive docs must not reference repo-local files — sibling `.md` files, `json/` 
 
 ### What exists
 
-- **19 source docs in Drive folder `the source-doc folder`** — covering platform/orientation, test lifecycle, mechanics, measurement & synthesis. All have been AEO-rubric scored (see `Helio Doc Family — AEO Scorecard v2.docx`).
+- **19 source documents** — covering platform/orientation, test lifecycle, mechanics, measurement & synthesis. All have been AEO-rubric scored (see `Helio Doc Family — AEO Scorecard v2.docx`).
 - **No Helio skills built yet.** This prompt is the kickoff for the initial buildout. The marketplace folder doesn't exist on disk yet.
 - **The Glare marketplace lives at `glare-marketplace/`** with 60 skills at v3.4.0. Helio's marketplace will sit at `helio-marketplace/` parallel to it.
 
@@ -537,7 +537,7 @@ Ten docs have minor gaps that should be addressed when converting to skills. The
 | UX Metrics v0.1 | Problem | "Teams attach Sentiment to everything; this is the catalog so the choice is deliberate" |
 | Report Filtering v0.1 | Problem; Action | "A Good Overall can hide a Poor segment; this is how to slice"; pointer to Reading a Helio Report |
 
-These don't need to wait for source-doc updates from the docs owner. Apply them in ADDED sections during skill conversion.
+These don't need to wait for source-doc updates. Apply them in ADDED sections during skill conversion.
 
 ### Decisions deferred
 
@@ -565,7 +565,7 @@ The most reference-heavy skill in the family. Use this as the template for other
 - `reference.md` (~700 lines) — Header + 1 DERIVED block (the full Section Types doc) + 2 ADDED sections (Problem opener; Failure modes)
 
 **Source doc:**
-- Section Types v0.1 — *Section Types v0.1*
+- Section Types v0.1 — key `src-section-types`
 
 **Description draft (≤1024 chars):**
 > Use this skill when the user is working with section types in Helio — picking which to use for a question, configuring sections, or understanding what each captures. Triggers — "what section type," "click test," "prototype test," "likert," "MaxDiff," "card sort," "tree test," "matrix," "preference," "rank," "free response," "what's the difference between," "how do I configure a section." Do NOT use when the question is about which UX metric to attach (use `helio-ux-metrics`), how to build a whole test (use `helio-asset-to-test`), or the AI heuristic evaluator (use `helio-design-analysis`). For test shapes that combine sections, use `helio-patterns`.
@@ -631,7 +631,7 @@ Don't pile these on the user. Surface one at a time when they become blocking.
 2. **`helio-master` necessity** — after building the first ~5 skills, surface whether cross-skill routing feels confused enough to warrant a master orchestrator.
 3. **Cross-marketplace routing** — confirm that descriptions referencing Glare skills (e.g., "for the methodology, use `glare-getting-started`") actually trigger correctly in Claude Code. If not, drop the cross-references.
 4. **Bundle packaging** — when Helio reaches some critical mass of skills (~10+), surface whether to start carving bundles like Glare's `glare-packages/`.
-5. **Source-doc refresh script** — the docs owner may want a script that compares Drive `modifiedTime` against skill `last_synced` and flags stale skills. Worth scoping if/when source-doc updates become frequent.
+5. **Source-doc refresh script** — a script that compares source `modifiedTime` against skill `last_synced` and flags stale skills. Worth scoping if/when source-doc updates become frequent.
 
 ---
 

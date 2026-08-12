@@ -1,12 +1,12 @@
 ---
 name: helio-audience-flow
 description: Use this skill when the user is configuring how Helio recruits participants for a study — picking an audience type, setting demographics or segments, uploading customer lists, configuring intercept, or running an API audience. Triggers — "audience for my test," "Helio panel," "targeted demographics," "advanced segments," "customer list upload," "intercept survey," "API audience," "AI audience," "AI personas," "how do I send a test," "send test flow," "launch validation," "panelist availability," "audience fanout," "Order More Customer Lists," "audience cost." Do NOT use when the user wants test design (use `helio-asset-to-test`), section types (use `helio-section-types`), or filtering the report after launch (use `helio-report-filtering`).
-version: 0.3.0
+version: 0.3.1
 source_doc_version: Audience Flow v0.1
 last_rebuilt: 2026-05-23
 
 sources:
-  - doc_id: src-audience-flow-v0.1
+  - doc_id: src-audience-flow
     title: Audience Flow v0.1
     last_synced: 2026-05-23
 ---
@@ -44,6 +44,10 @@ Read `reference.md` for the launch flow, validation rules, each audience's setup
 6. For Customer Lists, flag pre-charge behavior and bounce/unsubscribe rules — answers are debited at send, not at response.
 7. For AI Audience, note the higher per-completion cost (4 answers per section per persona response).
 8. Surface post-launch behaviors: tests don't auto-stop at quota; flagged responses don't refund automatically.
+
+## What's new in v0.3.1
+
+Disclosure scrub. Source documents are now referenced by opaque key (`src-*`) rather than by Drive id or link, with the real mapping held privately outside the repo. Named references were removed throughout: customer and engagement names, internal project and template codes, real test names, colleague names, and issue references into private repositories. No capability, workflow, or guidance content changed.
 
 ## What's new in v0.3.0
 

@@ -1,12 +1,12 @@
 ---
 name: helio-section-types
 description: Use this skill when the user is working with section types in Helio — picking which section to use for a question, configuring sections, or understanding what each captures. Triggers — "what section type," "click test," "prototype test," "likert," "MaxDiff," "card sort," "tree test," "matrix," "preference," "rank," "free response," "point allocation," "NPS section," "free response followup," "conditional follow-ups," "what's the difference between," "how do I configure a section," "section won't validate," "hotspots," "Figma prototype." Do NOT use when the question is about which UX metric to attach (use `helio-ux-metrics`), how to build a whole test end to end (use `helio-asset-to-test`), conditional routing between sections (use `helio-branching`), or the AI heuristic evaluator (use `helio-design-analysis`). For test shapes that combine sections, use `helio-patterns`.
-version: 0.2.0
+version: 0.2.1
 source_doc_version: Section Types v0.2
 last_rebuilt: 2026-05-23
 
 sources:
-  - doc_id: src-section-types-v0.2
+  - doc_id: src-section-types
     title: Section Types v0.2
     last_synced: 2026-05-23
 ---
@@ -38,6 +38,10 @@ Read `reference.md` for the full per-section spec — setup options, participant
 4. Surface the configuration knobs the user will hit (variation count limits, randomization, branching support, sentiment tagging).
 5. Name the UX Metric pairings that auto-build the right section structure (e.g., tagging a section with Brand Score auto-creates the 3-section template).
 6. Flag known limits — partial ranking isn't supported, multi-select branching isn't supported, etc.
+
+## What's new in v0.2.1
+
+Disclosure scrub. Source documents are now referenced by opaque key (`src-*`) rather than by Drive id or link, with the real mapping held privately outside the repo. Named references were removed throughout: customer and engagement names, internal project and template codes, real test names, colleague names, and issue references into private repositories. No capability, workflow, or guidance content changed.
 
 ## What's new in v0.2.0
 

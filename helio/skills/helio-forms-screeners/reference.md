@@ -6,7 +6,7 @@
 
 ---
 
-<!-- DERIVED FROM: src-forms-&-screeners-v0.1 — Forms & Screeners v0.1 -->
+<!-- DERIVED FROM: src-forms-screeners — Forms & Screeners v0.1 -->
 
 Two distinct things in Helio carry the word "screener," and they're easy to confuse. This doc covers both — what they are, how they differ, and when to use which.
 

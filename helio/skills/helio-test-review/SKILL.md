@@ -1,12 +1,12 @@
 ---
 name: helio-test-review
 description: Use this skill when the user wants a pre-launch review of one or more Helio draft tests — "review this test," "review this draft," "review these variants," "check this before I send it," "pre-launch review," "compare these tests," "do these variants match," "will this test produce clean data," "is this test ready to launch," "audit my draft," "variant mismatch," "does this question fit the image." Reviews unsent tests as the priority; completed tests only when the user explicitly asks. Do NOT use when the user is designing a test from scratch (use `helio-creating-test` from a hunch or `helio-asset-to-test` from an asset), reading results (use `helio-reading-report`), or looking for CLI command syntax (use `helio-cli`).
-version: 0.4.0
+version: 0.4.1
 source_doc_version: Reviewing Helio Tests v0.2
 last_rebuilt: 2026-07-24
 
 sources:
-  - doc_id: src-reviewing-helio-tests-v0.2
+  - doc_id: src-reviewing-helio-tests
     title: Reviewing Helio Tests v0.2
     last_synced: 2026-07-31
 ---
@@ -40,6 +40,10 @@ Read `reference.md` before reviewing — it has the gather commands, the five le
 5. **On approval, apply CLI-applicable fixes** and re-run the affected checks. Hand web-app-only fixes back as steps.
 6. **Respect deliberate choices.** If a check flags something that could plausibly be intentional (an unusual order, a repeated question used as an attention check), ask — don't assert.
 
+## What's new in v0.4.1
+
+Disclosure scrub. Source documents are now referenced by opaque key (`src-*`) rather than by Drive id or link, with the real mapping held privately outside the repo. Named references were removed throughout: customer and engagement names, internal project and template codes, real test names, colleague names, and issue references into private repositories. No capability, workflow, or guidance content changed.
+
 ## What's new in v0.4.0
 
 Synced to helio-cli v0.8.0. The last known ceiling is gone — repeated metric instances are reorderable from a fresh session, so a review can recommend a reorder on any test without caveat. Gather instructions updated for the **breaking metric-vocabulary change**: sections now carry flat `metric_id` / `metric_type` stamps rather than a nested `ux_metric` object, and `preview --output json` gains a top-level `ux_metrics` block plus per-question tags — which is what makes metrics readable without the create response. Lens 5's audience checks now have more to diff, since audience type, panel demographics and enroll segments are all set from the CLI.
@@ -54,7 +58,7 @@ Lens 3 gains two checks: a **metric-set baseline** against the template/stage no
 
 ## What's new in v0.1.0
 
-Initial release. Built from the in-session design (2026-07-23/24): human pre-launch focus, five lenses, findings + ready-to-run fixes, explicit variant sets with discovery-assist, every image inspected, unsent tests priority, chat-only output. Mechanical checks are tagged [M] as the spec for a future `helio-cli tests review` command (v2 path). Pending: the docs owner/a practitioner practitioner feedback on the lens checklists.
+Initial release. Built from the in-session design (2026-07-23/24): human pre-launch focus, five lenses, findings + ready-to-run fixes, explicit variant sets with discovery-assist, every image inspected, unsent tests priority, chat-only output. Mechanical checks are tagged [M] as the spec for a future `helio-cli tests review` command (v2 path). Pending: practitioner feedback on the lens checklists.
 
 ## Handoffs
 

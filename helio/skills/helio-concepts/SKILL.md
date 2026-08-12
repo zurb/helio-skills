@@ -1,12 +1,12 @@
 ---
 name: helio-concepts
 description: Use this skill when the user is asking about how Helio's data model / hierarchy fits together — account → project → test → section → variation → choice/hotspot → branch, plus the cross-cutting systems (assets, findings, UX metrics, quotas). Triggers — "Helio hierarchy," "Helio data model," "account project test," "where does X live in Helio," "what's a variation," "why can't I move X across tests," "test lifecycle," "response lifecycle," "how does the AI workflow fit," "how does billing connect," "Helio mental model," "account vs project vs test," "test status draft running fulfilled." Do NOT use when the user wants section spec (use `helio-section-types`), the test-build workflow (use `helio-asset-to-test`), audience config (use `helio-audience-flow`), report reading (use `helio-reading-report`), or synthesis (use `helio-reading-report`). For any specific feature depth, drop into the relevant sibling skill.
-version: 0.1.0
+version: 0.1.1
 source_doc_version: Concepts v0.1
 last_rebuilt: 2026-06-29
 
 sources:
-  - doc_id: src-concepts-v0.1
+  - doc_id: src-concepts
     title: Concepts v0.1
     last_synced: 2026-06-29
 ---
@@ -53,9 +53,13 @@ Read `reference.md` for the full hierarchy diagram, what each level holds, the c
 6. For AI workflow questions, name that Design Analysis runs its own parallel hierarchy — no participant responses, no quota, its own metric storage.
 7. For most specific depth (section types, audience config, UX metrics, findings, etc.), route to the appropriate sibling skill.
 
+## What's new in v0.1.1
+
+Disclosure scrub. Source documents are now referenced by opaque key (`src-*`) rather than by Drive id or link, with the real mapping held privately outside the repo. Named references were removed throughout: customer and engagement names, internal project and template codes, real test names, colleague names, and issue references into private repositories. No capability, workflow, or guidance content changed.
+
 ## What's new in v0.1.0
 
-Initial release. Sourced from Concepts v0.1. Internal codebase names (class names, model names) were reframed into customer-facing language during the skill build.
+Initial release. Sourced from Concepts v0.1. Implementation-level names in the source were reframed into customer-facing language during the skill build.
 
 ## Handoffs
 

@@ -7,7 +7,7 @@
 
 ---
 
-<!-- DERIVED FROM: src-report-filtering-v0.1 — Report Filtering v0.1 -->
+<!-- DERIVED FROM: src-report-filtering — Report Filtering v0.1 -->
 
 How to slice your data on the Helio report — every filter type, how they combine, and what to know about edge cases.
 

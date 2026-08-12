@@ -3,3 +3,7 @@
 .idea/
 .vscode/
 node_modules/
+
+# Private source mapping must never be committed here — it lives outside the repo
+helio-sources-private.yml
+*-private.yml

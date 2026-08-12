@@ -6,7 +6,7 @@
 
 ---
 
-<!-- DERIVED FROM: src-design-analysis-v0.1 — Design Analysis v0.1 -->
+<!-- DERIVED FROM: src-design-analysis — Design Analysis v0.1 -->
 
 AI-powered heuristic evaluation of a design or prototype. Generates a report that looks like a participant study but has no participants — every score, observation, and suggestion comes from an AI model evaluating your design against UX heuristics.
 

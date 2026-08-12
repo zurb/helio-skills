@@ -3,11 +3,11 @@
 **Skill:** `helio-concepts`
 **Source:** Concepts v0.1
 **Source last synced:** 2026-06-29
-**Notes:** Source doc references internal class names (GenericTest, Insight, LicenseActivity, and so on) that don't belong in a public skill. Those references have been reframed into customer-facing language in the ADDED content below. The DERIVED block preserves the source structure with the same reframing applied inline.
+**Notes:** The source doc references implementation-level names that don't belong in a public skill. Those references have been reframed into customer-facing language in the ADDED content below. The DERIVED block preserves the source structure with the same reframing applied inline.
 
 ---
 
-<!-- DERIVED FROM: src-concepts-v0.1 — Concepts v0.1 -->
+<!-- DERIVED FROM: src-concepts — Concepts v0.1 -->
 
 The data hierarchy that powers Helio — how accounts, projects, tests, sections, and responses relate. Useful as a mental model for researchers and as an orienting reference for engineers and integrators.
 

@@ -1,5 +1,19 @@
 # Helio Marketplace — Changelog
 
+## v0.17.0 — 2026-08-12 — Disclosure scrub: nothing in a public repo should name anyone
+
+This repo is public. An audit across all 21 skills (18 published, 3 local-only) plus the repo's own docs found four categories of material that shouldn't ship. None of it was a credential or a participant record — every token in the tree was already a placeholder, and there were no test ids, report ids, or attributed quotes. What had accumulated was **names**, and they had accumulated because nothing checked.
+
+**Source documents are now referenced by opaque key.** Every skill carried its source's Drive document id and an `/edit` link in frontmatter — 30+ live internal links, published. Skills now carry `doc_id: src-<slug>` and no `drive_url`; the key-to-document mapping lives in `helio-sources-private.yml`, outside this repo. The validator's bidirectional manifest/marker check works unchanged, so rebuilds still resolve.
+
+**Named references removed throughout.** Customer product names in `helio-test-review` (which shipped after the earlier v0.3.2 customer-name scrub and so never got one). Internal project prefixes and series codes that v0.3.2 had removed from `helio-patterns` but left standing in `helio-reading-report` and `helio-ux-metrics`. Internal project names, real test and campaign names, and template generation codes, all replaced with descriptive equivalents that carry the same meaning — "the fixed-template series" and "the evolving-flow series" say more about the methodology than the project numbers did. Colleague names in three skills. Issue references pointing into a private repo. Implementation-level class names, printed inside a note explaining that they don't belong in a public skill.
+
+**Internal project names are no longer an exception.** v0.3.2 deliberately kept ours (judging them our own work rather than customer engagements) while scrubbing customers. That distinction doesn't survive contact with a public repo: a reader can't tell which is which, and the names carry engagement structure either way. All of them are gone, including the worked example's, which is now a dual-offer landing page.
+
+**The validator enforces it.** `scripts/validate-skills.py` gains a disclosure denylist covering Drive ids and links, ULIDs and UUIDs, customer and project names, colleague names, private-repo issue references, and credential-shaped assignments. It runs against every markdown file in every skill *and* the repo-root docs, which carried more of this than the skills did. Every pattern in the denylist was in the tree at least once. This is the actual fix: the v0.3.2 scrub held in the files it touched and drifted everywhere added since, because it was a one-time pass with nothing behind it.
+
+All 18 published skills bump a patch. No capability, workflow, or guidance content changed.
+
 ## v0.16.2 — 2026-08-12 — helio-cli v0.8.1: doctor checks freshness, and the JSON guide finally lists the updater
 
 Two small CLI additions, both fixing discoverability problems this skill family had been working around.
@@ -87,7 +101,7 @@ The structural change matters more than any individual edit. helio-cli shipped f
 ### New doc versions
 
 - **Helio CLI v1.5** — a rebuild, not a patch. Opens with "ask the tool, not this page" and the incident that justifies it. Keeps the draft → iterate → launch loop, the command catalog, the two-numbering-systems explanation, and the walkthrough discipline. (Also supersedes an abandoned v1.5 draft written against CLI 0.3.2.)
-- **From Asset To Test v0.2** — the biggest structural rewrite: Step 3 routes to the canonical T1–T7 templates, retiring the legacy template vocabulary that had drifted from the Playbook; steps 5 and 6 swap so metrics are tagged before questions are written; the worked example is rebuilt. Also restores the "question shapes by slot" table, which v0.1 had lost in Drive.
+- **From Asset To Test v0.2** — the biggest structural rewrite: Step 3 routes to the canonical T1–T7 templates, retiring the legacy per-project template vocabulary that had drifted from the Playbook; steps 5 and 6 swap so metrics are tagged before questions are written; the worked example is rebuilt. Also restores the "question shapes by slot" table, which v0.1 had lost in Drive.
 - **Creating a Helio Test v0.2** — metrics before questions; the journey-coherence walk and its checklist items; two dogfooding workflow steps promoted into the doc (check the project's history and clone the closest match; draft in text first). The UI-only checklist becomes a shape-level statement plus a tool pointer. Client names anonymized, matching Test Patterns.
 - **Helio Test Patterns v0.3** — §5 states the metric is chosen first; the construction decision tree maps each outcome to a metric to tag rather than a question shape to assemble.
 - **Section Types v0.2** — a "check whether a metric builds it" decision point now precedes the catalog, with per-type "check first" notes on the section types most often hand-built when a metric would have done it.
@@ -101,7 +115,7 @@ The structural change matters more than any individual edit. helio-cli shipped f
 
 ## v0.14.0 — 2026-07-30 — Synced to helio-cli v0.7.0: the ceilings moved again, and mostly outward
 
-helio-cli v0.7.0 (with the 2026-07-30 Public API release, an internal API issue) closed both API issues this family raised and unblocked five metrics. Verified command-by-command against the shipped binary. Yesterday's v0.13.1 correction is obsolete in the good direction.
+helio-cli v0.7.0 (with the 2026-07-30 Public API release, an internal API release) closed both API issues this family raised and unblocked five metrics. Verified command-by-command against the shipped binary. Yesterday's v0.13.1 correction is obsolete in the good direction.
 
 ### Five metrics became creatable; two remain
 
@@ -113,7 +127,7 @@ The duplicate check is gone (an internal API issue, raised from this work). Ever
 
 ### Audience, branching and hotspots read back
 
-an internal API issue closed. `tests preview --output json` returns `.audience` (type, target size, segments, customer lists, demographics, screener), `.branching` (per choice: source question, label, action, resolved target), and `.hotspots` (geometry per click section plus a `scores_zero` flag); `walkthrough` screens carry branching and hotspots too. **helio-test-review 0.2.0 → 0.3.0** upgrades three lenses on the back of it: lens 5 diffs audience config directly instead of inferring from spend estimates, lens 1 verifies branch routes and reachability, and lens 4 gains two hotspot checks — a click-backed metric with no hotspots measures nothing, and geometry is now checkable against the affordance the question names.
+An internal API issue closed. `tests preview --output json` returns `.audience` (type, target size, segments, customer lists, demographics, screener), `.branching` (per choice: source question, label, action, resolved target), and `.hotspots` (geometry per click section plus a `scores_zero` flag); `walkthrough` screens carry branching and hotspots too. **helio-test-review 0.2.0 → 0.3.0** upgrades three lenses on the back of it: lens 5 diffs audience config directly instead of inferring from spend estimates, lens 1 verifies branch routes and reachability, and lens 4 gains two hotspot checks — a click-backed metric with no hotspots measures nothing, and geometry is now checkable against the affordance the question names.
 
 ### Zero-score warnings and per-section overrides
 
@@ -140,11 +154,11 @@ The distinction that matters: **the section and the metric tag are separate capa
 - **helio-asset-to-test 0.2.0 → 0.2.1** — metric-tag caveat added under the Step 3 template tree, since T4/T5/T7 declare sets that include those two.
 - **helio-cli 0.6.0 → 0.6.1** — the non-creatable list now says why, and names the split.
 
-Caught by the maintainer reading the CLI's own error text against our docs — a good argument for the tool being the source of truth over any doc, which is the same lesson as [helio-cli#18](https://github.com/zurb/helio-cli/issues/18).
+Caught by reading the CLI's own error text against our docs — a good argument for the tool being the source of truth over any doc, which is the same lesson as [helio-cli#18](https://github.com/zurb/helio-cli/issues/18).
 
 ## v0.13.0 — 2026-07-24 — New review skill; metrics-first across every build path; ceilings corrected to shipped CLI
 
-Three threads, all traceable to one live incident. A teammate's agent session designed an a client assessment around the claim "click tests are UI-only, so add it in the web app." That was true for the binary it had and false as of helio-cli v0.4.0 — the click test was the centerpiece of the design, it never got added, and the test went live with 100 participants and no findability measure. Root-causing that produced a CLI fix (the update notice was suppressed for exactly the agent-shaped callers who most needed it — [helio-cli#18](https://github.com/zurb/helio-cli/issues/18), shipped in CLI v0.6.0), and this release on the skills side. Every capability claim in the family was re-verified against the shipped binary; all behavior changes were verified with fresh-agent tests.
+Three threads, all traceable to one live incident. A teammate's agent session designed a client assessment around the claim "click tests are UI-only, so add it in the web app." That was true for the binary it had and false as of helio-cli v0.4.0 — the click test was the centerpiece of the design, it never got added, and the test went live with 100 participants and no findability measure. Root-causing that produced a CLI fix (the update notice was suppressed for exactly the agent-shaped callers who most needed it — [helio-cli#18](https://github.com/zurb/helio-cli/issues/18), shipped in CLI v0.6.0), and this release on the skills side. Every capability claim in the family was re-verified against the shipped binary; all behavior changes were verified with fresh-agent tests.
 
 ### New: helio-test-review 0.2.0
 
@@ -154,7 +168,7 @@ Pre-launch review of one or more draft tests (single, or a 2–5 variant set), w
 
 The v0.12.0 framing landed only in the reference skills; the build paths still taught metrics-last. Fixed at the decision points:
 
-- **helio-asset-to-test 0.1.2 → 0.2.0** — Step 3 now routes to the canonical **T1–T7 templates in `helio-patterns`**, retiring the parallel legacy template vocabulary that had diverged from it; each template names the metric set it measures, so picking the template *is* picking the metrics. Old steps 5 and 6 swapped: tag metrics first, then customize wording and add only what no metric builds. The Dual-Offer worked example was rebuilt — it had modelled a hand-built `questions.json` recreating metric-covered questions, using legacy `enable_followup`/`followup_question` keys the CLI now rejects outright.
+- **helio-asset-to-test 0.1.2 → 0.2.0** — Step 3 now routes to the canonical **T1–T7 templates in `helio-patterns`**, retiring the parallel legacy template vocabulary that had diverged from it; each template names the metric set it measures, so picking the template *is* picking the metrics. Old steps 5 and 6 swapped: tag metrics first, then customize wording and add only what no metric builds. The worked example was rebuilt — it had modelled a hand-built `questions.json` recreating metric-covered questions, using legacy `enable_followup`/`followup_question` keys the CLI now rejects outright.
 - **helio-patterns 0.3.0 → 0.4.0** — the construction decision tree maps each headline outcome to a **metric to tag** rather than a question shape to assemble; §5 upgraded from "each question *can* carry a metric" to the default build move.
 - **helio-cli 0.5.0 → 0.6.0**, **helio-mcp 0.2.2 → 0.3.0** (which had no version of the argument at all), **helio-section-types 0.1.0 → 0.2.0** (metric pairings became a check-before-you-hand-build decision point), **helio-creating-test 0.2.0 → 0.2.2**.
 
@@ -308,7 +322,7 @@ All 17 skills pass the validator.
 
 ## v0.8.1 — 2026-07-06 — helio-mcp doc_id repoint (Drive v1.3 landed as a new document)
 
-Patch. The Drive-side paste of Helio MCP v1.3 created a **new document** rather than editing v1.2 in place; the v1.2 doc (a source document) was moved to Archive. `helio-mcp` 0.2.0 → 0.2.1: doc_id, drive_url, and DERIVED marker repointed to the new document. Content unchanged. (Helio CLI v1.3 *was* updated in place — a source document verified, no change needed.) Drive-side confirmations: both v1.3 docs live; five Archive candidates from v0.5.0 moved/pending per the docs owner's worklist.
+Patch. The Drive-side paste of Helio MCP v1.3 created a **new document** rather than editing v1.2 in place; the v1.2 doc (the prior version) was moved to Archive. `helio-mcp` 0.2.0 → 0.2.1: doc_id, drive_url, and DERIVED marker repointed to the new document. Content unchanged. (Helio CLI v1.3 *was* updated in place — the prior version verified, no change needed.) Drive-side confirmations: both v1.3 docs live; five Archive candidates from v0.5.0 moved/pending per the archive worklist.
 
 ## v0.8.0 — 2026-07-06 — helio-mcp rebuilt against Helio MCP v1.3 + canonical UI-only boundary checklist
 
@@ -323,7 +337,7 @@ Rebuilt against **Helio MCP v1.3**, regenerated from the MCP server codebase. Co
 - The assistant-driven build loop (`create_test` → `add/update/remove_question` / `update_test` → `validate_test` → `send_test`) and the metric-section edit rules (`update_question` without `type`; `update_test` for metric add/remove; `remove_question` refuses metric sections).
 - `get_test_report` `include` options and demographic filtering; `get_filtered_responses`; `compare_segments`.
 - Capability limits: same UI-only ceilings as the CLI, plus MCP-specific gaps — no dry-run (use `validate_test`) and no walkthrough (use the preview URL).
-- Drive-side: v1.3 content drafted from the codebase and handed off for paste into the existing Drive doc (a source document — doc_id unchanged, title → "Helio MCP v1.3").
+- Drive-side: v1.3 content drafted from the codebase and handed off for paste into the existing Drive doc (the prior version — doc_id unchanged, title → "Helio MCP v1.3").
 
 ### Canonical UI-only boundary checklist (Item 5)
 
@@ -352,7 +366,7 @@ Items 2 and 4 of the test-creation improvement plan. The v1.2 Drive doc document
   - **UX metric build table**: what each of the 11 creatable metrics auto-builds; the 7 non-creatable metrics named.
   - **"What the CLI can't do"**: no asset upload/listing, no click/tree/prototype creation, no branching, no audience creation, no scheduled launch — with the finish-in-the-web-app pattern.
   - ADDED block: new worked example (iterate on a draft before spending), updated failure modes (don't recreate to edit; walkthrough before send).
-- **Drive-side:** the v1.3 content was drafted from the codebase and handed off for paste into the existing Drive doc (a source document — doc_id unchanged, title → "Helio CLI v1.3"). `source_doc_version` and `last_synced` updated accordingly.
+- **Drive-side:** the v1.3 content was drafted from the codebase and handed off for paste into the existing Drive doc (the prior version — doc_id unchanged, title → "Helio CLI v1.3"). `source_doc_version` and `last_synced` updated accordingly.
 
 ### Plugin metadata
 
@@ -401,13 +415,13 @@ Hygiene release. No new skills; every `sources:` pointer now names a doc that ex
 
 ### Changes
 
-- **`helio-patterns` 0.1.0 → 0.2.0** — rebuilt against **Helio Test Patterns v0.2 (scrubbed)**, replacing the v0.1 source (a source document). The v0.2 Drive doc is the anonymized revision — customer engagement names became category descriptors, matching the local scrub shipped in v0.3.2. DERIVED block updates: "O2" project prefix dropped in favor of "the 145/the evolving-flow series," cleaner example phrasings in sections 1/5/8, MaxDiff note reworded, tooling notes gain the Node 22 / nvm PATH caveat. No pattern content changed.
-- **`helio-app` 0.1.0 → 0.1.1** — fixed doc_id/title mismatch: frontmatter claimed "Helio App v1.3" but pointed at the v1.2 doc (a source document). The skill's DERIVED content matches the v1.3 doc word-for-word, so the pointer was repointed to the real v1.3 doc. No content changes.
+- **`helio-patterns` 0.1.0 → 0.2.0** — rebuilt against **Helio Test Patterns v0.2 (scrubbed)**, replacing the v0.1 source (the prior version). The v0.2 Drive doc is the anonymized revision — customer engagement names became category descriptors, matching the local scrub shipped in v0.3.2. DERIVED block updates: project prefixes dropped in favor of descriptive series names, cleaner example phrasings in sections 1/5/8, MaxDiff note reworded, tooling notes gain the Node 22 / nvm PATH caveat. No pattern content changed.
+- **`helio-app` 0.1.0 → 0.1.1** — fixed doc_id/title mismatch: frontmatter claimed "Helio App v1.3" but pointed at the v1.2 doc (the prior version). The skill's DERIVED content matches the v1.3 doc word-for-word, so the pointer was repointed to the real v1.3 doc. No content changes.
 - **`helio-reading-report` 0.1.0 → 0.1.1** — resolved the "Drive has v0.1; skill uses v0.2 content from local" workaround: both v0.2 docs now exist in Drive (*Reading a Helio Report v0.2* *Reading a Helio Report v0.2*, *From Helio Test to Glare Signal v0.2* *From Helio Test to Glare Signal v0.2*). Doc_ids repointed, parentheticals dropped from titles, content verified matching. No content changes.
 
 ### Drive-side follow-ups (for the Drive Scrub Worklist)
 
-Superseded / orphaned docs still in the main Drive folder, candidates for Archive: *Helio Test Patterns v0.1* (a source document), *Helio App v1.2* (a source document), and the pruned-skill docs *Participant Experience v0.1*, *Answers & Licensing v0.1*, *Helio Features v0.2*. The old local-workaround doc_ids (a source document, a source document) are no longer referenced by any skill.
+Superseded / orphaned docs still in the main Drive folder, candidates for Archive: *Helio Test Patterns v0.1* (the prior version), *Helio App v1.2* (the prior version), and the pruned-skill docs *Participant Experience v0.1*, *Answers & Licensing v0.1*, *Helio Features v0.2*. The old local-workaround doc_ids (the prior version, the prior version) are no longer referenced by any skill.
 
 ### Plugin metadata
 
@@ -465,7 +479,7 @@ All references to real customer engagements replaced with category descriptors. 
 
 Seven customer-engagement names were replaced with anonymized category descriptors across 10 files (every skill that had a customer name). The mapping is held privately and is not documented in this public changelog.
 
-Zurb-internal project names (Dual-Offer, a retail PDP series, a campaign page, a continuous-experimentation project, an internal product project, the homepage-baseline project) were left intact — they're Zurb's own work, not customer engagements.
+Internal project names were left intact at this point — they were judged to be our own work rather than customer engagements. (Superseded: all project names were removed in the v0.17.0 disclosure scrub.)
 
 ### History
 
@@ -482,7 +496,7 @@ All 14 skills re-pass the validator after scrub + cleanup pass.
 
 ## v0.3.1 — 2026-05-23 — Worked examples for test creation + synthesis
 
-Content enrichment. Added "Worked examples from real tests" sections to the eight core skills that drive test creation and report synthesis, grounded in the test corpus catalogued in `helio-patterns` (the athletic-apparel homepage, the veteran careers landing page, the B2B data-platform homepage, the hunting-apparel store, a retail PDP variant, the banking-app prototype, the press-room site, the investment-platform).
+Content enrichment. Added "Worked examples from real tests" sections to the eight core skills that drive test creation and report synthesis, grounded in the test corpus catalogued in `helio-patterns` (the athletic-apparel homepage, the veteran careers landing page, the B2B data-platform homepage, the hunting-apparel store, a retail PDP series, the banking-app prototype, the press-room site, the investment-platform).
 
 ### What got worked examples
 
@@ -637,7 +651,7 @@ If you want any of these scrubbed further, let me know.
 
 ## v0.2.0 — 2026-05-23 — All 17 skills built
 
-The remaining 13 skills shipped in this release. Marketplace is now complete relative to the source-doc inventory in Drive folder `the source-doc folder`.
+The remaining 13 skills shipped in this release. Marketplace is now complete relative to the source-doc inventory.
 
 ### What's new in this release
 
@@ -674,7 +688,7 @@ The other 7 new skills sourced from docs that already scored 20/20 on AEO and di
 
 ### Source-doc version note for `helio-reading-report`
 
-The Drive copies of Reading a Helio Report and From Helio Test to Glare Signal are at v0.1. The skill content reflects the v0.2 reconciliations done locally (real Helio threshold scheme, Direct/Indirect/Failed grading, correct Behavioral / Attitudinal family assignments for all 17 metrics, explicit Performance/Intelligence "not implemented" notes). When the docs owner syncs v0.2 content back to Drive, update the skill's `last_synced` dates; if the doc IDs change (e.g., new Drive docs replace the v0.1s), update the source manifest in `SKILL.md` and the DERIVED FROM markers in `reference.md`.
+The Drive copies of Reading a Helio Report and From Helio Test to Glare Signal are at v0.1. The skill content reflects the v0.2 reconciliations done locally (real Helio threshold scheme, Direct/Indirect/Failed grading, correct Behavioral / Attitudinal family assignments for all 17 metrics, explicit Performance/Intelligence "not implemented" notes). When v0.2 content is synced back to the source docs, update the skill's `last_synced` dates; if the doc IDs change (e.g., new Drive docs replace the v0.1s), update the source manifest in `SKILL.md` and the DERIVED FROM markers in `reference.md`.
 
 ### Verification
 

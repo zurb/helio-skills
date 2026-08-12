@@ -7,7 +7,7 @@
 
 ---
 
-<!-- DERIVED FROM: src-helio-cli-v1.6 — Helio CLI v1.6 -->
+<!-- DERIVED FROM: src-helio-cli — Helio CLI v1.6 -->
 
 Helio CLI is the most robust way to script Glare data collection — by hand, by cron, or by AI agent. It puts the full Helio research platform behind a terminal, with structured JSON output, dry-run validation, predictable exit codes, and test definitions you can version-control alongside the code they evaluate. Anywhere automation or an AI agent needs to call into Glare, the CLI is the contract.
 

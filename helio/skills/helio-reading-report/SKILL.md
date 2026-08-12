@@ -1,15 +1,15 @@
 ---
 name: helio-reading-report
 description: Use this skill when the user is reading a Helio report and turning it into a Glare signal — the synthesis workflow plus the conceptual bridge to Glare. Triggers — "read a Helio report," "synthesize Helio results," "one-sentence signal," "cross-metric divergence," "30-second scan," "headline reading," "Direct Indirect Failed," "Overall Score caveat," "decisive vs inconclusive," "call the test," "Glare signal," "behavior metric context direction," "Design Review handoff," "Decision Map placement," "Measure Focus Lead," "next hunch," "hunch vs risk frame," "Behavioral vs Attitudinal divergence," "spot red flags." Do NOT use when the user wants per-metric definitions (use `helio-ux-metrics`), section type details (use `helio-section-types`), filter mechanics (use `helio-report-filtering`), or finding capture (use `helio-findings`). For the broader Glare framework, use `glare-getting-started`.
-version: 0.2.0
+version: 0.2.1
 source_doc_version: Reading a Helio Report v0.2 + From Helio Test to Glare Signal v0.2 (merged)
 last_rebuilt: 2026-05-23
 
 sources:
-  - doc_id: src-reading-a-helio-report-v0.2
+  - doc_id: src-reading-a-helio-report
     title: Reading a Helio Report v0.2
     last_synced: 2026-07-06
-  - doc_id: src-from-helio-test-to-glare-signal-v0.2
+  - doc_id: src-test-to-glare-signal
     title: From Helio Test to Glare Signal v0.2
     last_synced: 2026-07-06
 ---
@@ -51,6 +51,10 @@ Read `reference.md` for the full surface — two DERIVED blocks (Reading + Glare
 5. For the "what happens next" question, surface the three landings: Design Review (Ground step), Decision Map (Measure/Focus/Lead), next hunch.
 6. Be explicit about Performance / Intelligence — Glare concepts not implemented in Helio. If a decision needs those, source from analytics or AI eval tooling instead.
 7. For "call the test," surface the three honest reads: decisive, inconclusive, re-test. Inconclusive is the hardest call to make.
+
+## What's new in v0.2.1
+
+Disclosure scrub. Source documents are now referenced by opaque key (`src-*`) rather than by Drive id or link, with the real mapping held privately outside the repo. Named references were removed throughout: customer and engagement names, internal project and template codes, real test names, colleague names, and issue references into private repositories. No capability, workflow, or guidance content changed.
 
 ## What's new in v0.2.0
 

@@ -7,7 +7,7 @@
 
 ---
 
-<!-- DERIVED FROM: src-audience-flow-v0.1 — Audience Flow v0.1 -->
+<!-- DERIVED FROM: src-audience-flow — Audience Flow v0.1 -->
 
 How to go from a finished test to participants completing it — the launch flow, audience configuration, and what to know about each recruiting path.
 
@@ -267,7 +267,7 @@ Real audience setups drawn from the corpus catalogued in `helio-patterns`. Five 
 
 ### Audience-fanout testing as a method
 
-**a campaign page run three ways:** Three audiences run side by side — Consumers / SMB Owners / Strangers. The compare-across-segments cut is the test's headline output, not the aggregate.
+**A campaign page run three ways:** Three audiences run side by side — Consumers / SMB Owners / Strangers. The compare-across-segments cut is the test's headline output, not the aggregate.
 
 ### Targeted demographics on the panel
 

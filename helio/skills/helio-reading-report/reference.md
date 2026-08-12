@@ -7,7 +7,7 @@
 
 ---
 
-<!-- DERIVED FROM: src-reading-a-helio-report-v0.2 — Reading a Helio Report v0.2 -->
+<!-- DERIVED FROM: src-reading-a-helio-report — Reading a Helio Report v0.2 -->
 
 ## Reading a Helio Report (the synthesis workflow)
 
@@ -143,7 +143,7 @@ Inconclusive is the hardest call to make. When in doubt, call it inconclusive.
 
 ---
 
-<!-- DERIVED FROM: src-from-helio-test-to-glare-signal-v0.2 — From Helio Test to Glare Signal v0.2 -->
+<!-- DERIVED FROM: src-test-to-glare-signal — From Helio Test to Glare Signal v0.2 -->
 
 ## From Helio Test to Glare Signal (the conceptual bridge)
 
@@ -276,14 +276,14 @@ For per-metric definitions, use `helio-ux-metrics`. For filter mechanics that sy
 
 Four synthesis patterns drawn from the corpus catalogued in `helio-patterns`. Each shows the read from numbers to one-sentence signal.
 
-### a retail PDP variant — cross-metric divergence
+### A PDP variant — cross-metric divergence
 
 The clearest documented case of attractive-but-not-persuasive.
 
 - **Numbers:** Engagement 92 (Very Good) · Desirability 87 (Good) · Intent 38 (Poor)
 - **Read:** Behavioral and emotional metrics high; planned action dropped 49 points. The page does visual and emotional work but doesn't clear the threshold for commitment.
 
-> *Signal:* On the a retail PDP variant variant, US shoppers engaged with the page (Engagement Very Good) and reacted positively to it (Desirability Good), but planned next-action intent dropped to 38 — the page is attractive but not persuasive. The next iteration should pressure-test CTA placement and value-prop framing closer to the fold.
+> *Signal:* On the PDP V5 variant, US shoppers engaged with the page (Engagement Very Good) and reacted positively to it (Desirability Good), but planned next-action intent dropped to 38 — the page is attractive but not persuasive. The next iteration should pressure-test CTA placement and value-prop framing closer to the fold.
 
 ### The hunting-apparel PLP Q5 — Success at 12%
 
