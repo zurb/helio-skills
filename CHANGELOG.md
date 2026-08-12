@@ -1,5 +1,18 @@
 # Helio Marketplace — Changelog
 
+## v0.17.1 — 2026-08-12 — The guard file was disclosing what it guarded
+
+v0.17.0 added a disclosure denylist and, in the same stroke, wrote every customer and colleague name into it as a literal regex. A published guard file that enumerates the names it suppresses defeats its own purpose: the list is a cleaner index of the removed material than the material was. A history scan caught it — after the rewrite, the *only* real names left anywhere in this repo's history were the ones inside `validate-skills.py`.
+
+The denylist is now split by whether a pattern is safe to publish:
+
+- **Structural patterns stay in the repo.** Document ids, ULIDs, UUIDs, `drive_url` keys, source-document links, private-repo issue references, credential-shaped assignments. These match by *shape*, so the pattern reveals nothing about what it caught.
+- **The name list moved out**, to `helio-denylist-private.txt` alongside the source mapping. The validator reads it if present and matches every term whole-word and case-insensitively. If it's missing, structural checks still run and the summary prints a loud `WARN name coverage OFF` rather than passing quietly — a validator that silently stops checking is worse than one that isn't there.
+
+Also cleaned in the same history pass: dead `drive_url` frontmatter lines. The first pass rewrote the id *inside* those URLs before the URL pattern could match them, leaving a `drive_url` line pointing at `.../d/src-audience-flow-v0.1/edit` — the id was gone, but the line stayed and tripped the validator.
+
+The lesson generalizes past this repo: a denylist is itself a disclosure surface, and it is exactly as public as the thing it protects.
+
 ## v0.17.0 — 2026-08-12 — Disclosure scrub: nothing in a public repo should name anyone
 
 This repo is public. An audit across all 21 skills (18 published, 3 local-only) plus the repo's own docs found four categories of material that shouldn't ship. None of it was a credential or a participant record — every token in the tree was already a placeholder, and there were no test ids, report ids, or attributed quotes. What had accumulated was **names**, and they had accumulated because nothing checked.

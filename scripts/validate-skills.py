@@ -75,33 +75,56 @@ MIN_DESCRIPTION_LENGTH = 50
 # Disclosure denylist
 #
 # These skills are published to a PUBLIC repo. Nothing that names a customer,
-# an internal project, a colleague, or an internal system may ship. Every
-# pattern below has been in the tree at least once; this check is what keeps
-# them from drifting back in.
+# an internal project, a colleague, or an internal system may ship.
 #
-# Real Drive doc ids live only in helio-sources-private.yml, outside the repo.
-# Skills reference their sources by opaque `src-*` key.
+# The denylist is split deliberately. STRUCTURAL patterns match by *shape* —
+# document ids, record ids, links, credential assignments — and are safe to
+# publish, because the pattern reveals nothing about what it caught.
+#
+# The name list is NOT here, and must never be added here. A guard file that
+# enumerates the customer and colleague names it suppresses discloses exactly
+# what it exists to prevent. Those terms live in the private file below, which
+# sits outside this repo. Without it, structural checks still run and the
+# validator says loudly that name coverage is off.
+#
+# Real source-document ids live in helio-sources-private.yml, also outside this
+# repo. Skills reference their sources by opaque `src-*` key.
 # ---------------------------------------------------------------------------
-DENYLIST = [
-    (r"docs\.google\.com/document",           "Google Drive document link"),
+PRIVATE_TERMS_FILE = os.path.join("..", "helio-denylist-private.txt")
+
+STRUCTURAL = [
+    (r"docs\.google\.com/document",           "source document link"),
     (r"\bdrive_url\s*:",                      "drive_url in frontmatter (use the src-* key only)"),
-    (r"\b1[A-Za-z0-9_-]{25,}\b",              "raw Drive document id"),
-    (r"`1[A-Za-z0-9_-]{4,}…`",                "truncated Drive document id"),
+    (r"\b1[A-Za-z0-9_-]{25,}\b",              "raw source document id"),
+    (r"`1[A-Za-z0-9_-]{4,}…`",                "truncated source document id"),
     (r"\b01[A-HJKMNP-TV-Z0-9]{24}\b",         "ULID (test / report id)"),
     (r"\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b", "UUID"),
-    (r"(?i)\bflash(array|blade)\b",           "customer product name"),
-    (r"(?i)\bpure storage\b",                 "customer name"),
-    (r"(?i)\b(a client|a client|seasonal)\b",  "customer / engagement name"),
-    (r"(?i)\b(a continuous-experimentation project|the homepage-baseline project|an internal product project)\b", "internal project name"),
     (r"\bO2 \d",                              "internal project prefix"),
     (r"(?<![\w.])1[45][45] series\b",         "internal project code"),
     (r"(?i)\bR[35]/R[35]\b",                  "internal template generation code"),
-    (r"(?i)\b(the maintainer|the docs owner|a practitioner)\b",      "colleague name"),
     (r"helio ?#\d+",                          "issue reference in a private repo"),
     (r"github\.com/zurb/helio(?!-cli|-skills)\b", "link into a private repo"),
     (r"(?i)\b(HELIO_API_TOKEN|HELIO_API_KEY)\s*=\s*(?!\.\.\.|your-|YOUR_|\$)\S", "possible real credential"),
 ]
-DENYLIST = [(re.compile(p), label) for p, label in DENYLIST]
+
+DENYLIST = [(re.compile(p), label) for p, label in STRUCTURAL]
+NAME_COVERAGE = False
+
+# One term per line, blank lines and #-comments ignored. Matched whole-word,
+# case-insensitively. The file is never read into any published artifact.
+if os.path.exists(PRIVATE_TERMS_FILE):
+    terms = []
+    with open(PRIVATE_TERMS_FILE, encoding="utf-8") as f:
+        for raw in f:
+            term = raw.split("#", 1)[0].strip()
+            if term:
+                terms.append(re.escape(term))
+    if terms:
+        DENYLIST.append(
+            (re.compile(r"(?i)(?<![\w-])(?:" + "|".join(terms) + r")(?![\w-])"),
+             "name on the private denylist")
+        )
+        NAME_COVERAGE = True
 
 
 def scan_denylist(path):
@@ -313,6 +336,10 @@ def main():
                 print(f"         {DIM}-{RESET} {issue}")
 
     print()
+    if not NAME_COVERAGE:
+        print(f"  {YELLOW}WARN{RESET} name coverage OFF — {PRIVATE_TERMS_FILE} not found.")
+        print(f"       {DIM}Structural checks ran; customer / colleague names were NOT checked.{RESET}")
+        print()
     print(f"{DIM}─────────────────────────────────────{RESET}")
     print(f"  Total:   {len(results)}")
     print(f"  {GREEN}Passed:  {len(passed)}{RESET}")
