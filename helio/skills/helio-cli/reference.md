@@ -59,7 +59,7 @@ export HELIO_API_TOKEN=...
 
 Once these are set, every command authenticates without touching disk. This is the recommended path for GitHub Actions, nightly crons, and any internal tool that runs on someone else's machine.
 
-Sanity checks: `helio-cli auth status` confirms who you are; `helio-cli doctor` diagnoses connectivity; `helio-cli status` pings the API.
+Sanity checks: `helio-cli auth status` confirms who you are; `helio-cli status` pings the API; `helio-cli doctor` runs the full diagnostic — config file, credentials, API reachability, Node version, and (since v0.8.1) whether the CLI is up to date. That last check hits the registry live and refreshes the update-notice cache, which makes `doctor` the quickest way to resolve "am I on a stale binary?" A stale CLI warns without failing the exit code; `HELIO_NO_UPDATE_CHECK` or `CI` skips the network hit.
 
 ## The draft → iterate → launch loop
 

@@ -1,5 +1,15 @@
 # Helio Marketplace — Changelog
 
+## v0.16.2 — 2026-08-12 — helio-cli v0.8.1: doctor checks freshness, and the JSON guide finally lists the updater
+
+Two small CLI additions, both fixing discoverability problems this skill family had been working around.
+
+**`doctor` gained a `CLI version` check.** It compares against the registry, warns without failing the exit code when stale, and — the useful part — refreshes the update-notice cache so the passive stderr notice agrees afterward. That's the practical remedy for the daily-refresh lag we hit yesterday, when three plain commands stayed silent while a new release sat on the registry. `doctor` is now a one-command "am I current and is my config sane."
+
+**`guide --output json` lists `doctor` and `update`.** Both were missing from the JSON guide's `commands` object, so an agent using the guide as onboarding could not discover the updater at all — which is a neat illustration of the underlying problem: the tool's own self-description omitted the command that keeps the tool honest. The `update` entry now documents `--check`, the `HELIO_NO_UPDATE_CHECK=1` opt-out, and that the notice comes from a daily background check.
+
+**helio-cli 0.8.0 → 0.8.1.** The version-check discipline now names three ways to establish freshness rather than two, and prefers `doctor` when the question is "is anything wrong," since it repairs the cache as a side effect. Verified live, including the disabled-state behavior under `HELIO_NO_UPDATE_CHECK`.
+
 ## v0.16.1 — 2026-08-12 — Three source docs rewritten for v0.8.0
 
 Companion to v0.16.0: the three Drive docs that named audience creation as web-app work are rewritten as new versions per the house convention, and the skills are repointed.

@@ -1,7 +1,7 @@
 ---
 name: helio-cli
 description: Use this skill when the user is working with Helio from the terminal — installing the CLI, authenticating, building and iterating on draft tests, or scripting research. Triggers — "helio-cli," "Helio CLI," "@zurb/helio-cli," "tests create," "add-question," "edit-question," "remove-question," "tests reorder," "tests preview," "tests walkthrough," "tests participants," "question payload," "questions JSON schema," "tests question-types," "ux-metric-types," "add-ux-metrics," "--metrics-json," "--dry-run," "--output json," "tests validate," "tests send," "assets upload," "assets list," "--asset-id," "asset not found," "account name," "scripting helio," "cron helio," "CI helio," "what can't the CLI create." Do NOT use when the user is driving Helio interactively from chat/AI (use `helio-mcp`), designing the test itself (use `helio-creating-test` from a hunch, or `helio-asset-to-test` from an asset), or needs section type depth (use `helio-section-types`). For platform positioning, use `helio-app`.
-version: 0.8.0
+version: 0.8.1
 source_doc_version: Helio CLI v1.6 (rebuilt against CLI v0.8.0)
 last_rebuilt: 2026-07-23
 
@@ -9,13 +9,13 @@ sources:
   - doc_id: src-helio-cli-v1.6
     title: Helio CLI v1.6
     last_synced: 2026-08-01
-  - title: Live verification against installed helio-cli v0.4.0–v0.8.0 (--help output + real commands)
+  - title: Live verification against installed helio-cli v0.4.0–v0.8.1 (--help output + real commands)
     last_synced: 2026-08-12
 ---
 
 You are helping the user drive **Helio from the terminal** — by hand, by cron, or inside a CI/CD pipeline.
 
-**Check the version before stating any capability limit.** Run `helio-cli update --check` (or `--version`) first — capability boundaries move between releases, and a stale binary reports its own limits as the tool's. Since v0.6.0 the CLI prints an update notice to stderr even in `--output json` and non-TTY sessions — but that notice is **cached for up to 24 hours**, so a release published inside that window won't be announced yet. `update --check` bypasses the cache and hits the registry live; prefer it over waiting to be told. Both `helio-cli` and the shorter `helio` work as of v0.4.0 (note a user's own shell alias can shadow `helio`).
+**Check the version before stating any capability limit.** Run `helio-cli update --check` (or `--version`) first — capability boundaries move between releases, and a stale binary reports its own limits as the tool's. Since v0.6.0 the CLI prints an update notice to stderr even in `--output json` and non-TTY sessions — but that notice is refreshed by a **daily** background check, so a release published inside that window isn't announced yet. Two ways to get the truth now: `update --check` hits the registry live, and as of v0.8.1 `doctor` includes a `CLI version` check that does the same *and* refreshes the notice cache, so the passive notice agrees afterward. A stale CLI never fails doctor's exit code; with `HELIO_NO_UPDATE_CHECK` or `CI` set it skips the network and reports the check as disabled. Both `helio-cli` and the shorter `helio` work as of v0.4.0 (note a user's own shell alias can shadow `helio`).
 
 ## Core idea
 
@@ -55,6 +55,13 @@ Read `reference.md` for the full surface — install, auth, the draft → iterat
 6. Recommend `tests walkthrough` before every send — it's the cheapest usability test they'll run. What to look for: duplicate questions from metric stacking (sentiment + desirability, appeal + reaction build identical sections), a context noun that breaks in some generated sentence, and evaluation questions landing before comprehension ones (`tests reorder` fixes sequence).
 7. For image stimuli, use `assets upload` / `assets list` to get a numeric asset ID, then attach with `--asset-id` — no web-app detour needed.
 8. Flag the UI-only boundary early — as of v0.8.0: video/audio upload, tree/prototype tests, customer-list building, formal screeners, and the `completion` / `effort` metrics. Audience *recruiting* became scriptable in v0.8.0. Everything else has moved across the last four releases; don't repeat an older ceiling without running `update --check` — and note the passive update notice is cached for up to 24 hours, so the explicit check is the reliable one.
+
+## What's new in v0.8.1
+
+Two small CLI additions, both aimed at the discoverability problem this skill exists to work around.
+
+- **`doctor` gained a `CLI version` check** — it compares against the registry, warns (never fails) when stale, and refreshes the update-notice cache so the passive stderr notice agrees afterward. That's the practical remedy for the daily-refresh lag: `doctor` is now a one-command "am I current and is my config sane".
+- **`guide --output json` lists `doctor` and `update`.** Both top-level commands were previously missing from the JSON guide's `commands` object, so an agent reading the guide as onboarding could not discover the updater at all. The `update` entry now documents `--check` and the `HELIO_NO_UPDATE_CHECK=1` opt-out, and states the notice comes from a daily background check.
 
 ## What's new in v0.8.0
 
