@@ -1,13 +1,13 @@
 # From Asset To Test — Reference
 
 **Skill:** `helio-asset-to-test`
-**Source:** From Asset To Test v0.2 (v0.1 archived)
+**Source:** From Asset To Test v0.3 (v0.1 archived)
 **Source last synced:** 2026-05-23
 **Notes:** Source doc had one minor AEO-rubric gap (Problem opener). Addressed in the ADDED section at the end of this file.
 
 ---
 
-<!-- DERIVED FROM: a source document — From Asset To Test v0.2 -->
+<!-- DERIVED FROM: src-from-asset-to-test-v0.3 — From Asset To Test v0.3 -->
 
 A prescriptive walkthrough for going from a design (a screenshot, mockup, or live page) to a launched Helio test. Companion to `helio-patterns` — that skill tells you what the patterns *are*; this one tells you how to *use* them.
 

@@ -6,8 +6,8 @@ source_doc_version: Helio CLI v1.6 (rebuilt against CLI v0.8.0)
 last_rebuilt: 2026-07-23
 
 sources:
-  - doc_id: a source document
-    title: Helio CLI v1.5
+  - doc_id: src-helio-cli-v1.6
+    title: Helio CLI v1.6
     last_synced: 2026-08-01
   - title: Live verification against installed helio-cli v0.4.0–v0.8.0 (--help output + real commands)
     last_synced: 2026-08-12

@@ -1,6 +1,6 @@
 {
   "name": "helio",
-  "version": "0.16.0",
+  "version": "0.16.1",
   "description": "ZURB's Helio user research platform — 18 skills focused on the data model (Concepts), test design (hunch-to-signal test creation, section types, UX metrics, audiences, branching, patterns, build workflow, Forms & Screeners), pre-launch test review, and reading reports (filtering, findings, AI evaluation, synthesis to a Glare signal). Companion marketplace to Glare.",
   "author": {
     "name": "ZURB"

@@ -1,5 +1,15 @@
 # Helio Marketplace — Changelog
 
+## v0.16.1 — 2026-08-12 — Three source docs rewritten for v0.8.0
+
+Companion to v0.16.0: the three Drive docs that named audience creation as web-app work are rewritten as new versions per the house convention, and the skills are repointed.
+
+- **Helio CLI v1.6** — audience recruiting in the loop, the two v0.8.0 breaking changes (metric vocabulary needing a lockstep deploy; audience arguments that used to be silently ignored), the 24-hour update-notice cache, and the note that the two scripted surfaces have drifted — the CLI gained audience recruiting and MCP did not.
+- **From Asset To Test v0.3** — Step 4 becomes three decisions rather than two, since audience *type* is now a choice rather than a default; Step 7's web-app remainder narrows; the Dual-Offer example recruits a real targeted audience.
+- **Creating a Helio Test v0.3** — a one-paragraph edit, which is the point: v0.2 had already moved capability out of prose, so a boundary shift touches one sentence instead of a table.
+
+Archive queue: Creating a Helio Test v0.2, From Asset To Test v0.2, Helio CLI v1.5.
+
 ## v0.16.0 — 2026-08-12 — helio-cli v0.8.0: audience recruiting is scriptable, and the last documented ceiling falls
 
 Ran the two-sweep check agreed after v0.15.0 — wrong claims *and* newly-arrived capability nobody wrote down. v0.8.0 tripped both, hard.
