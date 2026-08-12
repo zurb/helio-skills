@@ -219,7 +219,7 @@ Most of this gap has closed:
 - **Click tests, hotspots included** — CLI-native since v0.4.0. `--type click_test --asset-id <id>` builds an engagement heatmap; add `--hotspots '[{"name":"...","x":0.1,"y":0.2,"width":0.3,"height":0.05,"priority":"Primary"}]'` (relative 0–1 coordinates) for a success click test.
 - **Branching** — CLI-native since v0.4.0 on single-select multiple_choice (`--branching`, forward-only skips or `end_test`). Requires a Helio Enterprise account.
 
-What still needs the web UI: **video and audio upload**, **audience segment creation**, **prototype and tree tests**, and **a second instance of a metric already tagged on the test** (the API rejects the duplicate even though the platform scores multiple instances). Note also that branch targets and hotspot definitions aren't readable back through the API yet, so verify those visually in the UI.
+What still needs the web UI: **video and audio upload**, **customer-list building and formal screeners** (audience recruiting itself is scriptable as of v0.8.0), **prototype and tree tests**, and **a second instance of a metric already tagged on the test** (the API rejects the duplicate even though the platform scores multiple instances). Note also that branch targets and hotspot definitions aren't readable back through the API yet, so verify those visually in the UI.
 
 For depth on asset handling, use `helio-assets`. For branching path config, use `helio-branching`.
 

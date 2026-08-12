@@ -146,7 +146,29 @@ Generate synthetic participant responses from AI personas.
 
 ## Working with audiences from the CLI
 
-Creating a segment or screener is still web-app work. Everything around it is scriptable, and more of it than most people realize.
+As of helio-cli v0.8.0, **recruiting an audience is fully scriptable** — configuring who a test goes to no longer requires the web app. Building a *customer list* from participant data and authoring formal screeners still do.
+
+**Pick the audience type at create time.** `--audience-type` takes:
+
+| Type | What it recruits | Needs |
+|---|---|---|
+| `open` | share-link only, no recruiting | — |
+| `basic` | the panel, unfiltered | — |
+| `targeted` | the panel, filtered | `--demographics` |
+| `advanced` | named enroll segments | `--audiences`, optional `--demographics` |
+| `customer_list` | your own lists | `--audiences` |
+
+`--demographics` takes a JSON object (or `@file`) keyed on `gender, age, income, education, continent, country` — for example `{"country":["US"],"age":["25-34","35-44"]}`. It's validated locally, so `--dry-run` catches a malformed filter before any API call.
+
+**One correction worth knowing if you scripted audiences before v0.8.0.** Before v0.8.0 the API accepted only `open` audiences, so **every test was effectively open and `--audiences` was silently ignored on all of them** — any scripted "fanout" from that era attached nothing and recruited the default. `--audiences` is now meaningful on `advanced` and `customer_list`, and a loud error on `open`. Audit what pre-0.8.0 scripts actually recruited before trusting their results.
+
+**Browsing what's available.** `audiences list` defaults to your customer lists; `--source enroll` browses Helio's active panel catalog (the segments `advanced` attaches). Enroll rows show `—` rather than `0` for participant/test counts, because your account has no usage history on a panel segment. `--recent` is customer-list-only and errors against `--source enroll`.
+
+**Retargeting an existing draft.** `tests update --audience-type ...` (with `--audiences` / `--demographics`) replaces the draft's pending quota wholesale; the size carries over unless you also pass `--target-audience-size`. Paired with `tests clone`, that's the scripted **clone-then-retarget** flow — take a test that worked, point it at a different audience, launch. The response echoes the resulting audience block so you can confirm what you actually set.
+
+**Verifying what's attached.** `tests preview --output json` returns an `.audience` block — type, target size, attached segments, customer lists, demographic filters, screener, retake and exclusion settings. Diff it across variants before launching a set: an audience mismatch between variants is invisible in the questions and turns a preference read into noise. (`helio-test-review` checks this as one of its cross-variant lenses.)
+
+**When a panel launch is rejected.** `tests send` returning a 502 means the Enroll platform refused the quota — most often an audience too narrow to fill. Nothing was charged and the test is still a draft, so widening the filters and retrying is safe. Panel tests genuinely start recruiting on send; customer-list tests enqueue invites; `test_take_url` stays `null` for anything that isn't `open`, by design.
 
 **Finding the right audience.** `audiences list` takes `--name <partial>` (case-insensitive) and `--recent` (most recently used in a test first), and returns `participants_count`, `tests_count` and `last_used_at` per audience — enough to tell a live segment from an abandoned one without opening the app. `audiences get <id>` confirms a single match.
 

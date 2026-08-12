@@ -396,7 +396,7 @@ Some parts of a Helio test can only be built in the web app. This is the one aut
 | Video/audio asset upload | `assets upload` accepts images only — jpg/jpeg/png/gif, max 10MB | Upload video/audio in the web app; images upload via `helio-cli assets upload` (MCP has no asset tools) | ~1 min per asset |
 | Tree test / Prototype task sections | API marks these non-creatable (need a Figma prototype or menu tree) | Build in the web app; CLI/MCP can still read their reports (paths, Direct/Indirect/Failed) | ~5 min per section |
 | Branching beyond single-select multiple_choice (hotspots, variations, most/least labels) | Only MC branching has an API surface | `tests clone` an existing branched test and edit the copy | ~2 min per branch |
-| Audience segment creation & screeners | No API endpoint | Build the segment in the web app; attach by ID via `--audiences` (CLI) / `audiences` (MCP), or `tests clone` to inherit the last audience | varies |
+| Customer-list building & formal screeners | No API endpoint (audience *recruiting* is scriptable as of v0.8.0 — `--audience-type`, `--demographics`, `--source enroll`) | Build the list or screener in the web app; attach by ID via `--audiences` (CLI) / `audiences` (MCP), or `tests clone` to inherit the last audience | varies |
 | 2 UX metrics: `completion`, `effort` | Each is built from a Figma prototype section, which the API can't create — the CLI names this reason per type | Build the prototype section in the web app, then tag the metric | ~1 min |
 | Scheduled launch | `send` fires immediately on every surface | Send manually at the intended time | — |
 

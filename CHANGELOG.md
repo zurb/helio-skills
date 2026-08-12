@@ -1,5 +1,35 @@
 # Helio Marketplace — Changelog
 
+## v0.16.0 — 2026-08-12 — helio-cli v0.8.0: audience recruiting is scriptable, and the last documented ceiling falls
+
+Ran the two-sweep check agreed after v0.15.0 — wrong claims *and* newly-arrived capability nobody wrote down. v0.8.0 tripped both, hard.
+
+### The biggest remaining ceiling in the family is gone
+
+"Audience creation is web-app work" was true for the entire life of these skills. It isn't now. Verified live: `--audience-type targeted --demographics '{"country":["US"],"age":["25-34","35-44"],"gender":["female"]}'` validates clean, and `audiences list --source enroll` browses 20 panel segments. Five audience types (`open | basic | targeted | advanced | customer_list`), panel demographic filtering, and `tests update` retargeting — which makes clone-then-retarget a one-liner. Only customer-list building and formal screener authoring remain.
+
+Corrected in eight skills. **helio-audience-flow 0.2.0 → 0.3.0** carries the detail; the rest carry the shape-level sentence, which is a one-line edit precisely because the v0.14.1 restructure moved capability lists out of prose.
+
+### A footgun worth auditing for
+
+Before v0.8.0 the API accepted only `open` audiences, so `--audiences` was **silently ignored on every test** — any scripted "fanout" from that era attached nothing and recruited the default. It's now meaningful on `advanced`/`customer_list` and a loud error on `open`. Anyone with pre-0.8.0 audience scripts should check what those runs actually recruited before trusting the results.
+
+### The v0.7.0 gap we documented is closed
+
+Repeated metric instances are reorderable from a fresh session: `tests order` returns `reorderable: true` with paste-ready `metric:<uuid>` keys, and uuids read from `preview` rather than only from the create response. Retired from **helio-cli**, **helio-test-review 0.3.0 → 0.4.0**, and **helio-ux-metrics 0.4.0 → 0.4.1**.
+
+### Breaking, and it needs a lockstep deploy
+
+Metric-owned sections now carry flat `metric_id` + `metric_type` stamps; the nested `ux_metric` object is **gone** from `tests get`. `preview --output json` gains a top-level `ux_metrics` block and per-question tags. A v0.7.0 binary loses metric awareness against the new API, and v0.8.0's audience types 400 against the old one — so anyone still on 0.7.0 may already be reading degraded metric data. `helio-test-review`'s gather instructions read exactly that field and are updated.
+
+### Also documented
+
+`tests send` 502 semantics (a panel rejection charges nothing and leaves the test a draft, so widening and retrying is safe), and a refinement to the version-check discipline: **the passive update notice is cached for up to 24 hours**, so a release published inside that window isn't announced. We confirmed this the hard way — three plain commands printed nothing while `update --check` correctly reported 0.8.0 available. `update --check` bypasses the cache and is the reliable check.
+
+### Verification
+
+A fresh agent given only the updated skills answered the panel-targeting question correctly and caught a self-contradiction across three files about the pre-0.8.0 `--audiences` scope. Reconciled against the changelog: the API accepted only `open`, so the flag was ignored everywhere. That's the second time a fresh-agent check has caught an inconsistency the sweep missed.
+
 ## v0.15.0 — 2026-08-01 — The other staleness: four skills that never heard about capability they gained
 
 Everything corrected this week was a skill claiming something *can't* be done. This release is the mirror image — capability arrived and nobody told the skill. It doesn't surface in a "check for wrong claims" sweep, only in a "what shipped that nobody wrote down" sweep, which is worth running after each release rather than only the first.

@@ -1,7 +1,7 @@
 ---
 name: helio-creating-test
 description: Use this skill when the user wants to design a Helio test end to end — from a hunch to a launched test that produces a decision-grade signal. Triggers — "create a Helio test," "design a test," "turn this hunch into a test," "which test shape," "test template," "marketing page eval," "multi-screen flow eval," "content prioritization," "concept comparison," "hunch → shape → test → signal," "required followups," "bias check," "pre-launch checklist," "how many questions," "MaxDiff shows 0%," "one hunch per test," "web app vs CLI vs MCP." Also use when a test produced "interesting findings" but no decision, or the user starts from a belief rather than an asset. Do NOT use when the user starts from an existing asset/mockup (use `helio-asset-to-test`), wants shape recognition across past tests (use `helio-patterns`), section spec (use `helio-section-types`), audience mechanics (use `helio-audience-flow`), launch commands (use `helio-cli` / `helio-mcp`), or report synthesis (use `helio-reading-report`).
-version: 0.3.0
+version: 0.3.1
 source_doc_version: Creating a Helio Test v0.2
 last_rebuilt: 2026-07-23
 
@@ -42,7 +42,11 @@ Read `reference.md` for the full arc: the four shapes with real examples, the hu
 6. Attach one UX metric per question; pair behavioral and attitudinal.
 7. Run the bias check (leading / loaded / jargon / forced) on every prompt.
 8. Walk the pre-launch checklist; recommend a CLI dry-run before spending.
-9. Flag UI-only steps early — as of helio-cli v0.7.0: video/audio upload, tree/prototype tasks, audience creation, and the `completion` / `effort` metrics. Click tests, hotspots, and multiple_choice branching went CLI-native in v0.4.0; the click-backed metrics, `brand_score`, and repeated metric types in v0.7.0. Check `helio-cli update --check` before repeating an older ceiling.
+9. Flag UI-only steps early — as of helio-cli v0.8.0: video/audio upload, tree/prototype tasks, customer-list building, formal screeners, and the `completion` / `effort` metrics. Audience *recruiting* became scriptable in v0.8.0. Click tests, hotspots, and multiple_choice branching went CLI-native in v0.4.0; the click-backed metrics, `brand_score`, and repeated metric types in v0.7.0. Check `helio-cli update --check` before repeating an older ceiling.
+
+## What's new in v0.3.1
+
+Synced to helio-cli v0.8.0: audience *recruiting* left the web-app-only list (`--audience-type` with five values, `--demographics` panel filtering, `audiences list --source enroll`). Only customer-list building and formal screener authoring remain.
 
 ## What's new in v0.3.0
 

@@ -1,7 +1,7 @@
 ---
 name: helio-test-review
 description: Use this skill when the user wants a pre-launch review of one or more Helio draft tests — "review this test," "review this draft," "review these variants," "check this before I send it," "pre-launch review," "compare these tests," "do these variants match," "will this test produce clean data," "is this test ready to launch," "audit my draft," "variant mismatch," "does this question fit the image." Reviews unsent tests as the priority; completed tests only when the user explicitly asks. Do NOT use when the user is designing a test from scratch (use `helio-creating-test` from a hunch or `helio-asset-to-test` from an asset), reading results (use `helio-reading-report`), or looking for CLI command syntax (use `helio-cli`).
-version: 0.3.0
+version: 0.4.0
 source_doc_version: Reviewing Helio Tests v0.2
 last_rebuilt: 2026-07-24
 
@@ -39,6 +39,10 @@ Read `reference.md` before reviewing — it has the gather commands, the five le
 4. **Report findings** severity-ordered (Blocker / Warning / Note), each with test + screen, what's wrong, why it corrupts data or experience, and the exact fix.
 5. **On approval, apply CLI-applicable fixes** and re-run the affected checks. Hand web-app-only fixes back as steps.
 6. **Respect deliberate choices.** If a check flags something that could plausibly be intentional (an unusual order, a repeated question used as an attention check), ask — don't assert.
+
+## What's new in v0.4.0
+
+Synced to helio-cli v0.8.0. The last known ceiling is gone — repeated metric instances are reorderable from a fresh session, so a review can recommend a reorder on any test without caveat. Gather instructions updated for the **breaking metric-vocabulary change**: sections now carry flat `metric_id` / `metric_type` stamps rather than a nested `ux_metric` object, and `preview --output json` gains a top-level `ux_metrics` block plus per-question tags — which is what makes metrics readable without the create response. Lens 5's audience checks now have more to diff, since audience type, panel demographics and enroll segments are all set from the CLI.
 
 ## What's new in v0.3.0
 

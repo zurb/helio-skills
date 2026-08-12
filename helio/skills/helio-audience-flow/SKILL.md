@@ -1,7 +1,7 @@
 ---
 name: helio-audience-flow
 description: Use this skill when the user is configuring how Helio recruits participants for a study — picking an audience type, setting demographics or segments, uploading customer lists, configuring intercept, or running an API audience. Triggers — "audience for my test," "Helio panel," "targeted demographics," "advanced segments," "customer list upload," "intercept survey," "API audience," "AI audience," "AI personas," "how do I send a test," "send test flow," "launch validation," "panelist availability," "audience fanout," "Order More Customer Lists," "audience cost." Do NOT use when the user wants test design (use `helio-asset-to-test`), section types (use `helio-section-types`), or filtering the report after launch (use `helio-report-filtering`).
-version: 0.2.0
+version: 0.3.0
 source_doc_version: Audience Flow v0.1
 last_rebuilt: 2026-05-23
 
@@ -44,6 +44,14 @@ Read `reference.md` for the launch flow, validation rules, each audience's setup
 6. For Customer Lists, flag pre-charge behavior and bounce/unsubscribe rules — answers are debited at send, not at response.
 7. For AI Audience, note the higher per-completion cost (4 answers per section per persona response).
 8. Surface post-launch behaviors: tests don't auto-stop at quota; flagged responses don't refund automatically.
+
+## What's new in v0.3.0
+
+**Recruiting an audience became fully scriptable in helio-cli v0.8.0** — the claim that audience creation is web-app work, which v0.2.0 still carried, is now wrong. `--audience-type` takes `open | basic | targeted | advanced | customer_list`; `--demographics` filters the panel on gender, age, income, education, continent and country; `audiences list --source enroll` browses the panel catalog. Only customer-list building and formal screener authoring still need the web app.
+
+Also adds the clone-then-retarget flow (`tests clone` → `tests update --audience-type ...`, which replaces the pending quota wholesale), and the `tests send` 502 semantics — a panel rejection means nothing was charged and the test is still a draft, so widening and retrying is safe.
+
+**One correction for anyone with pre-0.8.0 scripts.** Before v0.8.0 the API accepted only `open` audiences, so **every test was effectively open and `--audiences` was silently ignored on all of them** — any scripted "fanout" from that era attached nothing and recruited the default. `--audiences` is now meaningful on `advanced` and `customer_list`, and a loud error on `open`. Audit what pre-0.8.0 scripts actually recruited before trusting their results.
 
 ## What's new in v0.2.0
 

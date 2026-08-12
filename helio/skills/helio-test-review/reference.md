@@ -21,9 +21,9 @@ Per test, collect and cache:
 
 ```shell
 helio-cli tests walkthrough <id> --output json   # participant-eye screens: order, question text, choices, assets
-helio-cli tests get <id> --output json           # structural fields walkthrough lacks: followup flags, randomization, branching, likert_type
+helio-cli tests get <id> --output json           # structural fields walkthrough lacks: followup flags, randomization, likert_type, and flat metric_id / metric_type stamps (v0.8.0 replaced the nested ux_metric object)
 helio-cli tests validate <id> --output json      # launch blockers, spend, answers remaining (drafts only)
-helio-cli tests preview <id> --output json       # audience config, branching routes, hotspot geometry (v0.7.0+)
+helio-cli tests preview <id> --output json       # audience config, branching routes, hotspot geometry (v0.7.0+), plus the top-level ux_metrics block and per-question metric tags (v0.8.0+)
 ```
 
 Then **fetch and actually look at every asset image** (walkthrough `assets[].url` signed URLs, or `assets get <id>`). The stimuli lens and the question-image checks are impossible without eyes on the images — a review that skipped them must say so.
@@ -149,7 +149,7 @@ Three blockers in five questions, invisible to every mechanical pre-send check. 
 
 - ~~Completed/UI-built tests review in degraded mode~~ — **resolved 2026-07-24.** `GET /api/public/tests/:id` now returns section `type`, resolved `ux_metric` names, and per-section assets, including on tests containing click tests.
 - ~~Audience config, branch targets, and hotspots are write-only~~ — **resolved in helio-cli v0.7.0 / the 2026-07-30 API release.** All three read back through `tests preview --output json` (`.audience`, `.branching`, `.hotspots`), and `walkthrough` screens carry `branching` and `hotspots` too. Lenses 1, 4, and 5 now check them directly instead of inferring.
-- **Repeated metric instances can't be reordered from a fresh session.** `reorder` distinguishes them by `metric:<uuid>`, which `GET /tests/:id` doesn't return; `tests order` reports `reorderable: false` and `ambiguous_metric_types` rather than printing a command that would 400. If a review recommends reordering such a test, say the uuids must come from the original create response — or that the reorder happens in the web app.
+- ~~Repeated metric instances can't be reordered from a fresh session~~ — **resolved in helio-cli v0.8.0.** `tests order` returns `reorderable: true` with paste-ready `metric:<uuid>` keys, and metric uuids also read from `preview`. A review can now recommend a reorder on any test without caveat.
 - No `tests compare` CLI command yet — lens 5 alignment is done by the reviewer from N walkthroughs. The [M]-tagged checks above are the spec for that future command.
 - Branching soundness is only fully checkable in the web app; the CLI exposes `enable_branching` but not the route graph.
 - Audience configuration (target size, audience type, filters/screeners) isn't exposed by any CLI read — audience parity is checked indirectly via `validate` spend estimates. API ask: audience block on the show response.

@@ -1,7 +1,7 @@
 ---
 name: helio-mcp
 description: Use this skill when the user is connecting an AI assistant (Claude Desktop, Cursor, Claude Code, custom agent) to Helio via the Model Context Protocol — or driving Helio from one. Triggers — "Helio MCP," "MCP server," "MCP transport," "stdio vs HTTP," "@zurb/helio-mcp," "mcp.helio.app," "list_projects," "list_tests," "create_test via MCP," "add_question," "update_question," "update_test," "validate_test," "send_test," "get_test_report," "include filter_options," "get_filtered_responses," "compare_segments," "demographic filters MCP," "list_assessments," "create_assessment," "analyze_test prompt," "compare_audiences prompt," "how many MCP tools," "build a test from Claude." Do NOT use when the user is scripting from the terminal or CI (use `helio-cli`), designing the test itself (use `helio-creating-test` from a hunch, or `helio-asset-to-test` from an asset), or needs section type depth (use `helio-section-types`). For platform positioning, use `helio-app`.
-version: 0.3.0
+version: 0.3.1
 source_doc_version: Helio MCP v1.3
 last_rebuilt: 2026-07-06
 
@@ -43,7 +43,11 @@ Read `reference.md` for the full setup — transports, requirements, the complet
 4. For test-building requests, walk the loop: `create_test` → iterate (`add/update/remove_question`, `update_test`) → `validate_test` → `send_test`. Payload schemas are identical to the CLI's — pull JSON examples from `helio-cli`.
 5. For reporting requests, start `get_test_report` with `include: "filter_options,summary"`, then drill in; use `compare_segments` for side-by-side cohort reads.
 6. Route metric-section edits correctly: `update_question` without `type` for safe fields, `update_test` for add/remove — never `remove_question`.
-7. Flag the boundary early (asset upload — web app or helio-cli, not MCP; click/tree/prototype; branching; audience creation) so an assistant-driven build doesn't dead-end.
+7. Flag the boundary early (asset upload — web app or helio-cli, not MCP; click/tree/prototype; branching; audience recruiting, which the CLI gained in v0.8.0 but MCP has not) so an assistant-driven build doesn't dead-end.
+
+## What's new in v0.3.1
+
+Surface boundary updated for helio-cli v0.8.0, which widened the gap between the two scripted surfaces: the CLI gained audience recruiting (`--audience-type`, `--demographics`, panel catalog browsing) and MCP did not. Route audience work to the CLI or web app.
 
 ## What's new in v0.3.0
 

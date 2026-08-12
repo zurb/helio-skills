@@ -43,7 +43,7 @@ What a tagged metric gives you that a hand-built section never will:
 helio-cli tests create ... --ux-metrics expectations expectations expectations
 ```
 
-Two consequences worth knowing. `tests order` emits one block per *instance*, and because reorder tells repeated instances apart by `metric:<uuid>` — which `GET /tests/:id` doesn't return — it reports `reorderable: false` and withholds the paste-ready command for those tests. Capture the uuids from the `create` / `add-ux-metrics` response if you plan to reorder later. And `remove-ux-metrics --metrics` takes either a type (removes every instance) or a specific metric id (removes just that one).
+`tests order` emits one block per *instance*. As of helio-cli v0.8.0 those instances are reorderable from a fresh session — `tests order` returns `reorderable: true` with paste-ready `metric:<uuid>` keys, and the uuids also read from `preview`, so they no longer have to be captured from the create response. `remove-ux-metrics --metrics` takes either a type (removes every instance) or a specific metric id (removes just that one).
 
 *Historical note:* before v0.7.0 the API rejected the duplicate even though the platform scored multiple instances, which pushed people into hand-building look-alike sections as a workaround. That was always the wrong trade — a scored metric for a raw distribution — and it's no longer necessary.
 

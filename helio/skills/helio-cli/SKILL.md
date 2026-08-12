@@ -1,21 +1,21 @@
 ---
 name: helio-cli
 description: Use this skill when the user is working with Helio from the terminal — installing the CLI, authenticating, building and iterating on draft tests, or scripting research. Triggers — "helio-cli," "Helio CLI," "@zurb/helio-cli," "tests create," "add-question," "edit-question," "remove-question," "tests reorder," "tests preview," "tests walkthrough," "tests participants," "question payload," "questions JSON schema," "tests question-types," "ux-metric-types," "add-ux-metrics," "--metrics-json," "--dry-run," "--output json," "tests validate," "tests send," "assets upload," "assets list," "--asset-id," "asset not found," "account name," "scripting helio," "cron helio," "CI helio," "what can't the CLI create." Do NOT use when the user is driving Helio interactively from chat/AI (use `helio-mcp`), designing the test itself (use `helio-creating-test` from a hunch, or `helio-asset-to-test` from an asset), or needs section type depth (use `helio-section-types`). For platform positioning, use `helio-app`.
-version: 0.7.0
-source_doc_version: Helio CLI v1.5 (rebuilt against CLI v0.7.0)
+version: 0.8.0
+source_doc_version: Helio CLI v1.6 (rebuilt against CLI v0.8.0)
 last_rebuilt: 2026-07-23
 
 sources:
   - doc_id: a source document
     title: Helio CLI v1.5
     last_synced: 2026-08-01
-  - title: Live verification against installed helio-cli v0.4.0–v0.7.0 (--help output + real commands)
-    last_synced: 2026-07-30
+  - title: Live verification against installed helio-cli v0.4.0–v0.8.0 (--help output + real commands)
+    last_synced: 2026-08-12
 ---
 
 You are helping the user drive **Helio from the terminal** — by hand, by cron, or inside a CI/CD pipeline.
 
-**Check the version before stating any capability limit.** Run `helio-cli update --check` (or `--version`) first — capability boundaries move between releases, and a stale binary reports its own limits as the tool's. Since v0.6.0 the CLI prints an update notice to stderr even in `--output json` and non-TTY sessions, so agents are told; on older binaries nothing warns you. Both `helio-cli` and the shorter `helio` work as of v0.4.0 (note a user's own shell alias can shadow `helio`).
+**Check the version before stating any capability limit.** Run `helio-cli update --check` (or `--version`) first — capability boundaries move between releases, and a stale binary reports its own limits as the tool's. Since v0.6.0 the CLI prints an update notice to stderr even in `--output json` and non-TTY sessions — but that notice is **cached for up to 24 hours**, so a release published inside that window won't be announced yet. `update --check` bypasses the cache and hits the registry live; prefer it over waiting to be told. Both `helio-cli` and the shorter `helio` work as of v0.4.0 (note a user's own shell alias can shadow `helio`).
 
 ## Core idea
 
@@ -27,15 +27,19 @@ Helio CLI (`@zurb/helio-cli`) puts the full Helio research platform behind a ter
 4. **Review** — `tests preview` (structural) and `tests walkthrough` (participant-eye, `--interactive` or `--output json`)
 5. **`tests validate` then `tests send`** — server-side blocker check, then launch (immediate; locks structure, charges answers)
 
-**Build the measurement spine from UX metrics, not hand-written questions.** `--ux-metrics <types...>` auto-generates each metric's sections with validated, non-leading wording and returns a 0–100 score with a threshold label, comparable across waves and rolled into the Overall Score; a hand-written look-alike returns only an answer distribution. Reach for `--questions` for what no metric covers. Sixteen metrics are creatable this way as of v0.7.0; `helio-patterns` maps stage and asset to the right metric set.
+**Build the measurement spine from UX metrics, not hand-written questions.** `--ux-metrics <types...>` auto-generates each metric's sections with validated, non-leading wording and returns a 0–100 score with a threshold label, comparable across waves and rolled into the Overall Score; a hand-written look-alike returns only an answer distribution. Reach for `--questions` for what no metric covers. Sixteen metrics are creatable this way as of v0.7.0 (ask `tests ux-metric-types` for the current list); `helio-patterns` maps stage and asset to the right metric set.
 
 Question types are creatable with formal payload schemas (free_response, multiple_choice, likert with 11 scale types, nps, ranking, preference, matrix, card_sort, max_diff, point_allocation, and click_test since v0.4.0). Machine-readable schemas ship in the tool itself: `tests question-types` and `tests ux-metric-types`.
 
 Image assets are CLI-native too (v0.1.1): `assets upload <file>` (jpg/jpeg/png/gif, max 10MB), `assets list` to find IDs, `assets get <id>` for status and signed URLs — then attach with `tests add-question --asset-id` / `tests edit-question --asset-id` or `asset_id` in a question payload. Assets are **account-scoped** to the token's home account — cross-account attachment fails with `asset not found`.
 
-Known ceilings as of **v0.7.0** (verify with `update --check` before repeating these): video/audio upload, tree/prototype tests, audience creation from scratch, scheduled launch, branching on hotspots/variations/most-least labels, and the `completion` / `effort` metrics (each built from a Figma prototype section the API can't create). Everything else moved: click tests with hotspots and multiple_choice branching in v0.4.0; the `engagement`, `success`, `usability`, `satisfaction`, `brand_score` metrics and **repeated metric types** in v0.7.0. For the still-UI-only surfaces: `tests clone` an existing test and edit the copy.
+Known ceilings as of **v0.8.0** (verify with `update --check` before repeating these): video/audio upload, tree/prototype tests, customer-list building and formal screener authoring, scheduled launch, branching on hotspots/variations/most-least labels, and the `completion` / `effort` metrics (each built from a Figma prototype section the API can't create). Everything else moved: click tests with hotspots and multiple_choice branching in v0.4.0; the click-backed metrics, `brand_score` and repeated metric types in v0.7.0; **audience recruiting** in v0.8.0. For the still-UI-only surfaces: `tests clone` an existing test and edit the copy.
 
-**Read-back landed in v0.7.0:** audience config, branching routes, and hotspot geometry all return from `tests preview --output json` (`.audience`, `.branching`, `.hotspots`), and `walkthrough` screens carry branching and hotspots. One gap remains — repeated metric instances can't be reordered from a fresh session, since `reorder` needs uuids `GET /tests/:id` doesn't return.
+**Read-back:** audience config, branching routes and hotspot geometry return from `tests preview --output json` (`.audience`, `.branching`, `.hotspots`) since v0.7.0; `walkthrough` screens carry branching and hotspots. v0.8.0 adds a top-level `ux_metrics` block and per-question `ux_metric` tags, which closes the last gap — **repeated metric instances are now reorderable from a fresh session** (`tests order` reports `reorderable: true` and emits paste-ready `metric:<uuid>` keys, so uuids no longer have to come from the original create response).
+
+**Audience recruiting is scriptable as of v0.8.0.** `--audience-type` takes `open | basic | targeted | advanced | customer_list`, `--demographics` filters the panel, and `audiences list --source enroll` browses the panel catalog. `tests update --audience-type ...` retargets a draft, which makes clone-then-retarget a one-line flow. Note the API accepted only `open` audiences before v0.8.0, so `--audiences` was silently ignored on every test — pre-0.8.0 fanout scripts attached nothing. It's meaningful on `advanced`/`customer_list` now, and a loud error on `open`.
+
+**Breaking in v0.8.0, deploy in lockstep with the API.** Metric-owned sections carry flat `metric_id` + `metric_type` stamps; the nested `ux_metric` object is gone from `tests get`. Scripts reading `.sections[].ux_metric` must move to the stamps or the new top-level summary. A v0.7.0 binary loses metric awareness against the new API, and v0.8.0's audience types 400 against the old one.
 
 ## Files to read
 
@@ -50,7 +54,17 @@ Read `reference.md` for the full surface — install, auth, the draft → iterat
 5. Surface `--dry-run` and `tests validate` before anything that touches money; `--output json` for anything scripted.
 6. Recommend `tests walkthrough` before every send — it's the cheapest usability test they'll run. What to look for: duplicate questions from metric stacking (sentiment + desirability, appeal + reaction build identical sections), a context noun that breaks in some generated sentence, and evaluation questions landing before comprehension ones (`tests reorder` fixes sequence).
 7. For image stimuli, use `assets upload` / `assets list` to get a numeric asset ID, then attach with `--asset-id` — no web-app detour needed.
-8. Flag the UI-only boundary early — as of v0.7.0: video/audio upload, tree/prototype tests, audience creation, and the `completion` / `effort` metrics. Everything else has moved in the last three releases; don't repeat an older ceiling without running `update --check`.
+8. Flag the UI-only boundary early — as of v0.8.0: video/audio upload, tree/prototype tests, customer-list building, formal screeners, and the `completion` / `effort` metrics. Audience *recruiting* became scriptable in v0.8.0. Everything else has moved across the last four releases; don't repeat an older ceiling without running `update --check` — and note the passive update notice is cached for up to 24 hours, so the explicit check is the reliable one.
+
+## What's new in v0.8.0
+
+Synced to helio-cli **v0.8.0**, which is mostly about audiences and closes the last documented gap.
+
+- **Audience recruiting is scriptable.** Five `--audience-type` values, `--demographics` panel filtering, `audiences list --source enroll` for the panel catalog, and `tests update` retargeting (the clone-then-retarget flow). "Audience creation is web-app work" was the biggest remaining ceiling in the family and it's now wrong — only customer-list building and formal screeners remain.
+- **Repeated metric types are reorderable** — `tests order` returns `reorderable: true` with paste-ready `metric:<uuid>` keys. The v0.7.0 "capture uuids from the create response" workaround is retired.
+- **Breaking:** metric-owned sections carry flat `metric_id` + `metric_type`; the nested `ux_metric` object is gone from `tests get`. `preview --output json` gains a top-level `ux_metrics` block and per-question tags. **Deploy in lockstep with the API** — a v0.7.0 binary loses metric awareness against the new API, and v0.8.0 audience types 400 against the old one.
+- **`tests send` 502 semantics:** a panel rejection means nothing was charged and the test is still a draft, so widening a too-narrow audience and retrying is safe.
+- Also documented: `--audiences` was silently ignored on non-`open` tests before v0.8.0, so pre-0.8.0 fanout scripts attached nothing; and the passive update notice is cached for up to 24 hours, so `update --check` is the reliable version check rather than waiting to be told.
 
 ## What's new in v0.7.0
 
