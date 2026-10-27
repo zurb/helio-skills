@@ -1,5 +1,14 @@
 # Helio Marketplace — Changelog
 
+## v1.0.0 — 2026-10-27 — Skills load as `helio:cli`, not `helio-cli`
+
+**Breaking.** Every skill folder and `name` dropped its `helio-` prefix (`helio-creating-test` → `creating-test`). Installed as a Claude Code plugin, they now load as `helio:creating-test`, the way other plugins namespace their skills, instead of the doubled `helio:helio-creating-test`.
+
+- Cross-references between skills use the plugin form (`helio:reading-report`, `glare:measure-hunches`); relative links and paths use the bare folder name.
+- `helio-cli` the command and `@zurb/helio-cli` the package are unchanged. Only pointers to the skill became `helio:cli`; the same goes for `helio-mcp`.
+- Flat installs (`npx skills add`) get the bare names (`cli`, `creating-test`), which can collide with other skills. The README now has a plugin install section.
+- Historical entries below keep the old names.
+
 ## v0.17.1 — 2026-08-12 — The guard file was disclosing what it guarded
 
 v0.17.0 added a disclosure denylist and, in the same stroke, wrote every customer and colleague name into it as a literal regex. A published guard file that enumerates the names it suppresses defeats its own purpose: the list is a cleaner index of the removed material than the material was. A history scan caught it — after the rewrite, the *only* real names left anywhere in this repo's history were the ones inside `validate-skills.py`.
