@@ -17,6 +17,17 @@ Each skill is a folder under `helio/skills/<skill-name>/` containing:
 - `reference.md` — practitioner reference content; loaded when SKILL.md instructs
 - `agent-operations.md` — *optional;* runtime contract for workflow skills
 
+## Install
+
+In Claude Code:
+
+```
+/plugin marketplace add zurb/helio-skills
+/plugin install helio@helio-marketplace
+```
+
+Then run `/reload-plugins`. Skills load as `helio:cli`, `helio:creating-test`, `helio:reading-report` and so on. Since 1.0.0 the skill folders no longer carry a `helio-` prefix, so a flat install (`npx skills add zurb/helio-skills`) names them `cli` and `creating-test`, which can collide with other skills; prefer the plugin install.
+
 ## Source of truth
 
 All Helio skill content derives from a set of internally maintained source documents. Skills reference them by opaque key (`src-*`); the key-to-document mapping is held privately outside this repo. When a source document is updated, the corresponding skill is rebuilt to match.
@@ -25,7 +36,7 @@ See `HELIO-SKILL-BUILDING-CONTEXT.md` for the full conversion workflow and conve
 
 ## Current status
 
-**v0.1.0 (2026-05-23) — initial buildout.** Marketplace skeleton plus the first four skills (`helio-app`, `helio-section-types`, `helio-ux-metrics`, `helio-asset-to-test`). 13 more skills + 1 optional master orchestrator planned.
+**v0.1.0 (2026-05-23) — initial buildout.** Marketplace skeleton plus the first four skills (`helio:app`, `helio:section-types`, `helio:ux-metrics`, `helio:asset-to-test`). 13 more skills + 1 optional master orchestrator planned.
 
 See `CHANGELOG.md` for what's in this release and `SKILLS-CATALOG.md` for the full skill inventory.
 

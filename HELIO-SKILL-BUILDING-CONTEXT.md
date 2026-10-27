@@ -45,9 +45,9 @@ A skill is a folder under `helio-marketplace/helio/skills/` containing:
 
 - **`SKILL.md`** — always loaded; carries frontmatter (name, description, version, sources), the core idea, file-loading instructions, application steps, handoffs
 - **`reference.md`** — practitioner reference content; loaded when SKILL.md instructs
-- **`agent-operations.md`** — *optional;* only for workflow-shaped skills where there's a runtime contract worth promoting (currently a candidate for `helio-asset-to-test` and `helio-reading-report` only)
+- **`agent-operations.md`** — *optional;* only for workflow-shaped skills where there's a runtime contract worth promoting (currently a candidate for `helio:asset-to-test` and `helio:reading-report` only)
 
-Skill names follow the pattern `helio-<topic>` (e.g., `helio-section-types`, `helio-ux-metrics`, `helio-audience-flow`).
+Skill names follow the pattern `helio-<topic>` (e.g., `helio:section-types`, `helio:ux-metrics`, `helio:audience-flow`).
 
 ### How Helio skills differ from Glare skills
 
@@ -80,10 +80,10 @@ Skill descriptions have a **hard 1024-character limit**. The Glare validator wil
 │   │   ├── .claude-plugin/
 │   │   │   └── plugin.json
 │   │   └── skills/
-│   │       ├── helio-app/
+│   │       ├── app/
 │   │       │   ├── SKILL.md
 │   │       │   └── reference.md
-│   │       ├── helio-cli/
+│   │       ├── cli/
 │   │       │   ├── SKILL.md
 │   │       │   └── reference.md
 │   │       ... (17 skills + 1 master)
@@ -113,26 +113,26 @@ Mapping the 19 active source docs to skills with two natural consolidations:
 
 | Skill name | Source doc(s) | Triggers on |
 |---|---|---|
-| `helio-app` | Helio App v1.3 + Using Helio v0.2 (merged) | "What is Helio," positioning, plan selection, capability tour |
-| `helio-cli` | Helio CLI v1.2 | Terminal usage, scripting, CI integration |
-| `helio-mcp` | Helio MCP v1.2 | AI-assistant access, MCP tool calls |
+| `helio:app` | Helio App v1.3 + Using Helio v0.2 (merged) | "What is Helio," positioning, plan selection, capability tour |
+| `helio:cli` | Helio CLI v1.2 | Terminal usage, scripting, CI integration |
+| `helio:mcp` | Helio MCP v1.2 | AI-assistant access, MCP tool calls |
 | `helio-features` | Helio Features v0.2 | Engineering-side feature reference, plan/feature gates |
 
 ### Test lifecycle (5 skills)
 
 | Skill name | Source doc(s) | Triggers on |
 |---|---|---|
-| `helio-patterns` | Helio Test Patterns v0.1 | Test shapes, the core 5-Q template, multi-screen, brand-template depth |
-| `helio-asset-to-test` | From Asset To Test v0.1 | Build-validate-launch workflow, the 7-step arc |
-| `helio-section-types` | Section Types v0.1 | Every section type — Click, Prototype, Likert, MaxDiff, etc. |
-| `helio-audience-flow` | Audience Flow v0.1 | Audience choice, panel filters, custom lists, intercept |
-| `helio-branching` | Branching v0.1 | Conditional routing, screeners, disqualification |
+| `helio:patterns` | Helio Test Patterns v0.1 | Test shapes, the core 5-Q template, multi-screen, brand-template depth |
+| `helio:asset-to-test` | From Asset To Test v0.1 | Build-validate-launch workflow, the 7-step arc |
+| `helio:section-types` | Section Types v0.1 | Every section type — Click, Prototype, Likert, MaxDiff, etc. |
+| `helio:audience-flow` | Audience Flow v0.1 | Audience choice, panel filters, custom lists, intercept |
+| `helio:branching` | Branching v0.1 | Conditional routing, screeners, disqualification |
 
 ### Platform mechanics (3 skills)
 
 | Skill name | Source doc(s) | Triggers on |
 |---|---|---|
-| `helio-assets` | Assets v0.1 | Images, video, Figma integration, asset lifecycle |
+| `helio:assets` | Assets v0.1 | Images, video, Figma integration, asset lifecycle |
 | `helio-licensing` | Answers & Licensing v0.1 | Answers cost, refunds, license tiers, refills |
 | `helio-participant-experience` | Participant Experience v0.1 | What participants see, consent, accessibility, IRB context |
 
@@ -140,11 +140,11 @@ Mapping the 19 active source docs to skills with two natural consolidations:
 
 | Skill name | Source doc(s) | Triggers on |
 |---|---|---|
-| `helio-ux-metrics` | UX Metrics v0.1 | The 17 metrics, sections required, threshold scheme, Overall Score |
-| `helio-report-filtering` | Report Filtering v0.1 | Filter mechanics, cohort slicing, demographic filters |
-| `helio-design-analysis` | Design Analysis v0.1 | AI heuristic evaluation, the four master user needs |
-| `helio-findings` | Findings v0.1 | Capturing observations, sharing, comments |
-| `helio-reading-report` | Reading a Helio Report v0.2 + From Helio Test to Glare Signal v0.2 (merged) | Synthesis workflow, 30-second scan, divergence reading, one-sentence signal, Glare bridge |
+| `helio:ux-metrics` | UX Metrics v0.1 | The 17 metrics, sections required, threshold scheme, Overall Score |
+| `helio:report-filtering` | Report Filtering v0.1 | Filter mechanics, cohort slicing, demographic filters |
+| `helio:design-analysis` | Design Analysis v0.1 | AI heuristic evaluation, the four master user needs |
+| `helio:findings` | Findings v0.1 | Capturing observations, sharing, comments |
+| `helio:reading-report` | Reading a Helio Report v0.2 + From Helio Test to Glare Signal v0.2 (merged) | Synthesis workflow, 30-second scan, divergence reading, one-sentence signal, Glare bridge |
 
 ### Cross-skill orchestration (1 skill)
 
@@ -155,8 +155,8 @@ Mapping the 19 active source docs to skills with two natural consolidations:
 **Total: 17 content skills + 1 master = 18 skills.**
 
 The two merges:
-- **`helio-app`** absorbs Using Helio v0.2's capability tour because positioning + capabilities form one mental model. The merged skill's `reference.md` has two DERIVED sections (one per source doc).
-- **`helio-reading-report`** absorbs From Helio Test to Glare Signal v0.2 because the mechanical synthesis and the conceptual Glare-bridge are the same conversation. The merged skill has two DERIVED sections.
+- **`helio:app`** absorbs Using Helio v0.2's capability tour because positioning + capabilities form one mental model. The merged skill's `reference.md` has two DERIVED sections (one per source doc).
+- **`helio:reading-report`** absorbs From Helio Test to Glare Signal v0.2 because the mechanical synthesis and the conceptual Glare-bridge are the same conversation. The merged skill has two DERIVED sections.
 
 ---
 
@@ -193,7 +193,7 @@ You are helping the user work with **<topic>** in Helio. <one-sentence positioni
 
 ## Handoffs
 
-[When to route to sibling skills. E.g.: "For section types, use `helio-section-types`. For audience choice, use `helio-audience-flow`. For the broader Glare framework, use `glare-getting-started`."]
+[When to route to sibling skills. E.g.: "For section types, use `helio:section-types`. For audience choice, use `helio:audience-flow`. For the broader Glare framework, use `glare:getting-started`."]
 ```
 
 ### What SKILL.md is *not*
@@ -210,8 +210,8 @@ Exact structure (mirrors Glare's pattern):
 
 ```yaml
 ---
-name: helio-section-types
-description: Use this skill when the user is working with section types in Helio — picking which section type to use for a question, configuring sections, or understanding what each section captures. Triggers — "what section type," "click test," "prototype test," "likert," "MaxDiff," "card sort," "tree test," "matrix," "preference," "rank," "free response," "what's the difference between," "how do I configure a section." Do NOT use when the question is about which UX metric to attach (use `helio-ux-metrics`), how to build a whole test (use `helio-asset-to-test`), or the AI heuristic evaluator (use `helio-design-analysis`). For test shapes that combine sections, use `helio-patterns`.
+name: section-types
+description: Use this skill when the user is working with section types in Helio — picking which section type to use for a question, configuring sections, or understanding what each section captures. Triggers — "what section type," "click test," "prototype test," "likert," "MaxDiff," "card sort," "tree test," "matrix," "preference," "rank," "free response," "what's the difference between," "how do I configure a section." Do NOT use when the question is about which UX metric to attach (use `helio:ux-metrics`), how to build a whole test (use `helio:asset-to-test`), or the AI heuristic evaluator (use `helio:design-analysis`). For test shapes that combine sections, use `helio:patterns`.
 version: 0.1.0
 source_doc_version: v0.1
 last_rebuilt: 2026-05-23
@@ -232,13 +232,13 @@ sources:
 - **Structure:** `Use this skill when the user is...` + `Triggers — "phrase," "phrase," ...` + `Do NOT use when...` + `For <related context>, use \`<sibling-skill>\``
 - **Trigger phrases** should match what real users say. Direct quotes in single quotes; concepts as plain phrases. Include both happy-path triggers and diagnostic phrases (e.g., "what does Sentiment mean," "section won't validate").
 - **Routing language** at the end tells Claude when to hand off to sibling skills. Keep this current — broken references confuse routing.
-- **Cross-marketplace routing** is allowed and encouraged. Helio skills can route to Glare skills (`glare-decision-map`, `glare-measure`, `glare-getting-started`) when the question is methodological rather than platform-mechanical.
+- **Cross-marketplace routing** is allowed and encouraged. Helio skills can route to Glare skills (`glare:decision-map`, `glare:measure`, `glare:getting-started`) when the question is methodological rather than platform-mechanical.
 
 ### Source manifest
 
 The `sources:` block lists every Drive doc the skill derives from. **Every doc ID in the manifest must match a `DERIVED FROM:` comment in `reference.md`** — they're the binding contract for the future refresh script (which will compare `last_synced` timestamps to Drive's `modifiedTime` to detect staleness).
 
-Most Helio skills have a single source. The two merged skills (`helio-app`, `helio-reading-report`) have two sources each.
+Most Helio skills have a single source. The two merged skills (`helio:app`, `helio:reading-report`) have two sources each.
 
 ### Version semantics
 
@@ -363,8 +363,8 @@ If a previous version of the skill exists, read its `SKILL.md` and `reference.md
 
 For Helio:
 - **Reference-shaped skill** → `SKILL.md` + `reference.md`. No `agent-operations.md`.
-- **Workflow-shaped skill** (`helio-asset-to-test`, `helio-reading-report`) → `SKILL.md` + `reference.md` + optionally `agent-operations.md` if there's a runtime contract worth promoting.
-- **Merged skill** (`helio-app`, `helio-reading-report`) → `SKILL.md` + `reference.md` with two DERIVED blocks.
+- **Workflow-shaped skill** (`helio:asset-to-test`, `helio:reading-report`) → `SKILL.md` + `reference.md` + optionally `agent-operations.md` if there's a runtime contract worth promoting.
+- **Merged skill** (`helio:app`, `helio:reading-report`) → `SKILL.md` + `reference.md` with two DERIVED blocks.
 
 ### 5. Draft `SKILL.md`
 
@@ -482,7 +482,7 @@ The rules:
 1. **When helio-cli or helio-mcp ship command/tool changes, the Drive doc gets a version bump (vX.Y) before the next marketplace release that touches the corresponding skill.** Regenerate the doc content from the repo, paste into the existing Drive doc (doc_id stays stable, title carries the new version), then rebuild the skill.
 2. **A skill may not rebuild against a doc older than the code it describes.** If the code changed and the doc hasn't, the doc update comes first — that ordering is the whole point.
 3. **Count from the code, not from memory.** The v1.2 docs claimed surfaces that didn't match the code (4 documented CLI commands vs ~20 shipped; "26 MCP tools" vs 20 tools + 2 prompts + 1 resource). When rebuilding either skill, re-derive the counts from the repo.
-4. **Release checklist line:** before any marketplace release touching `helio-cli` or `helio-mcp`, compare the skill's `last_rebuilt` against the latest commit date in the corresponding repo. If code is newer, either do the doc+skill refresh in the release or note the known drift in the CHANGELOG.
+4. **Release checklist line:** before any marketplace release touching `helio:cli` or `helio:mcp`, compare the skill's `last_rebuilt` against the latest commit date in the corresponding repo. If code is newer, either do the doc+skill refresh in the release or note the known drift in the CHANGELOG.
 
 Why this exists: the freshness gradient (code → repo docs → Drive docs → skills, freshest to stalest) is the failure mode that produced the v1.2 gaps. Docs regenerate skills, but nothing regenerated docs — this convention is the trigger.
 
@@ -505,7 +505,7 @@ Drive docs must not reference repo-local files — sibling `.md` files, `json/` 
 - [ ] CHANGELOG entry written
 - [ ] If the source doc had an AEO-scorecard gap, the fix is in an ADDED section (not buried inside DERIVED)
 - [ ] Any source-doc inconsistencies (typos, contradictions, factual errors) flagged in the reference header or CHANGELOG
-- [ ] If the release touches `helio-cli` or `helio-mcp`: skill `last_rebuilt` is not older than the latest commit in `apps/helio-cli` / `mcps/helio-mcp` (see "Code-backed docs" convention)
+- [ ] If the release touches `helio:cli` or `helio:mcp`: skill `last_rebuilt` is not older than the latest commit in `apps/helio-cli` / `mcps/helio-mcp` (see "Code-backed docs" convention)
 - [ ] If a Drive doc was created or regenerated: no repo-local references in it (`.md` siblings, `json/` dirs, file paths — see "Drive docs travel alone")
 
 ---
@@ -542,23 +542,23 @@ These don't need to wait for source-doc updates. Apply them in ADDED sections du
 ### Decisions deferred
 
 - **Whether Helio gets sibling-copy bundles like Glare does.** Right now there's only the canonical. If/when Helio gets packaged into bundles (e.g., `helio-research-essentials`, `helio-engineering-only`), mirror Glare's `glare-packages/` pattern.
-- **`agent-operations.md` for workflow skills.** The two candidates are `helio-asset-to-test` and `helio-reading-report` — both have runtime workflows that could benefit from a promoted runtime contract. Decision deferred to when those skills are built; default to no AO file unless a real need surfaces.
-- **`helio-master` skill content.** The orchestrator pattern from Glare (`glare-master`) is a good model but Helio's cross-skill routing is less dense (fewer overlapping concerns than Glare's components-and-blocks structure). May start without `helio-master` and add it only if cross-skill routing gets confusing.
-- **Helio + Glare cross-marketplace routing.** Skills in `helio-marketplace` should route to skills in `glare-marketplace` for methodological questions (e.g., "what user need does this serve" → `glare-define-user-needs`). Confirm the cross-marketplace routing actually works in Claude Code before relying on it.
+- **`agent-operations.md` for workflow skills.** The two candidates are `helio:asset-to-test` and `helio:reading-report` — both have runtime workflows that could benefit from a promoted runtime contract. Decision deferred to when those skills are built; default to no AO file unless a real need surfaces.
+- **`helio-master` skill content.** The orchestrator pattern from Glare (`glare:master`) is a good model but Helio's cross-skill routing is less dense (fewer overlapping concerns than Glare's components-and-blocks structure). May start without `helio-master` and add it only if cross-skill routing gets confusing.
+- **Helio + Glare cross-marketplace routing.** Skills in `helio-marketplace` should route to skills in `glare-marketplace` for methodological questions (e.g., "what user need does this serve" → `glare:define-user-needs`). Confirm the cross-marketplace routing actually works in Claude Code before relying on it.
 
 ### Known source-doc quirks
 
 - **My Metrics doc was retired during reconciliation.** `_DEPRECATED_Metrics for Helio Testing v0.1.docx` exists in the local working folder; the canonical metric reference is **UX Metrics v0.1** (in Drive). Don't pull from the deprecated doc.
-- **Creating a Helio Test v0.1 — status revised (2026-07-06).** This doc was marked "deprecated, superseded by the doc family" in the original 2026-05-23 version of this file. That call was reversed: the doc remained in the main Drive folder (not Archive), and it contains substantial content the doc family never absorbed (the four shapes with a decision rule, Templates A/B/C, the required-followup pattern, the bias check, the pre-launch checklist, anti-patterns). It became the source for `helio-creating-test` in marketplace v0.6.0, and was **confirmed canonical on 2026-07-06**. Treat it as a first-class doc-family member going forward.
+- **Creating a Helio Test v0.1 — status revised (2026-07-06).** This doc was marked "deprecated, superseded by the doc family" in the original 2026-05-23 version of this file. That call was reversed: the doc remained in the main Drive folder (not Archive), and it contains substantial content the doc family never absorbed (the four shapes with a decision rule, Templates A/B/C, the required-followup pattern, the bias check, the pre-launch checklist, anti-patterns). It became the source for `helio:creating-test` in marketplace v0.6.0, and was **confirmed canonical on 2026-07-06**. Treat it as a first-class doc-family member going forward.
 - **Pricing tiers in Helio App v1.3 (Pilot/Scale/On Demand/Business)** are marketing-facing plans. **Answers & Licensing v0.1's license tiers (Trial/Pro/Business 1–3/Scale/Design–Agency–Enterprise/Custom)** are the underlying license model. Both are valid — the marketing plans are what customers see, the license tiers are the accounting underneath. Don't conflate them.
 
 ---
 
-## Worked reference: how `helio-section-types` would look
+## Worked reference: how `helio:section-types` would look
 
 The most reference-heavy skill in the family. Use this as the template for other reference-shaped Helio skills.
 
-**Path:** `helio-marketplace/helio/skills/helio-section-types/`
+**Path:** `helio-marketplace/helio/skills/section-types/`
 
 **File structure:**
 - `SKILL.md` (~80 lines) — frontmatter with 1 source, Core idea (the 14 section types grouped by purpose), Files to read, How to apply (5 steps), What's new, Handoffs
@@ -568,15 +568,15 @@ The most reference-heavy skill in the family. Use this as the template for other
 - Section Types v0.1 — key `src-section-types`
 
 **Description draft (≤1024 chars):**
-> Use this skill when the user is working with section types in Helio — picking which to use for a question, configuring sections, or understanding what each captures. Triggers — "what section type," "click test," "prototype test," "likert," "MaxDiff," "card sort," "tree test," "matrix," "preference," "rank," "free response," "what's the difference between," "how do I configure a section." Do NOT use when the question is about which UX metric to attach (use `helio-ux-metrics`), how to build a whole test (use `helio-asset-to-test`), or the AI heuristic evaluator (use `helio-design-analysis`). For test shapes that combine sections, use `helio-patterns`.
+> Use this skill when the user is working with section types in Helio — picking which to use for a question, configuring sections, or understanding what each captures. Triggers — "what section type," "click test," "prototype test," "likert," "MaxDiff," "card sort," "tree test," "matrix," "preference," "rank," "free response," "what's the difference between," "how do I configure a section." Do NOT use when the question is about which UX metric to attach (use `helio:ux-metrics`), how to build a whole test (use `helio:asset-to-test`), or the AI heuristic evaluator (use `helio:design-analysis`). For test shapes that combine sections, use `helio:patterns`.
 
 ---
 
-## Worked reference: how `helio-reading-report` would look (merged skill)
+## Worked reference: how `helio:reading-report` would look (merged skill)
 
 The most complex skill in the family — merges two source docs and has a workflow shape.
 
-**Path:** `helio-marketplace/helio/skills/helio-reading-report/`
+**Path:** `helio-marketplace/helio/skills/reading-report/`
 
 **File structure:**
 - `SKILL.md` (~120 lines) — frontmatter with 2 sources, Core idea (the synthesis chain: scan → headline → divergence → open text → compare → red flags → one-sentence signal), Files to read, How to apply (the synthesis steps), Operating rules (promoted from the docs' synthesis discipline), What's new, Handoffs
@@ -627,9 +627,9 @@ Things to avoid:
 
 Don't pile these on the user. Surface one at a time when they become blocking.
 
-1. **`agent-operations.md` for workflow skills** — when building `helio-asset-to-test` or `helio-reading-report`, surface whether to promote a runtime contract into its own file or keep everything in `reference.md`.
+1. **`agent-operations.md` for workflow skills** — when building `helio:asset-to-test` or `helio:reading-report`, surface whether to promote a runtime contract into its own file or keep everything in `reference.md`.
 2. **`helio-master` necessity** — after building the first ~5 skills, surface whether cross-skill routing feels confused enough to warrant a master orchestrator.
-3. **Cross-marketplace routing** — confirm that descriptions referencing Glare skills (e.g., "for the methodology, use `glare-getting-started`") actually trigger correctly in Claude Code. If not, drop the cross-references.
+3. **Cross-marketplace routing** — confirm that descriptions referencing Glare skills (e.g., "for the methodology, use `glare:getting-started`") actually trigger correctly in Claude Code. If not, drop the cross-references.
 4. **Bundle packaging** — when Helio reaches some critical mass of skills (~10+), surface whether to start carving bundles like Glare's `glare-packages/`.
 5. **Source-doc refresh script** — a script that compares source `modifiedTime` against skill `last_synced` and flags stale skills. Worth scoping if/when source-doc updates become frequent.
 
@@ -643,10 +643,10 @@ When a fresh AI session picks this up:
 2. **Confirm the marketplace folder doesn't already exist.** If it does, skip to step 5.
 3. **Create the marketplace skeleton:** `helio-marketplace/.claude-plugin/marketplace.json`, `helio-marketplace/helio/.claude-plugin/plugin.json`, empty `helio-marketplace/helio/skills/`, blank `CHANGELOG.md` and `README.md`.
 4. **Pick a skill to build first.** Suggested order:
-   - `helio-app` (positioning anchor — useful first stop for new users)
-   - `helio-section-types` (foundational reference, longest single doc)
-   - `helio-ux-metrics` (foundational measurement reference)
-   - `helio-asset-to-test` (workflow anchor)
+   - `helio:app` (positioning anchor — useful first stop for new users)
+   - `helio:section-types` (foundational reference, longest single doc)
+   - `helio:ux-metrics` (foundational measurement reference)
+   - `helio:asset-to-test` (workflow anchor)
    - Then expand outward
 5. **Follow the conversion workflow** (Section "Workflow: converting a doc to a skill" above).
 6. **After ~3 skills are built, sanity-check routing.** Read the descriptions side by side and make sure they don't compete for the same triggers.
