@@ -382,8 +382,9 @@ helio-cli tests create --dry-run --project-name "Homepage" \
 # 2. Create the draft
 helio-cli tests create --project-name "Homepage" ... --output json | jq -r '.id'
 
-# 3. Realize Q3 is leading; fix it in place
-helio-cli tests edit-question <test-id> <section-id> \
+# 3. Realize Q3 is leading; replace it on the same section (a regular question
+#    is rebuilt whole, so --type is required; its id and the skip rules aimed at it stay)
+helio-cli tests edit-question <test-id> <section-id> --type free_response \
     --instructions "How does this page feel to you?"
 
 # 4. See it as a participant will
@@ -415,5 +416,42 @@ helio-cli tests send <test-id>
 - For section types: `helio:section-types`
 - For UX metrics attachment: `helio:ux-metrics`
 - For synthesizing report JSON into a Glare signal: `helio:reading-report`
+
+<!-- /ADDED -->
+
+<!-- ADDED 2026-11-16 (helio-cli v0.12.0 to v0.14.0 flags, written from the 0.14.0 README, CHANGELOG, src/commands and --help output) -->
+
+## Flags added in CLI 0.12 to 0.14
+
+Use these instead of the web editor. They need **CLI 0.14.0 or newer** (`helio-cli update`, or `npm i -g @zurb/helio-cli@latest`; `helio-cli update --check` reports the gap). An older binary rejects the new flags as unknown options.
+
+| Need | Command | Since |
+|---|---|---|
+| Create a project | `helio-cli projects create --name "<name>" [--tags <tags...>] [--account-id <id>]` — name unique in the account, tags up to 33 characters each, `--account-id` only for tokens with more than one account; the returned `id` is the `--project-id` for `tests create` | 0.12.0 |
+| Rename or retag | `helio-cli projects update <id> --name "<name>"`, `--tags <tags...>` (replaces the whole list) or `--clear-tags` | 0.12.0 |
+| Thank-you message | `--thanks-message "<text>"` on `tests create` and `tests update`; `tests update --clear-thanks-message` (or `--thanks-message ""`) goes back to Helio's default | 0.14.0 |
+| "Select up to N" | `--selection-limit <n>` on `tests add-question` and `tests edit-question --type`, or `"selection_limit": n` in questions JSON | 0.14.0 |
+| Skip the question introduction | `--skip-question-intro` on `add-question` and `edit-question`, `--no-skip-question-intro` on `edit-question`, `"disable_instruction_card": true` in JSON | 0.10.0 on regular questions, 0.14.0 on UX metric sections |
+
+**Selection limit.** A `multiple_choice` payload with a limit:
+
+```json
+{ "type": "multiple_choice", "instructions": "Pick up to two.",
+  "choices": ["A", "B", "C"], "allow_multiple": true, "selection_limit": 2 }
+```
+
+N runs from 2 to the number of choices and needs `allow_multiple: true` (`--dry-run` rejects a limit without it); `--allow-multiple` alone means no limit. `choice_selection_limit`, `max_selections`, `max_choices` and `selection_max` are rejected with a pointer to `selection_limit`, because the API would drop them without an error.
+
+**Skipping the introduction.** The editor's "Skip question introduction": the participant opens straight on the stimulus and answers instead of seeing the question text on its own card first. On a regular question the flag goes with `--type`. On a UX metric section, `edit-question <test-id> <section-id> --skip-question-intro` (no `--type`) is a safe edit on its own, and a `--ux-metrics-json` section override takes `"disable_instruction_card": true` or `false` (`null` is rejected before sending).
+
+**Read-back (0.14.0).** `tests preview` prints `Thanks: <message>` under the intro (`test.thanks_message` in JSON; `null` means Helio's default), `☐ select up to N` or `☐ select any number` on a multiple-choice question, and marks questions whose introduction is skipped. In JSON, `allow_multiple` and `selection_limit` are write keys, so preview output feeds back into `create` / `add-question`. `walkthrough` enforces the limit, and its JSON screens carry `selection_limit` (`null` means no limit). Earlier versions read every multi-select back as single-select.
+
+**Editing a question keeps its id** (a Helio API change, live now). `edit-question --type` rebuilds the question on the same section, so its position, section id and the skip rules on other questions that point at it survive. No recounting of skip rules in `preview` is needed after an edit. Everything about the question itself still comes from the call, so pass `--skip-question-intro`, `--display-seconds`, `--selection-limit`, `--branching`, `--followup` and `--randomize-choices` again to keep them. A regular question can't be edited without `--type`; the CLI points to `tests preview --output json` for the fields to pass again. Removing a question or a metric is a different case: re-read `.branching` afterward (see `helio:branching`).
+
+**Failure modes.**
+
+- **Driving the web editor in a browser for a project, a thank-you message, a selection limit or an introduction skip.** All four are flags now. Check `helio-cli --version` first; below 0.14.0 the flags are unknown and `helio-cli update` fixes it.
+- **Replacing a question and dropping its own settings.** The id and inbound skip rules survive a `--type` edit, but the introduction skip, timer, limit, branching, follow-ups and randomization don't unless you pass them again.
+- **Recounting skip rules after every edit.** Not needed since the edit keeps the section id.
 
 <!-- /ADDED -->
