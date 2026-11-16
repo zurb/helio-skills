@@ -1,5 +1,19 @@
 # Helio Marketplace — Changelog
 
+## v1.0.1 — 2026-11-16 — The CLI skill covers helio-cli 0.12 to 0.14
+
+`helio:cli` 0.8.2 → 0.9.0. Agents using the skill never heard about several flags, so they fell back to driving the Helio web editor in a browser. The skill now names them, says they need helio-cli 0.14.0 or newer, and points agents at `helio-cli update` when a flag is unknown.
+
+- **Projects:** `projects create --name … [--tags …] [--account-id …]` (0.12.0), plus `projects update`.
+- **Thank-you message:** `--thanks-message` on `tests create` / `tests update`, and `--clear-thanks-message` (0.14.0).
+- **Selection limit:** `--selection-limit <n>` / `selection_limit` for "select up to N" on multiple choice, and `preview` / `walkthrough` now showing the real multi-select setting (0.14.0).
+- **Question introduction:** `--skip-question-intro` / `--no-skip-question-intro` (regular questions since 0.10.0). In 0.14.0 it also works on UX metric sections, through `edit-question` without `--type` and `disable_instruction_card` in `--ux-metrics-json` overrides.
+- **Editing keeps the id.** `edit-question --type` now keeps the section id and the skip rules that point at it (a Helio API change, live now), so agents don't need to recount rules after an edit. The skill also says what an edit does not keep: the question's own settings, which have to be passed again.
+- The `helio:cli` worked example now passes `--type` when it replaces a hand-written question; without it the CLI refuses a regular question.
+- Trigger keywords gained `projects create`, `--thanks-message`, `--selection-limit` and `--skip-question-intro`. To stay inside the 1024-character description limit, `question payload`, `account name`, `Helio CLI` and `--metrics-json` were dropped and `cron helio` / `CI helio` merged into `cron/CI helio`.
+
+**Known drift, per the code-backed docs convention.** The source doc (Helio CLI v1.6) was not regenerated for this release, so `source_doc_version` and `last_rebuilt` are unchanged on purpose. The 0.12 to 0.14 material was written straight from the helio-cli 0.14.0 README, CHANGELOG, source and `--help` output, in a new ADDED block in `reference.md`. Still not covered by the skill: the 0.9 to 0.11 additions (device targeting, the image display timer, stimulus assets on every question type), the 0.13 report share link, and the older UI-only ceilings stated in the derived part of `reference.md`. The next doc regeneration should fold those in.
+
 ## v1.0.0 — 2026-10-27 — Skills load as `helio:cli`, not `helio-cli`
 
 **Breaking.** Every skill folder and `name` dropped its `helio-` prefix (`helio-creating-test` → `creating-test`). Installed as a Claude Code plugin, they now load as `helio:creating-test`, the way other plugins namespace their skills, instead of the doubled `helio:helio-creating-test`.

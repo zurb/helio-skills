@@ -1,7 +1,7 @@
 ---
 name: cli
-description: Use this skill when the user is working with Helio from the terminal — installing the CLI, authenticating, building and iterating on draft tests, or scripting research. Triggers — "helio-cli," "Helio CLI," "@zurb/helio-cli," "tests create," "add-question," "edit-question," "remove-question," "tests reorder," "tests preview," "tests walkthrough," "tests participants," "question payload," "questions JSON schema," "tests question-types," "ux-metric-types," "add-ux-metrics," "--metrics-json," "--dry-run," "--output json," "tests validate," "tests send," "assets upload," "assets list," "--asset-id," "asset not found," "account name," "scripting helio," "cron helio," "CI helio," "what can't the CLI create." Do NOT use when the user is driving Helio interactively from chat/AI (use `helio:mcp`), designing the test itself (use `helio:creating-test` from a hunch, or `helio:asset-to-test` from an asset), or needs section type depth (use `helio:section-types`). For platform positioning, use `helio:app`.
-version: 0.8.2
+description: Use this skill when the user is working with Helio from the terminal — installing the CLI, authenticating, building and iterating on draft tests, or scripting research. Triggers — "helio-cli," "@zurb/helio-cli," "tests create," "projects create," "add-question," "edit-question," "remove-question," "tests reorder," "tests preview," "tests walkthrough," "tests participants," "questions JSON schema," "tests question-types," "ux-metric-types," "add-ux-metrics," "--dry-run," "--output json," "tests validate," "tests send," "assets upload," "assets list," "--asset-id," "--thanks-message," "--selection-limit," "--skip-question-intro," "asset not found," "scripting helio," "cron/CI helio," "what can't the CLI create." Do NOT use when the user is driving Helio interactively from chat/AI (use `helio:mcp`), designing the test itself (use `helio:creating-test` from a hunch, or `helio:asset-to-test` from an asset), or needs section type depth (use `helio:section-types`). For platform positioning, use `helio:app`.
+version: 0.9.0
 source_doc_version: Helio CLI v1.6 (rebuilt against CLI v0.8.0)
 last_rebuilt: 2026-07-23
 
@@ -11,6 +11,8 @@ sources:
     last_synced: 2026-08-01
   - title: Live verification against installed helio-cli v0.4.0–v0.8.1 (--help output + real commands)
     last_synced: 2026-08-12
+  - title: helio-cli v0.14.0 README, CHANGELOG (0.12.0 to 0.14.0), src/commands and --help output
+    last_synced: 2026-11-16
 ---
 
 You are helping the user drive **Helio from the terminal** — by hand, by cron, or inside a CI/CD pipeline.
@@ -35,6 +37,17 @@ Image assets are CLI-native too (v0.1.1): `assets upload <file>` (jpg/jpeg/png/g
 
 Known ceilings as of **v0.8.0** (verify with `update --check` before repeating these): video/audio upload, tree/prototype tests, customer-list building and formal screener authoring, scheduled launch, branching on hotspots/variations/most-least labels, and the `completion` / `effort` metrics (each built from a Figma prototype section the API can't create). Everything else moved: click tests with hotspots and multiple_choice branching in v0.4.0; the click-backed metrics, `brand_score` and repeated metric types in v0.7.0; **audience recruiting** in v0.8.0. For the still-UI-only surfaces: `tests clone` an existing test and edit the copy.
 
+**Don't drive the web editor for these — the CLI sets them (CLI 0.14.0 or newer).** An agent that doesn't know the flags ends up clicking through the editor in a browser, so check this list before calling anything UI-only:
+
+- **Projects:** `helio-cli projects create --name "<name>" [--tags <tags...>] [--account-id <id>]` (v0.12.0). The name must be unique in the account, tags are up to 33 characters each, and `--account-id` is only for tokens that reach more than one account. The returned `id` is the `--project-id` for `tests create`. `projects update <id>` renames (`--name`) or replaces the tags (`--tags`, or `--clear-tags`).
+- **Thank-you message:** `--thanks-message "<text>"` on `tests create` and `tests update` (v0.14.0) sets the message participants see when they finish. `tests update --clear-thanks-message` (or `--thanks-message ""`) goes back to Helio's default.
+- **"Select up to N":** `--selection-limit <n>` on `tests add-question` and `tests edit-question --type`, or `selection_limit` in questions JSON (v0.14.0). Multiple choice only, with `--allow-multiple`; N runs from 2 to the number of choices. Guessed key names such as `max_selections` or `choice_selection_limit` are rejected, because the API would drop them without an error.
+- **Skip the question introduction:** `--skip-question-intro` / `--no-skip-question-intro` (the editor's "Skip question introduction"; `disable_instruction_card` in JSON). Regular questions have had it since v0.10.0, on `add-question` and `edit-question --type`. As of v0.14.0 it also works on UX metric sections: `edit-question <test-id> <section-id> --skip-question-intro` with no `--type`, or `"disable_instruction_card": true` (or `false`) in a `--ux-metrics-json` section override.
+
+Check the result with `tests preview`: it prints `Thanks: <message>`, `☐ select up to N` (or `☐ select any number`) and marks questions whose introduction is skipped, and `walkthrough` enforces the limit. As of v0.14.0 both show the real multi-select setting; earlier versions showed every multi-select as single-select. A binary older than 0.14.0 rejects these flags as unknown options: run `helio-cli update` (or `npm i -g @zurb/helio-cli@latest`).
+
+**Editing a question keeps its id** (a Helio API change, live now). `edit-question --type` rebuilds the question on the same section, so its position, its section id and the skip rules on other questions that point at it all survive. There is no need to recount skip rules in `preview` after each edit. The question's own settings still come only from the call: pass `--skip-question-intro`, `--display-seconds`, `--selection-limit`, `--branching`, `--followup` and `--randomize-choices` again to keep them. A regular question can't be edited without `--type` (the CLI points to `tests preview --output json` for the fields to pass again); omitting `--type` is for UX metric sections. Removing a question or a metric is a different case, so re-read `.branching` afterward, as `helio:branching` advises.
+
 **Read-back:** audience config, branching routes and hotspot geometry return from `tests preview --output json` (`.audience`, `.branching`, `.hotspots`) since v0.7.0; `walkthrough` screens carry branching and hotspots. v0.8.0 adds a top-level `ux_metrics` block and per-question `ux_metric` tags, which closes the last gap — **repeated metric instances are now reorderable from a fresh session** (`tests order` reports `reorderable: true` and emits paste-ready `metric:<uuid>` keys, so uuids no longer have to come from the original create response).
 
 **Audience recruiting is scriptable as of v0.8.0.** `--audience-type` takes `open | basic | targeted | advanced | customer_list`, `--demographics` filters the panel, and `audiences list --source enroll` browses the panel catalog. `tests update --audience-type ...` retargets a draft, which makes clone-then-retarget a one-line flow. Note the API accepted only `open` audiences before v0.8.0, so `--audiences` was silently ignored on every test — pre-0.8.0 fanout scripts attached nothing. It's meaningful on `advanced`/`customer_list` now, and a loud error on `open`.
@@ -49,12 +62,22 @@ Read `reference.md` for the full surface — install, auth, the draft → iterat
 
 1. Confirm the user has Node ≥ 22, a Helio API token, and a current binary (`helio-cli update --check`) — never state a capability limit without knowing the version.
 2. Walk them through install (`npm install -g @zurb/helio-cli`) and auth choice (interactive vs env vars).
-3. Match the task to the right command — and prefer the incremental loop over recreating tests to change one question.
+3. Match the task to the right command — and prefer the incremental loop over recreating tests to change one question (an edit keeps the question's id and the skip rules that point at it).
 4. When they're building questions programmatically, pull the exact payload schema from `reference.md` (or `tests question-types`) rather than guessing fields.
 5. Surface `--dry-run` and `tests validate` before anything that touches money; `--output json` for anything scripted.
 6. Recommend `tests walkthrough` before every send — it's the cheapest usability test they'll run. What to look for: duplicate questions from metric stacking (sentiment + desirability, appeal + reaction build identical sections), a context noun that breaks in some generated sentence, and evaluation questions landing before comprehension ones (`tests reorder` fixes sequence).
 7. For image stimuli, use `assets upload` / `assets list` to get a numeric asset ID, then attach with `--asset-id` — no web-app detour needed.
 8. Flag the UI-only boundary early — as of v0.8.0: video/audio upload, tree/prototype tests, customer-list building, formal screeners, and the `completion` / `effort` metrics. Audience *recruiting* became scriptable in v0.8.0. Everything else has moved across the last four releases; don't repeat an older ceiling without running `update --check` — and note the passive update notice is cached for up to 24 hours, so the explicit check is the reliable one.
+9. Before telling the user a setting needs the web editor, check the "Don't drive the web editor" list above: creating a project, the thank-you message, a selection limit and skipping the question introduction are all flags now. If a flag comes back as an unknown option, the binary is older than 0.14.0, so run `helio-cli update`.
+
+## What's new in v0.9.0
+
+Covers the flags an agent didn't know about and worked around by driving the web editor in a browser. Written from the helio-cli 0.14.0 README, CHANGELOG and `--help` output.
+
+- **New flags:** `projects create` (v0.12.0), `--thanks-message` on `tests create` / `tests update` (v0.14.0), `--selection-limit` (v0.14.0), and `--skip-question-intro` / `--no-skip-question-intro`, which regular questions have had since v0.10.0 and UX metric sections gained in v0.14.0.
+- **Read-back:** `tests preview` prints `Thanks:` and the saved selection limit, and `preview` / `walkthrough` now show the real multi-select setting.
+- **Editing keeps the id.** `edit-question --type` keeps the question's section id and the skip rules that point at it, so no recounting after an edit.
+- **Version floor:** CLI 0.14.0 (`helio-cli update`).
 
 ## What's new in v0.8.2
 
